@@ -15,7 +15,7 @@ This is the repo for our CS 501 final project.
   -  How often the team met online. 1 or 2
   - Sunday, Tuesday, Wednesday, Friday?
 - Your progress so far.  What percentage complete you think you are?
-- Your use cases from part a, above.  They may change as you proceed. [User Stories in SPRINTS.md](SPRINTS.md)
+- Your use cases from part a, above.  They may change as you proceed. [User Stories in SPRINTS.md](SPRINTS.md#user-stories)
 - Which goals were completed and which were not.
 - Blocking issues.
 - Plan for the next Sprint. (Very Important)
