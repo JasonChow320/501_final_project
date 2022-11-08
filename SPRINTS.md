@@ -1,20 +1,20 @@
 ## Sprint 2
 
-- Create data structure for clothing
-- Add functionality to add clothes
-- Display clothing members (attributes)
-- Refine main menu XML
-- Refine Personal Closet XML
-- Research our API (find useful endpoints)
+- [ ] Create data structure for clothing
+- [ ] Add functionality to add clothes
+- [ ] Display clothing members (attributes)
+- [ ] Refine main menu XML
+- [ ] Refine Personal Closet XML
+- [ ] Research our API (find useful endpoints)
 
 ## Sprint 1
 
-- Define basic activities (screens) in app
-- Create storyboards
-- Use storyboards to generate user stories
-- Create skeleton layout XML and Java logic file for main menu
-- Create skeleton layout XML and Java logic file for “Personal Closet”
-- Create basic functionality to go from main menu to personal closet
+- [x] Define basic activities (screens) in app
+- [x] Create storyboards
+- [x] Use storyboards to generate user stories
+- [x] Create skeleton layout XML and Java logic file for main menu
+- [x] Create skeleton layout XML and Java logic file for “Personal Closet”
+- [x] Create basic functionality to go from main menu to personal closet
 
 ---
 
