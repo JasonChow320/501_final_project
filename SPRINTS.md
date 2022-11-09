@@ -52,3 +52,9 @@
 - As a user I want to use my phone camera to add clothes items.
 - As a user I want to see outfits that fit the current weather to know what is comfortable to wear
 - As a user I want to be able to save and view outfits that the app generated to use them in the future
+
+## Design implementations
+
+#### Back end
+
+Use factory for clothes generation, and maybe decorator for customizing each category of clothing. Use adapter pattern for parsing third party API.
