@@ -13,12 +13,12 @@ Abstract class that is the parent of all clothing class.
 #### public enum
 
 Type - defines what clothing it is:  
-  t_shirt  
-  long_shirt  
-  shorts  
-  pants  
-  shoes  
-  jacket  
+ * t_shirt  
+ * long_shirt  
+ * shorts  
+ * pants  
+ * shoes  
+ * jacket  
 
 #### Members
 
