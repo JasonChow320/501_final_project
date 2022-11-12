@@ -1,14 +1,23 @@
 /*
  * This class creates Clothes for the backend
  * 
- * Follows the Factory design pattern, initialize using Singleton class
+ * Follows the Factory design pattern, also uses Singleton pattern
  */
 
 public class Clothes_Factory {
 
-    // empty constructor (for now?)
-    public Clothes_Factory(){
-        
+    private static Clothes_Factory factory;
+
+    // private constructor to force the use of get_instance() 
+    private Clothes_Factory(){
+    }
+
+    public static Clothes_Factory get_instance(){
+
+        if (factory == null){
+            factory = new Clothes_Factory();
+        }
+        return factory;
     }
 
     /*
@@ -30,7 +39,7 @@ public class Clothes_Factory {
         return new Pants();
     }
 
-    public Shorts get_pants(){
+    public Shorts get_shorts(){
         return new Shorts();
     }
 }

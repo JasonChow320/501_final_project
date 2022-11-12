@@ -1,4 +1,4 @@
-public class Shorts extends Clothes() {
+public class Shorts extends Clothes {
 
     public Shorts(){
         super();
