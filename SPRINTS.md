@@ -2,7 +2,8 @@
 - [ ] Decide on and implement preliminary database (Firebase, SQLite?)
 - [ ] Add wardrobe functionality to display user clothes
 - [ ] Add functionality to add Clothes objects to user database
-- [ ] Research Color API to examine user images
+- [ ] Research color API/algorithm to examine user images
+- [ ] Add more categorical information to clothes model (hot/cold, formal/casual, waterproof)
 
 ## Sprint 2
 
