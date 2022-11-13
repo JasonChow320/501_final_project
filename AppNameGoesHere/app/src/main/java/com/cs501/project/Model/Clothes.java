@@ -3,7 +3,7 @@ public abstract class Clothes {
     public enum Type {
 
         t_shirt,
-        long_shirt,
+        shirt,
         shorts,
         pants,
         shoes,
@@ -24,19 +24,42 @@ public abstract class Clothes {
     Size size;
 
     public Clothes(){
-
-        this.type = null;
-        this.color = new Color();
-        this.size = null;
+        
+        // defaults to t_shirt
+        this(Type.t_shirt);
     }
 
     public Clothes(Type type){
 
-        this();
+        // defaults to no color
+        this(type, null);
+    }
+
+    public Clothes(Type type, Color color){
+
+        // defaults to no color
+        this(type, color, null);
+    }
+
+    public Clothes(Type type, Color color, Size size){
+
         if(type == null){
-            return;
+           this.type = Type.t_shirt; 
+        } else {
+            this.type = type;
         }
-        this.type = type;
+
+        if(color == null){
+            this.color = new Color();
+        } else {
+            this.color = color;
+        }
+
+        if(size == null){
+            this.size = Size.medium;
+        } else {
+            this.size = size;
+        }
     }
 
     /*
@@ -52,7 +75,7 @@ public abstract class Clothes {
         return this.size;
     }
 
-    public Color getColr(){
+    public Color getColor(){
         return this.color;
     }
 
@@ -79,5 +102,18 @@ public abstract class Clothes {
             return;
         }
         this.color = color;
+    }
+
+    public String toString(){
+
+        String str = new String();
+        String bar = "*********************************\n";
+        str += bar;
+        str += "Type: " + this.type.name() + "\n";
+        str += "Size: " + this.size.name() + "\n";
+        str += "Color: " + this.color.toString() + "\n";
+        str += bar;
+
+        return str;
     }
 }
