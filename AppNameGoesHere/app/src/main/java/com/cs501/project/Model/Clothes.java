@@ -1,3 +1,6 @@
+package com.cs501.project.Model;
+
+
 public abstract class Clothes {
 
     public enum Type {
