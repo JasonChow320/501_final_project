@@ -1,4 +1,5 @@
 ## Sprint 3
+- [ ] Connect backend model with GUI
 - [ ] Decide on and implement preliminary database (Firebase, SQLite?)
 - [ ] Add wardrobe functionality to display user clothes
 - [ ] Add functionality to add Clothes objects to user database
