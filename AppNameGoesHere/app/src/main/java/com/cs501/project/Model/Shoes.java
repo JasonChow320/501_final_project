@@ -1,6 +1,6 @@
 public class Shoes extends Clothes {
 
     public Shoes() {
-        super();
+        super(Type.shoes);
     }
 }

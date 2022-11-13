@@ -24,9 +24,19 @@ public abstract class Clothes {
     Size size;
 
     public Clothes(){
+
         this.type = null;
         this.color = new Color();
         this.size = null;
+    }
+
+    public Clothes(Type type){
+
+        this();
+        if(type == null){
+            return;
+        }
+        this.type = type;
     }
 
     /*
