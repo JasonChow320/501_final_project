@@ -1,8 +1,8 @@
 ## Sprint 2
 
 - [ ] Create data structure for clothing
-- [ ] Add functionality to add clothes
-- [ ] Display clothing members (attributes)
+- [ ] Add functionality to add clothes in the backend
+- [ ] Display clothing members (attributes) in the backend
 - [ ] Refine main menu XML
 - [ ] Refine Personal Closet XML
 - [ ] Research our API (find useful endpoints)
@@ -30,6 +30,7 @@
 
 - Create backend data structures (split this into more logs)
   - Create Java classes for clothes
+  - Add functionality to add clothes in the backend
   - Design hierarchy for classes 
   - Design interface for object interactions with the front-end
   - Implement database storage

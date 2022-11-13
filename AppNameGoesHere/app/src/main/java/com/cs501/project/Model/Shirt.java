@@ -1,6 +1,6 @@
-public class Shirt extends Clothes() {
+public class Shirt extends Clothes {
 
     public Shirt() {
-        super();
+        super(Type.shirt);
     }
 }
