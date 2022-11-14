@@ -50,7 +50,6 @@ public class GenerateOutfit extends AppCompatActivity {
         }
 
 
-
     }
 
     //uses latitude and longitude to get current weather
@@ -69,14 +68,14 @@ public class GenerateOutfit extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                String currentTempreature  = null;
+                String currentTempreature = null;
                 try {
                     currentTempreature = obj.getJSONObject("main").getString("temp");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                currentTemp =  ((Double.valueOf(currentTempreature) - 273.15) * 9/5 + 32);
+                currentTemp = ((Double.valueOf(currentTempreature) - 273.15) * 9 / 5 + 32);
 
                 System.out.println(response);
                 System.out.println(currentTempreature);
@@ -91,12 +90,23 @@ public class GenerateOutfit extends AppCompatActivity {
         mRequestQueue.add(mStringRequest);
 
     }
+
     public static boolean checkLocationPermissionGranted(final Context context) {
         return ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED;
     }
 
-    public void setLocation(){
+    public void setLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override

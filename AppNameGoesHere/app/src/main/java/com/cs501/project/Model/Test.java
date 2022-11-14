@@ -1,6 +1,13 @@
-/*
+package com.cs501.project.Model;/*
  * Class to test our backend
  */
+
+import com.cs501.project.Model.Clothes_Factory;
+import com.cs501.project.Model.Pants;
+import com.cs501.project.Model.Shirt;
+import com.cs501.project.Model.Shoes;
+import com.cs501.project.Model.Shorts;
+import com.cs501.project.Model.T_shirt;
 
 import java.io.*;
 
