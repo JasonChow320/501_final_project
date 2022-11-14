@@ -1,11 +1,20 @@
+## Sprint 3
+- [ ] Connect backend model with GUI
+- [ ] Decide on and implement preliminary database (Firebase, SQLite?)
+- [ ] Add wardrobe functionality to display user clothes
+- [ ] Add functionality to add Clothes objects to user database
+- [ ] Research color API/algorithm to examine user images
+- [ ] Add more categorical information to clothes model (hot/cold, formal/casual, waterproof)
+
 ## Sprint 2
 
-- [ ] Create data structure for clothing
-- [ ] Add functionality to add clothes in the backend
-- [ ] Display clothing members (attributes) in the backend
+- [x] Create data structure for clothing
+- [x] Add functionality to add clothes
+- [x] Display clothing members (attributes)
 - [ ] Refine main menu XML
-- [ ] Refine Personal Closet XML
-- [ ] Research our API (find useful endpoints)
+- [ ] Add additional functionality to main menu
+- [x] Research our API (find useful endpoints)
+- [x] Implement preliminary weather API
 
 ## Sprint 1
 
