@@ -4,6 +4,8 @@
     package="com.cs501.project">
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
@@ -30,6 +32,7 @@
         <activity
             android:name=".ViewWardrobe">
         </activity>
+        <activity android:name=".GenerateOutfit"></activity>
     </application>
 
 </manifest>
