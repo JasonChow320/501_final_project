@@ -39,6 +39,7 @@
 
 - Create backend data structures (split this into more logs)
   - Create Java classes for clothes
+  - Add functionality to add clothes in the backend
   - Design hierarchy for classes 
   - Design interface for object interactions with the front-end
   - Implement database storage

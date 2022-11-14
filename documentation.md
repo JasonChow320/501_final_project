@@ -20,16 +20,25 @@ Type - defines what clothing it is:
  * shoes  
  * jacket  
 
+Size - defines the size of the clothing
+ * small
+ * medium
+ * large
+ * extra_large
+
 #### Members
 
 Type Type  
 Color Color  
+Size size
 
 #### Methods
 
 public Clothes()  
-  initalizes type to null and a color object  
-
 public Type getType()  
-  returns the type of the clothing  
+public getSize(){
+public getColr(){
+public setType(Type type)
+public setSize(Size size)
+public setColor(Color color)
 
