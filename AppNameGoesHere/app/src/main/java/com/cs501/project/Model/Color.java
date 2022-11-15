@@ -1,3 +1,5 @@
+package com.cs501.project.Model;
+
 public class Color {
 
     float red;
