@@ -11,8 +11,8 @@
 - [x] Create data structure for clothing
 - [x] Add functionality to add clothes
 - [x] Display clothing members (attributes)
-- [ ] Refine main menu XML
-- [ ] Add additional functionality to main menu
+- [x] Refine main menu XML
+- [x] Add additional functionality to main menu
 - [x] Research our API (find useful endpoints)
 - [x] Implement preliminary weather API
 
