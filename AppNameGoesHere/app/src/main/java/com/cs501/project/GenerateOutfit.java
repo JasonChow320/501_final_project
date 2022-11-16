@@ -1,6 +1,7 @@
 package com.cs501.project;
 
-import androidx.annotation.RequiresPermission;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -10,7 +11,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,11 +18,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.cs501.project.Model.Weather;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -33,22 +34,16 @@ public class GenerateOutfit extends AppCompatActivity {
     private StringRequest mStringRequest;
     private double latitude;
     private double longitude;
-    private double currentTemp;
+    private Weather weather;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_outfit);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            System.out.println("failure");
-        } else {
-            System.out.println("success");
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-            setLocation();
-        }
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        getLocation();
 
     }
 
@@ -68,17 +63,31 @@ public class GenerateOutfit extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                String currentTempreature = null;
+                String info = null;
+                String weatherType = null;
+                String weatherDescription = null;
+                double windSpeed = 0 ;
+                double windGusts = 0;
+                double clouds = 0;
+                double humidity = 0;
+                System.out.println(obj);
                 try {
-                    currentTempreature = obj.getJSONObject("main").getString("temp");
+                    info = obj.getJSONObject("main").getString("temp");
+                    JSONObject weatherINfo = obj.getJSONArray("weather").getJSONObject(0);
+                    weatherType = weatherINfo.getString("main");
+                    weatherDescription = weatherINfo.getString("description");
+                    windSpeed = Double.valueOf(obj.getJSONObject("wind").getString("speed"));
+                    windGusts = Double.valueOf(obj.getJSONObject("wind").getString("gust"));
+                    clouds = Double.valueOf(obj.getJSONObject("clouds").getString("all"));
+                    humidity = Double.valueOf(obj.getJSONObject("main").getString("humidity"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                currentTemp = ((Double.valueOf(currentTempreature) - 273.15) * 9 / 5 + 32);
+                double temp = ((Double.valueOf(info) - 273.15) * 9 / 5 + 32);
+                weather = new Weather(temp, weatherType, weatherDescription, windSpeed, windGusts, clouds, humidity);
 
-                System.out.println(response);
-                System.out.println(currentTempreature);
+                System.out.println(weather.getCurrentTemp());
             }
         }, new Response.ErrorListener() {
             @Override
@@ -91,23 +100,10 @@ public class GenerateOutfit extends AppCompatActivity {
 
     }
 
-    public static boolean checkLocationPermissionGranted(final Context context) {
-        return ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
-    }
 
-    public void setLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        fusedLocationClient.getLastLocation()
+    public void getLocation() {
+
+        fusedLocationClient.getLastLocation() //permissions checked and asked on MainActivity onCreate
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
