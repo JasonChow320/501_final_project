@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button toWardrobe = (Button) findViewById(R.id.button1);
         Button toGeneration = (Button) findViewById(R.id.button2);
+        Button toAdd = (Button) findViewById(R.id.button4);
 
         toWardrobe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,6 +36,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        toAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, AddToWardrobe.class);
+                startActivity(i);
+            }
 
         ActivityResultLauncher<String[]> locationPermissionRequest =
                 registerForActivityResult(new ActivityResultContracts

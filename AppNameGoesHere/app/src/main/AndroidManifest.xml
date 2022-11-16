@@ -5,6 +5,11 @@
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-feature android:name="android.hardware.camera.any" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <application
@@ -22,7 +27,8 @@
             android:value="@integer/google_play_services_version" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,9 +36,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ViewWardrobe">
+            android:name=".ViewWardrobe"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".GenerateOutfit"></activity>
+        <activity
+            android:name=".GenerateOutfit"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".AddToWardrobe"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ConfirmToWardrobe"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>
