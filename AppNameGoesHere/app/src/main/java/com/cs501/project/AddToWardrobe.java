@@ -64,6 +64,7 @@ public class AddToWardrobe extends AppCompatActivity {
 
         androidx.camera.view.PreviewView pre = (androidx.camera.view.PreviewView) findViewById(R.id.previewView);
 
+        //from documentation
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderFuture.addListener(() -> {
             try {
@@ -148,6 +149,7 @@ public class AddToWardrobe extends AppCompatActivity {
         });
     }
 
+    //https://stackoverflow.com/questions/63410194/how-to-save-multiple-bitmaps-fastly-in-android-studio
     public void saveBitmap(Bitmap output){
         String filepath = Environment.getExternalStorageDirectory().toString() + "/images";
         File dir = new File(filepath);
@@ -189,6 +191,7 @@ public class AddToWardrobe extends AppCompatActivity {
         });
     }
 
+    //from Android Studio documentation
     void bindPreview(@NonNull ProcessCameraProvider cameraProvider, androidx.camera.view.PreviewView previewView) {
         Preview preview = new Preview.Builder()
                 .setTargetRotation(Surface.ROTATION_0)
@@ -208,6 +211,7 @@ public class AddToWardrobe extends AppCompatActivity {
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, imageCapture, preview);
     }
 
+    //https://stackoverflow.com/questions/56772967/converting-imageproxy-to-bitmap
     private Bitmap getBitmap(ImageProxy image) {
         ByteBuffer buffer = image.getPlanes()[0].getBuffer();
         buffer.rewind();
