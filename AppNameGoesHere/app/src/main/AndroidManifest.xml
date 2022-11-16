@@ -47,6 +47,10 @@
             android:name=".AddToWardrobe"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".ConfirmToWardrobe"
+            android:screenOrientation="portrait">
+        </activity>
     </application>
 
 </manifest>

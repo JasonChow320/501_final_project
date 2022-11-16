@@ -8,31 +8,29 @@ import androidx.camera.core.ImageCapture;
 import androidx.camera.core.ImageCaptureException;
 import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
-import androidx.camera.core.internal.compat.ImageWriterCompat;
 import androidx.camera.lifecycle.ProcessCameraProvider;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
-import android.content.Context;
-import android.content.res.Resources;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.OrientationEventListener;
+import android.os.Environment;
 import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 
@@ -43,11 +41,14 @@ public class AddToWardrobe extends AppCompatActivity {
     private Button takePhoto, redo, confirm, addAnother;
     private FrameLayout container;
     private ImageView imageView;
+    private ArrayList<String> fileNames;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_to_wardrobe);
+
+        fileNames = new ArrayList<>();
 
         takePhoto = (Button) findViewById(R.id.takePhoto);
         redo = (Button) findViewById(R.id.retake);
@@ -92,21 +93,6 @@ public class AddToWardrobe extends AppCompatActivity {
                         System.out.println("ERROR: " +exception);
                     }
                 });
-//                ImageCapture.OutputFileOptions outputFileOptions =
-//                        new ImageCapture.OutputFileOptions.Builder(new File(getApplicationContext().getExternalCacheDir() + File.separator + System.currentTimeMillis() + ".png")).build();
-//                imageCapture.takePicture(outputFileOptions, Executors.newSingleThreadExecutor(),
-//                        new ImageCapture.OnImageSavedCallback() {
-//                            @Override
-//                            public void onImageSaved(ImageCapture.OutputFileResults outputFileResults) {
-//                                System.out.println("SUCCESS: " + outputFileResults);
-//                                //SAVES FILE TO data/data/com.cs501.project/cache
-//                            }
-//                            @Override
-//                            public void onError(ImageCaptureException error) {
-//                                System.out.println("ERROR: "+error);
-//                            }
-//                        }
-//                );
             }
         });
 
@@ -128,6 +114,15 @@ public class AddToWardrobe extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //send to new activity with image information (or stack of images) in intent
+                try {
+//                    ConfirmToWardrobe.images = images;
+                    Intent i = new Intent(AddToWardrobe.this, ConfirmToWardrobe.class);
+                    i.putStringArrayListExtra("fileNames", fileNames);
+                    finish();
+                    startActivity(i);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
             }
         });
     }
@@ -145,17 +140,43 @@ public class AddToWardrobe extends AppCompatActivity {
                 imageView.setImageBitmap(getBitmap(ip));
                 imageView.setVisibility(View.VISIBLE);
 
+//                images.add(((BitmapDrawable) imageView.getDrawable()).getBitmap());
+                saveBitmap(getBitmap(ip));
+
                 ip.close();
             }
         });
+    }
+
+    public void saveBitmap(Bitmap output){
+        String filepath = Environment.getExternalStorageDirectory().toString() + "/images";
+        File dir = new File(filepath);
+        if(!dir.exists()){
+            dir.mkdir();
+        }
+        String fileName = System.currentTimeMillis() + ".jpg";
+        System.out.println("Saved to " + filepath + "/" + fileName);
+        fileNames.add(filepath + "/" + fileName);
+        File image = new File(dir, fileName);
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(image);
+            output.compress(Bitmap.CompressFormat.JPEG, 80, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     void redoPhoto(boolean another) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(another) {
+                if(!another) {
                     //add current photo to some stack which will be send to next activity
+                    File file = new File(fileNames.get(fileNames.size() -1));
+                    System.out.println(file.delete());
+                    fileNames.remove(fileNames.size() -1);
                 }
 
                 redo.setVisibility(View.INVISIBLE);
@@ -182,28 +203,6 @@ public class AddToWardrobe extends AppCompatActivity {
                         .setTargetRotation(Surface.ROTATION_0)
                         .build();
 
-//        OrientationEventListener orientationEventListener = new OrientationEventListener((Context) this) {
-//            @Override
-//            public void onOrientationChanged(int orientation) {
-//                int rotation;
-//
-//                // Monitors orientation values to determine the target rotation value
-//                if (orientation >= 45 && orientation < 135) {
-//                    rotation = Surface.ROTATION_90;
-//                } else if (orientation >= 135 && orientation < 225) {
-//                    rotation = Surface.ROTATION_180;
-//                } else if (orientation >= 225 && orientation < 315) {
-//                    rotation = Surface.ROTATION_270;
-//                } else {
-//                    rotation = Surface.ROTATION_0;
-//                }
-//
-//                imageCapture.setTargetRotation(rotation);
-//            }
-//        };
-//
-//        orientationEventListener.enable();
-
         preview.setSurfaceProvider(previewView.getSurfaceProvider());
 
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, imageCapture, preview);
@@ -221,7 +220,7 @@ public class AddToWardrobe extends AppCompatActivity {
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
         Bitmap rotatedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, bitmapOrg.getWidth(), bitmapOrg.getHeight(), matrix, true);
-
+//        Bitmap scaledBitmap = Bitmap.createScaledBitmap(rotatedBitmap, 120, 120, true);
         return rotatedBitmap;
     }
 }
