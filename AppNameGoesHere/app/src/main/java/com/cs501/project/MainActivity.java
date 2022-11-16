@@ -43,10 +43,9 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(MainActivity.this, AddToWardrobe.class);
                 startActivity(i);
             }
+        });
 
-        ActivityResultLauncher<String[]> locationPermissionRequest =
-                registerForActivityResult(new ActivityResultContracts
-                                .RequestMultiplePermissions(), result -> {  });
+        ActivityResultLauncher<String[]> locationPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {  });
 
         locationPermissionRequest.launch(new String[] { //request location permissions
                 Manifest.permission.ACCESS_FINE_LOCATION,
