@@ -1,8 +1,10 @@
 ## Sprint 3
 - [ ] Connect backend model with GUI
-- [ ] Decide on and implement preliminary database (Firebase, SQLite?)
-- [ ] Add wardrobe functionality to display user clothes
+- [x] Decide on and implement preliminary database (Firebase)
+- [x] Add camera functionality to take and store multiple pictures
+- [ ] Work on "ConfirmToWardrobe" activity - add clothing options and submit feature
 - [ ] Add functionality to add Clothes objects to user database
+- [ ] Add wardrobe functionality to display user clothes
 - [ ] Research color API/algorithm to examine user images
 - [ ] Add more categorical information to clothes model (hot/cold, formal/casual, waterproof)
 
