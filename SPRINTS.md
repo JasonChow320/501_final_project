@@ -2,7 +2,7 @@
 - [ ] Connect backend model with GUI
 - [x] Decide on and implement preliminary database (Firebase)
 - [x] Add camera functionality to take and store multiple pictures
-- [ ] Work on "ConfirmToWardrobe" activity - add clothing options and submit feature
+- [x] Work on "ConfirmToWardrobe" activity - add clothing options and submit feature
 - [ ] Add functionality to add Clothes objects to user database
 - [ ] Add wardrobe functionality to display user clothes
 - [ ] Research color API/algorithm to examine user images
