@@ -224,7 +224,7 @@ public class AddToWardrobe extends AppCompatActivity {
         Matrix matrix = new Matrix();
         matrix.postRotate(90);
         Bitmap rotatedBitmap = Bitmap.createBitmap(bitmapOrg, 0, 0, bitmapOrg.getWidth(), bitmapOrg.getHeight(), matrix, true);
-//        Bitmap scaledBitmap = Bitmap.createScaledBitmap(rotatedBitmap, 120, 120, true);
+        //Bitmap scaledBitmap = Bitmap.createScaledBitmap(rotatedBitmap, rotatedBitmap.getWidth()/2, rotatedBitmap.getHeight()/2, true);
         return rotatedBitmap;
     }
 }
