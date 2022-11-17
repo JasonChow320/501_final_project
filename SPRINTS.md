@@ -7,6 +7,7 @@
 - [ ] Add wardrobe functionality to display user clothes
 - [ ] Research color API/algorithm to examine user images
 - [ ] Add more categorical information to clothes model (hot/cold, formal/casual, waterproof)
+- [x] Request location permissions from user
 
 ## Sprint 2
 
