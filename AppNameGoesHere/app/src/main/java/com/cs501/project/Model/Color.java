@@ -33,6 +33,19 @@ public class Color {
         }
     }
 
+    // public methods
+    public float getRed(){
+        return this.red;
+    }
+
+    public float getGreen(){
+        return this.green;
+    }
+
+    public float getBlue(){
+        return this.blue;
+    }
+
     public String toString(){
 
         String str = new String();

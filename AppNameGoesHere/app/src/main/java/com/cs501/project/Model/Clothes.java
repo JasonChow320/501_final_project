@@ -1,7 +1,7 @@
 package com.cs501.project.Model;
 
 
-public abstract class Clothes {
+public class Clothes {
 
     public enum Type {
 
@@ -10,21 +10,13 @@ public abstract class Clothes {
         shorts,
         pants,
         shoes,
-        jacket
-    }
-
-    public enum Size {
-
-        small,
-        medium,
-        large,
-        extra_large
+        jacket,
     }
 
     // public members
     Type type;
     Color color;
-    Size size;
+    boolean waterResistant;
 
     public Clothes(){
         
@@ -41,10 +33,10 @@ public abstract class Clothes {
     public Clothes(Type type, Color color){
 
         // defaults to no color
-        this(type, color, null);
+        this(type, color, false);
     }
 
-    public Clothes(Type type, Color color, Size size){
+    public Clothes(Type type, Color color, boolean waterResistant){
 
         if(type == null){
            this.type = Type.t_shirt; 
@@ -58,11 +50,7 @@ public abstract class Clothes {
             this.color = color;
         }
 
-        if(size == null){
-            this.size = Size.medium;
-        } else {
-            this.size = size;
-        }
+        this.waterResistant = waterResistant;
     }
 
     /*
@@ -74,8 +62,8 @@ public abstract class Clothes {
         return this.type;
     }
 
-    public Size getSize(){
-        return this.size;
+    public boolean isWaterResistant(){
+        return this.waterResistant;
     }
 
     public Color getColor(){
@@ -91,12 +79,12 @@ public abstract class Clothes {
         this.type = type;
     }
 
-    public void setSize(Size size){
+    public void setWaterResistant(Boolean isResistant){
 
-        if (size == null) {
+        if (isResistant == null) {
             return;
         }
-        this.size = size;
+        this.waterResistant = isResistant;
     }
 
     public void setColor(Color color){
@@ -113,7 +101,7 @@ public abstract class Clothes {
         String bar = "*********************************\n";
         str += bar;
         str += "Type: " + this.type.name() + "\n";
-        str += "Size: " + this.size.name() + "\n";
+        str += "Water Resistant: " + this.waterResistant + "\n";
         str += "Color: " + this.color.toString() + "\n";
         str += bar;
 

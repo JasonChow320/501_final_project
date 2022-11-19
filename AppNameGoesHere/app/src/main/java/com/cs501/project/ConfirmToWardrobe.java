@@ -6,15 +6,33 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
+import com.cs501.project.Model.Clothes;
+import com.cs501.project.Model.Clothes_Factory;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 
 public class ConfirmToWardrobe extends AppCompatActivity {
 
 //    public static ArrayList<String> images = new ArrayList<>();
+
+    private final String TAG = "ConfirmToWardrobe";
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+
+    private Clothes_Factory clothes_factory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +49,62 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         editItemImage.setImageBitmap(b);
         System.out.println(b.getHeight() + " x " + b.getWidth());
 
+        // set up radio buttons with corresponding clothing types
+        RadioGroup radio_group = (RadioGroup) findViewById(R.id.clothes_category);
+        int count = radio_group.getChildCount();
+        ArrayList<Clothes.Type> clothes_type = new ArrayList<Clothes.Type>(EnumSet.allOf(Clothes.Type.class));
+
+        for (int i=0;i<count;i++) {
+
+            RadioButton button = (RadioButton) radio_group.getChildAt(i);
+            if (button instanceof RadioButton) {
+                button.setText(clothes_type.get(i).name());
+            }
+        }
+
+        // get database
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
+        clothes_factory = new Clothes_Factory();
+
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //1. Add submission to database
+                //1. Add submission to database TODO
+
+                // get selected radio button from radioGroup
+                int selectedId = radio_group.getCheckedRadioButtonId();
+
+                // find the radiobutton by returned id
+                RadioButton radio_button = (RadioButton) findViewById(selectedId);
+                Log.d(TAG, (String) radio_button.getText());
+
+                Clothes new_clothes = getClothes(String.valueOf(radio_button.getText()));
+
+                if(new_clothes == null){
+                    // TODO ERROR! do something
+                    return;
+                }
+                myRef.child("wardrobe").child("clothes").setValue(new_clothes);
+
+                // Read from the database
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // This method is called once with the initial value and again
+                        // whenever data at this location is updated.
+                        Clothes value = dataSnapshot.getValue(Clothes.class);
+                        Log.d(TAG, "Value is: " + value);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError error) {
+                        // Failed to read value
+                        Log.w(TAG, "Failed to read value.", error.toException());
+                    }
+                });
+
                 //2. Remove 1st item of arraylist and refresh activity with new list
                 //3. At end of list return to menu.
                 //Question: How can we reuse this Activity for editing clothes items?
@@ -49,5 +119,33 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private Clothes getClothes(String type){
+        try{
+            Clothes.Type clothes_type = Clothes.Type.valueOf(type);
+            switch(clothes_type){
+                case jacket:
+                    return clothes_factory.get_jacket();
+                case t_shirt:
+                    return clothes_factory.get_tshirt();
+                case shirt:
+                    return clothes_factory.get_shirt();
+                case shoes:
+                    return clothes_factory.get_shoes();
+                case pants:
+                    return clothes_factory.get_pants();
+                case shorts:
+                    return clothes_factory.get_shorts();
+                default:
+                    // should never get to this point unless we add now types
+                    return clothes_factory.get_shirt();
+            }
+        } catch (IllegalArgumentException e){
+            // shouldn't happen since we create the radio button text using the enum list
+            Log.e(TAG, "Unable to convert stirng to clothes types");
+        }
+
+        return null;
     }
 }

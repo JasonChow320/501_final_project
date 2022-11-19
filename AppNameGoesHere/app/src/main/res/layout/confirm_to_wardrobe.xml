@@ -38,11 +38,18 @@
                 android:text="Button" />
 
             <RadioGroup
+                android:id="@+id/clothes_category"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <RadioButton
-                    android:id="@+id/radioButton5"
+                    android:id="@+id/radioButton1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="RadioButton" />
+
+                <RadioButton
+                    android:id="@+id/radioButton2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="RadioButton" />
@@ -58,26 +65,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="RadioButton" />
-            </RadioGroup>
-
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
                 <RadioButton
-                    android:id="@+id/radioButton11"
+                    android:id="@+id/radioButton5"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="RadioButton" />
 
                 <RadioButton
-                    android:id="@+id/radioButton10"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="RadioButton" />
-
-                <RadioButton
-                    android:id="@+id/radioButton9"
+                    android:id="@+id/radioButton6"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="RadioButton" />
