@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Jason/Documents/CS501_mobile_app/501_final_project/AppNameGoesHere/app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="..\:/Users/Jason/Documents/CS501_mobile_app/501_final_project/AppNameGoesHere/app/src/main/res/layout/activity_main.xml" value="0.15830800405268491" />
+        <entry key="..\:/Users/Jason/Documents/CS501_mobile_app/501_final_project/AppNameGoesHere/app/src/main/res/layout/add_to_wardrobe.xml" value="0.15830800405268491" />
         <entry key="..\:/Users/Jason/Documents/CS501_mobile_app/501_final_project/AppNameGoesHere/app/src/main/res/layout/confirm_to_wardrobe.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_generate_outfit.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.18704710144927536" />

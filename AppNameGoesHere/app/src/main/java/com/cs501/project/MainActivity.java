@@ -10,6 +10,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+
+import java.io.FileInputStream;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -52,5 +57,19 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.ACCESS_COARSE_LOCATION
         });
 
+        /*
+        FileInputStream serviceAccount = new FileInputStream("./final-project-c05e5-firebase-adminsdk-hstj7-eab049ff7b.json");
+
+        FirebaseOptions options = new FirebaseOptions.Builder()
+                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                .setDatabaseUrl("https://final-project-c05e5-default-rtdb.firebaseio.com")
+                .build();
+
+        FirebaseApp.initializeApp(options);
+        */
+
+        // calls login
+        Intent i = new Intent(MainActivity.this, Login.class);
+        startActivity(i);
     }
 }

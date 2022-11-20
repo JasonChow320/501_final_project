@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -31,6 +33,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
     private final String TAG = "ConfirmToWardrobe";
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    StorageReference storageRef;
 
     private Clothes_Factory clothes_factory;
 
@@ -65,6 +68,10 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         // get database
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
+
+        // Create a Cloud Storage reference from the app
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
 
         clothes_factory = new Clothes_Factory();
 
