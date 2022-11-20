@@ -71,5 +71,8 @@ public class MainActivity extends AppCompatActivity {
         // calls login
         Intent i = new Intent(MainActivity.this, Login.class);
         startActivity(i);
+
+        // should be login now
+
     }
 }
