@@ -1,16 +1,10 @@
 package com.cs501.project;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,7 +17,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,16 +28,25 @@ public class GenerateOutfit extends AppCompatActivity {
     private double latitude;
     private double longitude;
     private Weather weather;
+    private TextView temp;
+    private TextView description;
+    private TextView clouds;
+    private TextView wind;
+    private TextView weatherTile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_outfit);
 
+        temp = findViewById(R.id.temp);
+        description = findViewById(R.id.description);
+        clouds = findViewById(R.id.clouds);
+        wind = findViewById(R.id.wind);
+        weatherTile = findViewById(R.id.weatherTitle);
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         getLocation();
-
     }
 
     //uses latitude and longitude to get current weather
@@ -76,17 +78,17 @@ public class GenerateOutfit extends AppCompatActivity {
                     JSONObject weatherINfo = obj.getJSONArray("weather").getJSONObject(0);
                     weatherType = weatherINfo.getString("main");
                     weatherDescription = weatherINfo.getString("description");
-                    windSpeed = Double.valueOf(obj.getJSONObject("wind").getString("speed"));
-                    windGusts = Double.valueOf(obj.getJSONObject("wind").getString("gust"));
+                    windSpeed = Math.floor(Double.valueOf(obj.getJSONObject("wind").getString("speed"))*2.237);
+                    windGusts = Math.floor(Double.valueOf(obj.getJSONObject("wind").getString("gust"))*2.237);
                     clouds = Double.valueOf(obj.getJSONObject("clouds").getString("all"));
                     humidity = Double.valueOf(obj.getJSONObject("main").getString("humidity"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
-                double temp = ((Double.valueOf(info) - 273.15) * 9 / 5 + 32);
+                double temp = Math.floor((Double.valueOf(info) - 273.15) * 9 / 5 + 32);
                 weather = new Weather(temp, weatherType, weatherDescription, windSpeed, windGusts, clouds, humidity);
-
+                populateWeatherLayout(weather);
                 System.out.println(weather.getCurrentTemp());
             }
         }, new Response.ErrorListener() {
@@ -118,4 +120,12 @@ public class GenerateOutfit extends AppCompatActivity {
                 });
     }
 
+    public void populateWeatherLayout(Weather weather){ //generates layout of current weather description
+        weatherTile.setText("Current Weather");
+        weatherTile.setText("Current Weather");
+        description.setText("Description: " + weather.getWeatherDes());
+        temp.setText("Temperature: " + String.valueOf(weather.getCurrentTemp()) + " F");
+        clouds.setText("Cloud cover: "+String.valueOf(weather.getClouds()) + "%");
+        wind.setText("Wind speed: " + String.valueOf(weather.getWindSpeed()) +" MPH");
+    }
 }
