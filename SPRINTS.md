@@ -1,13 +1,16 @@
+## Sprint 4
+- [ ] Automate RadioGroups and RadioButtons for clothing qualities in ConfirmToWardrobe
+- [ ] 
+
 ## Sprint 3
-- [ ] Connect backend model with GUI
 - [x] Decide on and implement preliminary database (Firebase)
 - [x] Add camera functionality to take and store multiple pictures
 - [x] Work on "ConfirmToWardrobe" activity - add clothing options and submit feature
 - [ ] Add functionality to add Clothes objects to user database
-- [ ] Add wardrobe functionality to display user clothes
 - [ ] Research color API/algorithm to examine user images
 - [ ] Add more categorical information to clothes model (hot/cold, formal/casual, waterproof)
 - [x] Request location permissions from user
+- [x] Display location data in GenerateOutfit activity
 
 ## Sprint 2
 
