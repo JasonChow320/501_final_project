@@ -16,6 +16,8 @@ import android.widget.EditText;
 import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.Clothes_Factory;
 import com.cs501.project.Model.Profile;
+import com.cs501.project.Model.RandomString;
+import com.cs501.project.Model.SQLDataBase;
 import com.cs501.project.Model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,7 +32,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class Login extends AppCompatActivity {
 
@@ -42,6 +47,10 @@ public class Login extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private StorageReference storageRef;
+
+    private SQLDataBase sql_database;
+    private String accountId;
+    private final static String ACC_PASSWORD = "th3r00t";
 
     private static final String TAG = "LoginActivity";
 
@@ -59,15 +68,40 @@ public class Login extends AppCompatActivity {
         this.sign_up = (Button) findViewById(R.id.button_signup);
         this.password_protected_checkbox = (CheckBox) findViewById(R.id.password_protected_checkbox);
 
+        // get sql database to check if we have an account with the firebase database
+        sql_database = new SQLDataBase(this);
+
+        // reset account (for testing only)
+        sql_database.onUpgrade();
+
+        ArrayList<String> account_id = sql_database.selectAll();
+
+        // make account if new device
+        if(account_id.size() <= 0){
+            Log.d(TAG, "Need to make new account");
+
+            // create account
+            this.accountId = RandomString.getAlphaNumericString(16);
+            this.accountId += "@gmail.com";
+
+            sql_database.insert(accountId);
+
+            this.createAccount(this.accountId, ACC_PASSWORD);
+        } else {
+            Log.d(TAG, "Found account: " + account_id.get(0));
+            Log.d(TAG, "number of accound ids: " + account_id.size());
+
+        }
+
         this.sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createAccount(username.getText().toString(), password.getText().toString());
+                createUser(username.getText().toString(), password.getText().toString());
             }
         });
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference user = ref.child("users");
+        DatabaseReference user = ref.child("accounts").child("users");
 
         user.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -97,11 +131,11 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    private void createAccount(String username, String password) {
+    private void createAccount(String email, String password) {
 
         // TODO add input checking
 
-        mAuth.createUserWithEmailAndPassword(username, password)
+        mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -109,20 +143,23 @@ public class Login extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            addUser(user, username);
+                            addAccount(user, email);
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(Login.this, "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
-                            addUser(null, null);
                         }
                     }
                 });
     }
 
-    private void addUser(FirebaseUser user, String username) {
+    private void createUser(String username, String password) {
+        // TODO
+    }
+
+    private void addAccount(FirebaseUser user, String username) {
 
         if(user == null || username == null){
             this.username.setText("");
@@ -139,9 +176,11 @@ public class Login extends AppCompatActivity {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
 
-        User user_login = new User(user.getUid(), username);
+        Profile profile = new Profile();
+        profile.setAccountEmail(username);
 
-        myRef.child("users").setValue(user_login);
+        myRef.child("accounts").setValue(profile);
+        //myRef.child("users").setValue("testing");
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -149,8 +188,8 @@ public class Login extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                User user = dataSnapshot.getValue(User.class);
-                Log.d(TAG, "Value is: " + user);
+                Profile profile = dataSnapshot.getValue(Profile.class);
+                Log.d(TAG, "Value is: " + profile.toString());
             }
 
             @Override

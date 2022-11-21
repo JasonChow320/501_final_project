@@ -1,6 +1,9 @@
 package com.cs501.project.Model;
 
 
+import java.nio.charset.Charset;
+import java.util.Random;
+
 public class Clothes {
 
     public enum Type {
@@ -17,6 +20,8 @@ public class Clothes {
     Type type;
     Color color;
     boolean waterResistant;
+
+    String uniqueId;
 
     public Clothes(){
         
@@ -51,6 +56,11 @@ public class Clothes {
         }
 
         this.waterResistant = waterResistant;
+
+        // create unique identifier
+        byte[] array = new byte[16]; // length is bounded by 16
+        new Random().nextBytes(array);
+        this.uniqueId = new String(array, Charset.forName("UTF-8"));
     }
 
     /*
