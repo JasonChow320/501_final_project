@@ -13,6 +13,7 @@ import android.widget.Toast;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.cs501.project.Model.Account;
 import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.Clothes_Factory;
 import com.cs501.project.Model.Profile;
@@ -54,6 +55,14 @@ public class Login extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
 
+    /*
+    The flow of the login is as follows:
+    1) check if the device is "registered" with the database (check sql for entry of account id)
+        1.1) if not, then register device to firebase
+    2) use account info from SQL database to login
+    3) access account data which is a profile class
+    */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,9 +80,6 @@ public class Login extends AppCompatActivity {
         // get sql database to check if we have an account with the firebase database
         sql_database = new SQLDataBase(this);
 
-        // reset account (for testing only)
-        sql_database.onUpgrade();
-
         ArrayList<String> account_id = sql_database.selectAll();
 
         // make account if new device
@@ -89,8 +95,26 @@ public class Login extends AppCompatActivity {
             this.createAccount(this.accountId, ACC_PASSWORD);
         } else {
             Log.d(TAG, "Found account: " + account_id.get(0));
-            Log.d(TAG, "number of accound ids: " + account_id.size());
+            Log.d(TAG, "number of account ids: " + account_id.size());
 
+            mAuth.signInWithEmailAndPassword(account_id.get(0), ACC_PASSWORD)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "signInWithEmail:success");
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                finish();
+                            } else {
+                                // If sign in fails, display a message to the user.
+                                Log.d(TAG, "signInWithEmail:failure", task.getException());
+                                Toast.makeText(Login.this, "Authentication failed.",
+                                        Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+                        }
+                    });
         }
 
         this.sign_up.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +143,38 @@ public class Login extends AppCompatActivity {
 
             }
         });
+
+        // retrieve account database
+        final Account[] accounts = {};
+
+        // get database for accounts info (for testing)
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
+        // Read from the database
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Profile accounts = dataSnapshot.getValue(Profile.class);
+                if(accounts != null){
+                    Log.d(TAG, "Value is: " + accounts.toString());
+                }
+                accounts = accounts;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+
+        // Testing
+        if(accounts != null){
+            Log.d(TAG, "Accounts: " + accounts);
+        }
     }
 
     @Override
@@ -131,10 +187,12 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    // create account in our authentication server
     private void createAccount(String email, String password) {
 
         // TODO add input checking
 
+        Log.d(TAG, "Creating authentication account");
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -159,12 +217,12 @@ public class Login extends AppCompatActivity {
         // TODO
     }
 
+    // add account to our database for storage
     private void addAccount(FirebaseUser user, String username) {
 
         if(user == null || username == null){
-            this.username.setText("");
-            this.password.setText("");
 
+            // error
             return;
         }
 
@@ -172,15 +230,11 @@ public class Login extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
-        // Create a Cloud Storage reference from the app
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReference();
-
         Profile profile = new Profile();
         profile.setAccountEmail(username);
+        profile.setUserId(user.getUid());
 
-        myRef.child("accounts").setValue(profile);
-        //myRef.child("users").setValue("testing");
+        myRef.child("accounts").child(profile.getUserId()).setValue(profile);
 
         // Read from the database
         myRef.addValueEventListener(new ValueEventListener() {
@@ -188,8 +242,8 @@ public class Login extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                Profile profile = dataSnapshot.getValue(Profile.class);
-                Log.d(TAG, "Value is: " + profile.toString());
+                Profile accounts = dataSnapshot.getValue(Profile.class);
+                Log.d(TAG, "Value is: " + accounts.toString());
             }
 
             @Override

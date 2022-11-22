@@ -4,18 +4,25 @@ import java.util.ArrayList;
 
 public class Profile {
     private ArrayList<User> users;
-    private String account_email;
+    private String accountEmail;
+    private String userId;
 
     public Profile(){
         this.users = new ArrayList<User>();
+        this.accountEmail = new String();
+        this.userId = new String();
     }
 
     public ArrayList<User> getUsers(){
         return this.users;
     }
 
-    public String getEmail(){
-        return this.account_email;
+    public String getAccountEmail(){
+        return this.accountEmail;
+    }
+
+    public String getUserId(){
+        return this.userId;
     }
 
     public boolean setUsers(ArrayList<User> users){
@@ -32,11 +39,20 @@ public class Profile {
             return false;
         }
 
-        this.account_email = email;
+        this.accountEmail = email;
+        return true;
+    }
+
+    public boolean setUserId(String id){
+        if(id == null){
+            return false;
+        }
+
+        this.userId = id;
         return true;
     }
 
     public String toString(){
-        return this.account_email;
+        return this.accountEmail + ", " + this.userId;
     }
 }
