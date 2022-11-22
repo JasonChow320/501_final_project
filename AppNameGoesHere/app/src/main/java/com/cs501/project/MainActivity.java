@@ -49,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         locationPermissionRequest.launch(new String[] { //request location permissions
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.CAMERA
         });
 
     }
