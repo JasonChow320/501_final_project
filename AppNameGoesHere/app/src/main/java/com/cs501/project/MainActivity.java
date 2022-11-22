@@ -10,6 +10,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.cs501.project.Model.Color;
+import com.cs501.project.Model.Jacket;
+import com.cs501.project.Model.Pants;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -20,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         Button toWardrobe = (Button) findViewById(R.id.button1);
         Button toGeneration = (Button) findViewById(R.id.button2);
         Button toAdd = (Button) findViewById(R.id.button4);
+
 
         toWardrobe.setOnClickListener(new View.OnClickListener() {
             @Override
