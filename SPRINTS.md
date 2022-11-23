@@ -1,5 +1,5 @@
 ## Sprint 4
-- [ ] Automate RadioGroups and RadioButtons for clothing qualities in ConfirmToWardrobe
+- [x] Automate RadioGroups and RadioButtons for clothing qualities in ConfirmToWardrobe
 - [ ] Implement background removal API
 - [ ] Implement color analysis API
 - [ ] Successfully add items to database
