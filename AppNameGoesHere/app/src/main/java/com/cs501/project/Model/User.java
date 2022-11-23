@@ -3,7 +3,7 @@ package com.cs501.project.Model;
 public class User {
     private String userId, username;
     private Wardrobe wardrobe;
-    private boolean password_protected;
+    private boolean passwordProtected;
 
     public User(){
         this("default_id", "default_user");
@@ -34,7 +34,7 @@ public class User {
             this.wardrobe = wardrobe;
         }
 
-        this.password_protected = password_protected;
+        this.passwordProtected = password_protected;
     }
 
     /* Public methods */
@@ -50,8 +50,8 @@ public class User {
         return this.wardrobe;
     }
 
-    public boolean isPasswordProtected(){
-        return this.password_protected;
+    public boolean getPasswordProtected(){
+        return this.passwordProtected;
     }
 
     public boolean setUserId(String userId){
@@ -85,7 +85,7 @@ public class User {
     }
 
     public boolean setPasswordProtected(boolean password_protected){
-        this.password_protected = password_protected;
+        this.passwordProtected = password_protected;
 
         return true;
     }

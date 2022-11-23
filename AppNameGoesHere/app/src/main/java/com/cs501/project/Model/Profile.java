@@ -8,9 +8,13 @@ public class Profile {
     private String userId;
 
     public Profile(){
+        this(new String(), new String());
+    }
+
+    public Profile(String accountEmail, String userId){
+        this.accountEmail = accountEmail;
+        this.userId = userId;
         this.users = new ArrayList<User>();
-        this.accountEmail = new String();
-        this.userId = new String();
     }
 
     public ArrayList<User> getUsers(){
@@ -25,31 +29,39 @@ public class Profile {
         return this.userId;
     }
 
-    public boolean setUsers(ArrayList<User> users){
+    public void setUsers(ArrayList<User> users){
         if(users == null){
-            return false;
+            return;
         }
 
         this.users = users;
-        return true;
     }
 
-    public boolean setAccountEmail(String email){
+    public void setAccountEmail(String email){
         if(email == null){
-            return false;
+            return;
         }
 
         this.accountEmail = email;
-        return true;
+        return;
     }
 
-    public boolean setUserId(String id){
+    public void setUserId(String id){
         if(id == null){
-            return false;
+            return;
         }
 
         this.userId = id;
-        return true;
+        return;
+    }
+
+    public void addUser(User user){
+        if(user == null){
+            return;
+        }
+
+        this.users.add(user);
+        return;
     }
 
     public String toString(){

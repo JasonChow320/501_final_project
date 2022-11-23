@@ -1,5 +1,7 @@
 package com.cs501.project.Model;
 
+import com.google.firebase.database.Exclude;
+
 import java.util.ArrayList;
 /**
  * Wardrobe class contains all clothes for the user
@@ -24,26 +26,32 @@ public class Wardrobe {
         return this.clothes;
     }
 
+    @Exclude
     public ArrayList<Clothes> getTShirts(){
         return this.getType(Clothes.Type.t_shirt);
     }
 
+    @Exclude
     public ArrayList<Clothes> getShirt(){
         return this.getType(Clothes.Type.shirt);
     }
 
+    @Exclude
     public ArrayList<Clothes> getShoes(){
         return this.getType(Clothes.Type.shoes);
     }
 
+    @Exclude
     public ArrayList<Clothes> getPants(){
         return this.getType(Clothes.Type.pants);
     }
 
+    @Exclude
     public ArrayList<Clothes> getShorts(){
         return this.getType(Clothes.Type.shorts);
     }
 
+    @Exclude
     public ArrayList<Clothes> getJackets(){
         return this.getType(Clothes.Type.jacket);
     }

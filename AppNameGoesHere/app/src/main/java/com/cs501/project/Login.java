@@ -20,6 +20,7 @@ import com.cs501.project.Model.Profile;
 import com.cs501.project.Model.RandomString;
 import com.cs501.project.Model.SQLDataBase;
 import com.cs501.project.Model.User;
+import com.cs501.project.Model.Wardrobe;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -84,6 +85,8 @@ public class Login extends AppCompatActivity {
 
         // make account if new device
         if(account_id.size() <= 0){
+
+            // don't have an account, need to make one
             Log.d(TAG, "Need to make new account");
 
             // create account
@@ -94,6 +97,8 @@ public class Login extends AppCompatActivity {
 
             this.createAccount(this.accountId, ACC_PASSWORD);
         } else {
+
+            // have account, login
             Log.d(TAG, "Found account: " + account_id.get(0));
             Log.d(TAG, "number of account ids: " + account_id.size());
 
@@ -105,9 +110,10 @@ public class Login extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
+                                signInSuccessful();
                                 finish();
                             } else {
-                                // If sign in fails, display a message to the user.
+                                // If sign in fails, display a message to the user
                                 Log.d(TAG, "signInWithEmail:failure", task.getException());
                                 Toast.makeText(Login.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
@@ -117,6 +123,7 @@ public class Login extends AppCompatActivity {
                     });
         }
 
+        // TODO create user profiles for each device
         this.sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,25 +150,27 @@ public class Login extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void signInSuccessful(){
 
         // retrieve account database
-        final Account[] accounts = {};
-
-        // get database for accounts info (for testing)
         database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
+        myRef = database.getReference("accounts");
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        Log.d(TAG, "Signed in as user: " + currentUser.getUid());
 
         // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
-                Profile accounts = dataSnapshot.getValue(Profile.class);
-                if(accounts != null){
-                    Log.d(TAG, "Value is: " + accounts.toString());
+                Log.d(TAG, "Got data from database");
+                Profile account = dataSnapshot.getValue(Profile.class);
+                if(account != null){
+                    Log.d(TAG, "Value is: " + account.toString());
                 }
-                accounts = accounts;
             }
 
             @Override
@@ -170,11 +179,6 @@ public class Login extends AppCompatActivity {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
-        // Testing
-        if(accounts != null){
-            Log.d(TAG, "Accounts: " + accounts);
-        }
     }
 
     @Override
@@ -234,14 +238,27 @@ public class Login extends AppCompatActivity {
         profile.setAccountEmail(username);
         profile.setUserId(user.getUid());
 
+        // TODO allow users to create User class themselves
+        User new_user = new User();
+        new_user.setUserId(RandomString.getAlphaNumericString(16));
+        profile.addUser(new_user);
+
+        Clothes_Factory factory = new Clothes_Factory();
+        Wardrobe wardrobe = new_user.getWardrobe();
+        wardrobe.insertClothes(factory.get_tshirt());
+
         myRef.child("accounts").child(profile.getUserId()).setValue(profile);
 
         // Read from the database
-        myRef.addValueEventListener(new ValueEventListener() {
+        myRef.child("accounts").child(profile.getUserId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Profile accounts = dataSnapshot.getValue(Profile.class);
+                    Log.d(TAG, "Value is: " + accounts.toString());
+                }
                 Profile accounts = dataSnapshot.getValue(Profile.class);
                 Log.d(TAG, "Value is: " + accounts.toString());
             }
