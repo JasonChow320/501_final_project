@@ -24,7 +24,15 @@ public class MainActivity extends AppCompatActivity {
         Button toWardrobe = (Button) findViewById(R.id.button1);
         Button toGeneration = (Button) findViewById(R.id.button2);
         Button toAdd = (Button) findViewById(R.id.button4);
+        Button settings = (Button) findViewById(R.id.button6);
 
+        settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, settings.class);
+                startActivity(i);
+            }
+        });
 
         toWardrobe.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,5 +1,7 @@
 package com.cs501.project.Model;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 public abstract class Clothes {
 
@@ -143,5 +145,9 @@ public abstract class Clothes {
         str += bar;
 
         return str;
+    }
+
+    public static String[] getTypes(Class<? extends Type> e) {
+        return Arrays.toString(e.getEnumConstants()).replaceAll("^.|.$", "").split(", ");
     }
 }
