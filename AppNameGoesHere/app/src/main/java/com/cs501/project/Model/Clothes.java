@@ -1,5 +1,7 @@
 package com.cs501.project.Model;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 public abstract class Clothes {
 
@@ -21,10 +23,12 @@ public abstract class Clothes {
         extra_large
     }
 
+
     // public members
     Type type;
     Color color;
     Size size;
+    Integer layer;
 
     public Clothes(){
         
@@ -46,6 +50,12 @@ public abstract class Clothes {
 
     public Clothes(Type type, Color color, Size size){
 
+        // defaults to no color
+        this(type, color, size,null);
+    }
+
+    public Clothes(Type type, Color color, Size size, Integer layer){
+
         if(type == null){
            this.type = Type.t_shirt; 
         } else {
@@ -63,6 +73,15 @@ public abstract class Clothes {
         } else {
             this.size = size;
         }
+
+        if (layer== null){
+            this.layer = 1;
+        }
+        else {
+            this.layer = layer;
+        }
+
+
     }
 
     /*
@@ -80,6 +99,10 @@ public abstract class Clothes {
 
     public Color getColor(){
         return this.color;
+    }
+
+    public Integer getLayer() {
+        return layer;
     }
 
     // setters
@@ -107,6 +130,10 @@ public abstract class Clothes {
         this.color = color;
     }
 
+    public void setLayer(Integer layer) {
+        this.layer = layer;
+    }
+
     public String toString(){
 
         String str = new String();
@@ -118,5 +145,9 @@ public abstract class Clothes {
         str += bar;
 
         return str;
+    }
+
+    public static String[] getTypes(Class<? extends Type> e) {
+        return Arrays.toString(e.getEnumConstants()).replaceAll("^.|.$", "").split(", ");
     }
 }

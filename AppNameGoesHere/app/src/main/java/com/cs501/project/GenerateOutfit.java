@@ -39,7 +39,7 @@ public class GenerateOutfit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_outfit);
 
-        temp = findViewById(R.id.temp);
+        temp = findViewById(R.id.tempratureSettings);
         description = findViewById(R.id.description);
         clouds = findViewById(R.id.clouds);
         wind = findViewById(R.id.wind);

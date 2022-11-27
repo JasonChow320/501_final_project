@@ -1,16 +1,20 @@
 ## Sprint 4
-- [ ] Automate RadioGroups and RadioButtons for clothing qualities in ConfirmToWardrobe
-- [ ] 
+- [x] Automate RadioGroups and RadioButtons for clothing qualities in ConfirmToWardrobe
+- [ ] Implement background removal API
+- [ ] Implement color analysis API
+- [ ] Successfully add items to database
+- [ ] Successfully read items from database
+- [ ] Develop scrolling layout XML template for ViewWardrobe (RecyclerView)
+- [ ] Display items from database in ViewWardrobe activity
 
 ## Sprint 3
-- [x] Decide on and implement preliminary database (Firebase)
+- [x] Establish authentication and connection to Firebase
 - [x] Add camera functionality to take and store multiple pictures
 - [x] Work on "ConfirmToWardrobe" activity - add clothing options and submit feature
-- [ ] Add functionality to add Clothes objects to user database
-- [ ] Research color API/algorithm to examine user images
-- [ ] Add more categorical information to clothes model (hot/cold, formal/casual, waterproof)
 - [x] Request location permissions from user
 - [x] Display location data in GenerateOutfit activity
+- [x] Expand process for color-matching algorithm
+- [x] Add layering system into Clothes class
 
 ## Sprint 2
 
