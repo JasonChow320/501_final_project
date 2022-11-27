@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         */
 
         // should be login now
-        fb_manager = FireBaseManager.getInstance();
+//        fb_manager = FireBaseManager.getInstance();
     }
 
     // reload the user credential everytime

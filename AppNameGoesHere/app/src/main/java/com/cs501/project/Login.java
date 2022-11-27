@@ -72,7 +72,7 @@ public class Login extends AppCompatActivity {
         this.password_protected_checkbox = (CheckBox) findViewById(R.id.password_protected_checkbox);
 
         // get sql database to check if we have an account with the firebase database
-        //sql_database = new SQLDataBase(this);
+        sql_database = new SQLDataBase(this);
 
         // FOr testing only - this creates a new account everytime
         //sql_database.onUpgrade();
