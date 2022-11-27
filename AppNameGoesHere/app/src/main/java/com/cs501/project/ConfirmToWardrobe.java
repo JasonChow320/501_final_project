@@ -32,7 +32,6 @@ public class ConfirmToWardrobe extends AppCompatActivity {
 
         Bitmap b = BitmapFactory.decodeFile(fileNames.get(0));
         editItemImage.setImageBitmap(b);
-//        System.out.println(b.getHeight() + " x " + b.getWidth());
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
