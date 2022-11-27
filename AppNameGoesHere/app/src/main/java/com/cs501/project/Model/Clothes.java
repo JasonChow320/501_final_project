@@ -21,7 +21,7 @@ public class Clothes {
     Color color;
     boolean waterResistant;
 
-    String uniqueId;
+    private String uniqueId, imageURL;
 
     public Clothes(){
         
@@ -38,10 +38,16 @@ public class Clothes {
     public Clothes(Type type, Color color){
 
         // defaults to no color
-        this(type, color, false);
+        this(type, color, "null");
     }
 
-    public Clothes(Type type, Color color, boolean waterResistant){
+    public Clothes(Type type, Color color, String imageURL){
+
+        // defaults to no imageURL
+        this(type, color, imageURL, false);
+    }
+
+    public Clothes(Type type, Color color, String imageURL, boolean waterResistant){
 
         if(type == null){
            this.type = Type.t_shirt; 
@@ -55,12 +61,16 @@ public class Clothes {
             this.color = color;
         }
 
+        if(imageURL == null){
+            this.imageURL = new String();
+        } else {
+            this.imageURL = imageURL;
+        }
+
         this.waterResistant = waterResistant;
 
         // create unique identifier
-        byte[] array = new byte[16]; // length is bounded by 16
-        new Random().nextBytes(array);
-        this.uniqueId = new String(array, Charset.forName("UTF-8"));
+        this.uniqueId = RandomString.getAlphaNumericString(16);
     }
 
     /*
@@ -78,6 +88,14 @@ public class Clothes {
 
     public Color getColor(){
         return this.color;
+    }
+
+    public String getUniqueId(){
+        return this.uniqueId;
+    }
+
+    public String getImageURL(){
+        return this.imageURL;
     }
 
     // setters
@@ -105,6 +123,22 @@ public class Clothes {
         this.color = color;
     }
 
+    public void setUniqueId(String id){
+
+        if(id == null){
+            return;
+        }
+        this.uniqueId = id;
+    }
+
+    public void setImageURL(String image){
+
+        if(image == null){
+            return;
+        }
+        this.imageURL = image;
+    }
+
     public String toString(){
 
         String str = new String();
@@ -113,6 +147,8 @@ public class Clothes {
         str += "Type: " + this.type.name() + "\n";
         str += "Water Resistant: " + this.waterResistant + "\n";
         str += "Color: " + this.color.toString() + "\n";
+        str += "UniqueId: " + this.uniqueId + "\n";
+        str += "imageURL: " + this.imageURL + "\n";
         str += bar;
 
         return str;

@@ -8,38 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:366270110019:android:170ac19b99fe2c8abd77f6",
+        "mobilesdk_app_id": "1:366270110019:android:79e10ad1805228e3bd77f6",
         "android_client_info": {
           "package_name": "com.cs501.project"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "366270110019-6bbirj5mtvpqqfu2uukbanigj8vrr1q2.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyChD7MaO1KwOwxqxFifr211K2F60x3DA68"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "366270110019-6bbirj5mtvpqqfu2uukbanigj8vrr1q2.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:366270110019:android:89e054fb86d2c395bd77f6",
-        "android_client_info": {
-          "package_name": "package.com.cs501.project"
         }
       },
       "oauth_client": [

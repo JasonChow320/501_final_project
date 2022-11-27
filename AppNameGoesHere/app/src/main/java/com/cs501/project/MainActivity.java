@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.cs501.project.Model.FireBaseManager;
 import com.cs501.project.Model.Profile;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -27,9 +28,7 @@ import java.io.FileInputStream;
 public class MainActivity extends AppCompatActivity {
 
     private final static String TAG = "MainActivity";
-    // Initialize Firebase Auth
-    private FirebaseAuth mAuth;
-    private Profile user;
+    private FireBaseManager fb_manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +38,6 @@ public class MainActivity extends AppCompatActivity {
         Button toWardrobe = (Button) findViewById(R.id.button1);
         Button toGeneration = (Button) findViewById(R.id.button2);
         Button toAdd = (Button) findViewById(R.id.button4);
-
-        // to get current user
-        mAuth = FirebaseAuth.getInstance();
-        this.user = new Profile();
 
         toWardrobe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.CAMERA,
         });
 
         /*
@@ -87,49 +83,30 @@ public class MainActivity extends AppCompatActivity {
         FirebaseApp.initializeApp(options);
         */
 
-        // calls login
-        Intent i = new Intent(MainActivity.this, Login.class);
-        startActivity(i);
-
         // should be login now
-        getUser();
+        fb_manager = FireBaseManager.getInstance();
     }
 
-    public void getUser(){
+    // reload the user credential everytime
+    @Override
+    public void onStart() {
 
-        // retrieve account database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("accounts");
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseAuth mAuth;
+        mAuth = FirebaseAuth.getInstance();
+
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        Log.d(TAG, "Signed in as user: " + currentUser.getUid());
+        if(currentUser != null){
 
-        // Read from the database
-        myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                Log.d(TAG, "Got data from database");
-                Profile account = dataSnapshot.getValue(Profile.class);
-                if(account != null){
-                    Log.d(TAG, "Value is: " + account.toString());
-                }
-                initalizeUser(account);
-            }
+            currentUser.reload();
+            Log.d(TAG, "currentUser is not null!");
+            // continue with the app
+        } else {
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-    }
-
-    private void initalizeUser(Profile profile){
-        if(profile == null){
-            return;
+            // calls login
+            Intent i = new Intent(MainActivity.this, Login.class);
+            startActivity(i);
         }
-        this.user = profile;
-        Log.d(TAG, "This is stored in Main Activity! Info: " + this.user.toString());
     }
 }

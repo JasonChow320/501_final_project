@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 
 import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.Clothes_Factory;
+import com.cs501.project.Model.FireBaseManager;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,14 +32,14 @@ public class ConfirmToWardrobe extends AppCompatActivity {
 //    public static ArrayList<String> images = new ArrayList<>();
 
     private final String TAG = "ConfirmToWardrobe";
-    private FirebaseDatabase database;
-    private DatabaseReference myRef;
-    StorageReference storageRef;
 
+    private FireBaseManager fb_manager;
     private Clothes_Factory clothes_factory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Log.d(TAG, "Entering onCreate for ConfirmToWardrobe");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_to_wardrobe);
 
@@ -50,7 +51,9 @@ public class ConfirmToWardrobe extends AppCompatActivity {
 
         Bitmap b = BitmapFactory.decodeFile(fileNames.get(0));
         editItemImage.setImageBitmap(b);
-        System.out.println(b.getHeight() + " x " + b.getWidth());
+
+        // TODO Bitmap was getting errors, so I commented this out
+        //System.out.println(b.getHeight() + " x " + b.getWidth());
 
         // set up radio buttons with corresponding clothing types
         RadioGroup radio_group = (RadioGroup) findViewById(R.id.clothes_category);
@@ -65,15 +68,8 @@ public class ConfirmToWardrobe extends AppCompatActivity {
             }
         }
 
-        // get database
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
-
-        // Create a Cloud Storage reference from the app
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        storageRef = storage.getReference();
-
         clothes_factory = new Clothes_Factory();
+        fb_manager = FireBaseManager.getInstance();
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,24 +89,9 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                     // TODO ERROR! do something
                     return;
                 }
-                myRef.child("wardrobe").child("clothes").setValue(new_clothes);
 
-                // Read from the database
-                myRef.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        // This method is called once with the initial value and again
-                        // whenever data at this location is updated.
-                        Clothes value = dataSnapshot.getValue(Clothes.class);
-                        Log.d(TAG, "Value is: " + value);
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError error) {
-                        // Failed to read value
-                        Log.w(TAG, "Failed to read value.", error.toException());
-                    }
-                });
+                // Add to database
+                fb_manager.addClothes(new_clothes);
 
                 //2. Remove 1st item of arraylist and refresh activity with new list
                 //3. At end of list return to menu.

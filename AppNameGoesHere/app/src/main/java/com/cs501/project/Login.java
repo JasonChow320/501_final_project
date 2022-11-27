@@ -3,18 +3,14 @@ package com.cs501.project;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.RadioButton;
 import android.widget.Toast;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.cs501.project.Model.Account;
-import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.Clothes_Factory;
 import com.cs501.project.Model.Profile;
 import com.cs501.project.Model.RandomString;
@@ -31,13 +27,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 public class Login extends AppCompatActivity {
 
@@ -79,7 +72,10 @@ public class Login extends AppCompatActivity {
         this.password_protected_checkbox = (CheckBox) findViewById(R.id.password_protected_checkbox);
 
         // get sql database to check if we have an account with the firebase database
-        sql_database = new SQLDataBase(this);
+        //sql_database = new SQLDataBase(this);
+
+        // FOr testing only - this creates a new account everytime
+        //sql_database.onUpgrade();
 
         ArrayList<String> account_id = sql_database.selectAll();
 
@@ -130,26 +126,6 @@ public class Login extends AppCompatActivity {
                 createUser(username.getText().toString(), password.getText().toString());
             }
         });
-
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference user = ref.child("accounts").child("users");
-
-        user.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Profile users = dataSnapshot.getValue(Profile.class);
-
-                if(users == null){
-                    return;
-                }
-                Log.d(TAG, Arrays.toString(users.getUsers().toArray()));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 
     public void signInSuccessful(){
@@ -188,6 +164,9 @@ public class Login extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             currentUser.reload();
+            // TODO could be a bug since we're auto-logging in
+            Log.d(TAG, "Already have a user, log in!");
+            finish();
         }
     }
 
@@ -224,6 +203,7 @@ public class Login extends AppCompatActivity {
     // add account to our database for storage
     private void addAccount(FirebaseUser user, String username) {
 
+        Log.d(TAG, "Calling addAccount");
         if(user == null || username == null){
 
             // error
@@ -248,27 +228,6 @@ public class Login extends AppCompatActivity {
         wardrobe.insertClothes(factory.get_tshirt());
 
         myRef.child("accounts").child(profile.getUserId()).setValue(profile);
-
-        // Read from the database
-        myRef.child("accounts").child(profile.getUserId()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Profile accounts = dataSnapshot.getValue(Profile.class);
-                    Log.d(TAG, "Value is: " + accounts.toString());
-                }
-                Profile accounts = dataSnapshot.getValue(Profile.class);
-                Log.d(TAG, "Value is: " + accounts.toString());
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
 
         /* add this if we want to protect wardrobe
             "wardrobe": {

@@ -1,10 +1,24 @@
 package com.cs501.project;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 
+import com.cs501.project.Model.Clothes;
+import com.cs501.project.Model.FireBaseManager;
 import com.cs501.project.Model.Profile;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -14,54 +28,88 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class ViewWardrobe extends AppCompatActivity {
 
     private final static String TAG = "ViewWardrobe";
-    // Initialize Firebase Auth
-    private FirebaseAuth mAuth;
-    private Profile user;
+    private FireBaseManager fb_manager;
+
+    private ListView lvClothes;     //Reference to the listview GUI component
+    MyCustomAdapter lvAdapter;   //Reference to the Adapter used to populate the listview.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_wardrobe);
+
+        fb_manager = FireBaseManager.getInstance();
+
+        lvClothes = (ListView)findViewById(R.id.lvClothes);
+        lvAdapter = new MyCustomAdapter(this.getBaseContext(), fb_manager.getClothes());  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
+        lvClothes.setAdapter(lvAdapter);
+        Context mContext=getApplicationContext();
     }
+}
 
-    public void getUser(){
+// custom adapter
+class MyCustomAdapter extends BaseAdapter {
 
-        // retrieve account database
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("accounts");
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        Log.d(TAG, "Signed in as user: " + currentUser.getUid());
+    ArrayList<Clothes> clothes;
+    SharedPreferences sharedPreferences;
+    Context context;
 
-        // Read from the database
-        myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                Log.d(TAG, "Got data from database");
-                Profile account = dataSnapshot.getValue(Profile.class);
-                if(account != null){
-                    Log.d(TAG, "Value is: " + account.toString());
-                }
-                initalizeUser(account);
-            }
+    public MyCustomAdapter(Context aContext, ArrayList<Clothes> clothes) {
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-    }
+        //initializing our data in the constructor.
+        context = aContext;
 
-    private void initalizeUser(Profile profile){
-        if(profile == null){
-            return;
+        if(clothes == null || clothes.size() <= 0){
+            this.clothes = new ArrayList<Clothes>();
+        } else{
+            this.clothes = clothes;
         }
-        this.user = profile;
-        Log.d(TAG, "This is stored in Main Activity! Info: " + this.user.toString());
+
+        sharedPreferences = context.getSharedPreferences("MySharedPref", MODE_PRIVATE);
+    }
+
+    @Override
+    public int getCount() {
+        return clothes.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return clothes.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;  //Another call we aren't using, but have to do something since we had to implement (base is abstract).
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+        View row;
+
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            row = inflater.inflate(R.layout.listview_row, parent, false);
+        } else {
+            row = convertView;
+        }
+
+        TextView clothes_type = (TextView) row.findViewById(R.id.clothes_type_view);
+        TextView clothes_id = (TextView) row.findViewById(R.id.clothes_id_view);
+
+        Clothes clothes_view = clothes.get(position);
+
+        clothes_type.setText(clothes_view.getType().name());
+        clothes_id.setText(clothes_view.getUniqueId());
+
+        SharedPreferences sh = context.getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
+        return row;
     }
 }
