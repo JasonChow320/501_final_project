@@ -1,0 +1,52 @@
+﻿Color Algo process:
+
+
+
+
+An outfit is composed of 3 components, each can contain multiple layers.
+1. Top layer: this layer is what will be worn on the torso, it can be composed of 3 layers containing items such as:
+   1. T-shirt (can only be worn on layer 1 - as nothing can be worn underneath it)
+   2. Shirt  (can only be worn on layer 1 or 2)
+   3. Sweater/Hoodie (can only be worn on layer 2 - assuming a tshirt or shirt will be worn underneath) 
+   4. Jacket (can only be worn on layers 2 or 3)
+2. Bottom layer: this layer is what will be worn on the legs, it can be composed of only 1 layer containing items such as:
+   1. Pants
+   2. Shorts 
+3. Shoes Layer: this layer is what will be worn on the feet, it can be composed of only 1 layer containing the shoe item
+
+
+This algorithm only takes into account monochrome outfits (outfits of different shades of the same color)
+
+
+1. Determine how many layers is needed for the top of the outfit based on temperature:
+   1. if temp is above 24 c (75 f), use only one layer
+      1. unless weatherType = rain or windspeed is above 10 mph
+         1. Then use two layers, ensuring the second layer is water/wind resistant
+   2. if ( 12 c (54 f) < temp < 24 c (75 f)) : wear 2 layers
+      1. If weatherType = rain or windspeed is above 10 mph
+         1. ensure the second layer is water/wind resistant
+   3. If temp is below 12 c (54 f): wear 3 layers
+      1. If weatherType = rain or windspeed is above 10 mph
+         1. ensure the third layer is water/wind resistant
+
+	NOTE: Users will be able to adjust the weather and windspeed limits in the settings if the default ones are not calibrated to their taste.
+
+2. Choose outfit items:
+   1. Start with top layer from top
+      1. Select an item at random for that layer. 
+         1. Extract its color information from the DB 
+            1. Base color X = Hue, Saturation, Luminescence 
+            2. This item’s color is now the base color, we will build the outfit around this color. 
+               1. If the color of the item is black or white, do not set this as a base color, move on to the next item and determine a base color, repeat this process until a base color is chosen
+            3. Now we must choose items for the outfit that match the same hue of this item.
+
+
+   2. Move to top (only) layer from bottom
+      1. If base color is defined, choose an item for this layer that has a similar hue to the base color X
+         1. Else, choose an item at random, and if it is not black or white, set it as the base color. 
+   3. Return to top and complete remaining layers in descending order 
+      1. If base color is defined, choose an item for this layer that has a similar hue to the base color X
+         1. Else, choose an item at random, and if it is not black or white, set it as the base color. 
+   4. Go to shoe:
+      1. If base color is defined, choose an item for this layer that has a similar hue to the base color X
+         1. Else, choose an item at random, and if it is not black or white, set it as the base color.

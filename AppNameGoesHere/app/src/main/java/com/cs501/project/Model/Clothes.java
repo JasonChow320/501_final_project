@@ -1,5 +1,7 @@
 package com.cs501.project.Model;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 import java.nio.charset.Charset;
 import java.util.Random;
@@ -16,12 +18,16 @@ public class Clothes {
         jacket,
     }
 
+
     // public members
     Type type;
     Color color;
     boolean waterResistant;
 
     private String uniqueId, imageURL;
+    
+    Size size;
+    Integer layer;
 
     public Clothes(){
         
@@ -49,6 +55,12 @@ public class Clothes {
 
     public Clothes(Type type, Color color, String imageURL, boolean waterResistant){
 
+        // defaults to no color
+        this(type, color, size,null);
+    }
+
+    public Clothes(Type type, Color color, Size size, Integer layer){
+
         if(type == null){
            this.type = Type.t_shirt; 
         } else {
@@ -71,6 +83,12 @@ public class Clothes {
 
         // create unique identifier
         this.uniqueId = RandomString.getAlphaNumericString(16);
+        if (layer== null){
+            this.layer = 1;
+        }
+        else {
+            this.layer = layer;
+        }
     }
 
     /*
@@ -96,6 +114,10 @@ public class Clothes {
 
     public String getImageURL(){
         return this.imageURL;
+    }
+    
+    public Integer getLayer() {
+        return layer;
     }
 
     // setters
@@ -138,6 +160,10 @@ public class Clothes {
         }
         this.imageURL = image;
     }
+    
+    public void setLayer(Integer layer) {
+        this.layer = layer;
+    }
 
     public String toString(){
 
@@ -152,5 +178,9 @@ public class Clothes {
         str += bar;
 
         return str;
+    }
+
+    public static String[] getTypes(Class<? extends Type> e) {
+        return Arrays.toString(e.getEnumConstants()).replaceAll("^.|.$", "").split(", ");
     }
 }
