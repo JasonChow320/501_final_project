@@ -37,4 +37,8 @@ public class Clothes_Factory {
     public Shorts get_shorts(){
         return new Shorts();
     }
+
+    public Jacket get_jacket(){
+        return new Jacket();
+    }
 }
