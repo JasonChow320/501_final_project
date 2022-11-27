@@ -18,15 +18,13 @@ public class Clothes {
         jacket,
     }
 
-
     // public members
     Type type;
     Color color;
     boolean waterResistant;
 
     private String uniqueId, imageURL;
-    
-    Size size;
+
     Integer layer;
 
     public Clothes(){
@@ -56,10 +54,10 @@ public class Clothes {
     public Clothes(Type type, Color color, String imageURL, boolean waterResistant){
 
         // defaults to no color
-        this(type, color, size,null);
+        this(type, color, imageURL, waterResistant,null);
     }
 
-    public Clothes(Type type, Color color, Size size, Integer layer){
+    public Clothes(Type type, Color color, String imageURL, boolean waterResistant, Integer layer){
 
         if(type == null){
            this.type = Type.t_shirt; 

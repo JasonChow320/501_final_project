@@ -56,10 +56,10 @@
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".Login"
-            android:export="false" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".settings"
-            android:exported="false" />
+            android:screenOrientation="portrait" />
             
     </application>
 

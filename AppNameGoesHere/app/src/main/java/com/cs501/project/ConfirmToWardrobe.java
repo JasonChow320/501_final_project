@@ -146,7 +146,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                 //1. Add submission to database TODO
 
                 // get selected radio button from radioGroup
-                int selectedId = radio_group.getCheckedRadioButtonId();
+                int selectedId = clothingTypes.getCheckedRadioButtonId();
 
                 // find the radiobutton by returned id
                 RadioButton radio_button = (RadioButton) findViewById(selectedId);
