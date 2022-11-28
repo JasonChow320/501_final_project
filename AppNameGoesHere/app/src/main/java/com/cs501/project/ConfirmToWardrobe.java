@@ -28,6 +28,8 @@ import com.google.firebase.storage.StorageReference;
 
 import com.cs501.project.Model.Clothes;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -46,6 +48,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
 //    public static ArrayList<String> images = new ArrayList<>();
     RadioGroup clothingTypes;
     boolean imageReady = false;
+    String[] color;
 
     private void rmBackground(String fileName) {
         //IMAGE STUFF
@@ -101,6 +104,62 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         editItemImage.setImageBitmap(b);
     }
 
+    private String[] extractColor (String filename){
+
+
+
+        Thread thread = new Thread(new Runnable() {
+
+
+
+            @Override
+            public void run() {
+                try {
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .build();
+                    MediaType mediaType = MediaType.parse("text/plain");
+                    RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                            .addFormDataPart("media",filename,
+                                    RequestBody.create(MediaType.parse("application/octet-stream"),
+                                            new File(filename)))
+                            .build();
+                    Request request = new Request.Builder()
+                            .url("https://api.sightengine.com/1.0/check.json?models=properties&api_user=596819012&api_secret=dy3YJZP5WJ3qtoYWqaXs")
+                            .method("POST", body)
+                            .build();
+                    String r, g, b;
+
+                    try {
+                        Response response = client.newCall(request).execute();
+                        JSONObject obj = new JSONObject(response.body().string());
+                         r = obj.getJSONObject("colors").getJSONObject("dominant").getString("r");
+                         g = obj.getJSONObject("colors").getJSONObject("dominant").getString("g");
+                         b = obj.getJSONObject("colors").getJSONObject("dominant").getString("b");
+
+                         System.out.println("COLOR IS: "+ r + " " + g + " " +  b);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        System.out.println("ERROR MAKING REQUEST " + e);
+                    }
+
+                }catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("ERROR EXTRACTING COLOR " + e);
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+
+    }
+
     private final String TAG = "ConfirmToWardrobe";
 
     private FireBaseManager fb_manager;
@@ -126,6 +185,9 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         System.out.println(fileNames.size() + " submitted");
 
         rmBackground(fileNames.get(0));
+        extractColor(fileNames.get(0));
+
+
 
 //        Bitmap b = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().toString() + "/images/test.png");
 //        while (!imageReady) {
