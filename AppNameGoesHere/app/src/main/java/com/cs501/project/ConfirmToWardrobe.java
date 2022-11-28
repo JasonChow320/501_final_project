@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.os.Environment;
@@ -104,6 +105,8 @@ public class ConfirmToWardrobe extends AppCompatActivity {
 
     private FireBaseManager fb_manager;
     private Clothes_Factory clothes_factory;
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +156,17 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                 Log.d(TAG, (String) radio_button.getText());
 
                 Clothes new_clothes = getClothes(String.valueOf(radio_button.getText()));
+
+                storage = FirebaseStorage.getInstance();
+                storageRef = storage.getReference();
+
+                String[] spl = fileNames.get(0).split("/");
+                String newName=spl[spl.length-1].split("\\.")[0] + ".png";
+                StorageReference picRef = storageRef.child(newName);
+                picRef.putFile(Uri.fromFile(new File(fileNames.get(0))));
+                System.out.println("IMAGE ADDED TO DB");
+
+                new_clothes.setImageURL(newName);
 
                 if(new_clothes == null){
                     // TODO ERROR! do something
