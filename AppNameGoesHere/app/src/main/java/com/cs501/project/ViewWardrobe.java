@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -110,6 +111,8 @@ class MyCustomAdapter extends BaseAdapter {
         TextView clothes_type = (TextView) row.findViewById(R.id.clothes_type_view);
         TextView clothes_id = (TextView) row.findViewById(R.id.clothes_id_view);
         ImageView image = (ImageView) row.findViewById(R.id.clothes_image);
+        View color1 = (View) row.findViewById(R.id.color1);
+        View color2 = (View) row.findViewById(R.id.color2);
 
         Clothes clothes_view = clothes.get(position);
 
