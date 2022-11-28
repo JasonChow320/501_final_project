@@ -35,6 +35,18 @@ public class Color {
         }
     }
 
+    // public methods
+    public float getRed(){
+        return this.red;
+    }
+
+    public float getGreen(){
+        return this.green;
+    }
+
+    public float getBlue(){
+        return this.blue;
+    }
 
     // usefull for detemining if two colors are similar, works for colors of similar shades, even across different hues
     // (if you want to compare different shades of the same color, convert RGB to HSL, and look for colors of similar hue)
@@ -45,7 +57,6 @@ public class Color {
         long g = (long)e1.green - (long)e2.green;
         long b = (long)e1.blue - (long)e2.blue;
         return java.lang.Math.sqrt((((512+rmean)*r*r)>>8) + 4*g*g + (((767-rmean)*b*b)>>8));
-
     }
 
     public String toString(){

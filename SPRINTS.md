@@ -1,11 +1,12 @@
 ## Sprint 4
 - [x] Automate RadioGroups and RadioButtons for clothing qualities in ConfirmToWardrobe
-- [ ] Implement background removal API
-- [ ] Implement color analysis API
-- [ ] Successfully add items to database
-- [ ] Successfully read items from database
+- [x] Implement background removal API
+- [x] Implement color analysis API (Works, doesn't add color data to DB entries yet)
+- [x] Upload images to Firebase Storage manager
+- [x] Successfully add items to database
+- [x] Successfully read items from database
 - [ ] Develop scrolling layout XML template for ViewWardrobe (RecyclerView)
-- [ ] Display items from database in ViewWardrobe activity
+- [x] Display items from database in ViewWardrobe activity
 
 ## Sprint 3
 - [x] Establish authentication and connection to Firebase
