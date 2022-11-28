@@ -130,7 +130,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
 
                     try {
                         Response response = client.newCall(request).execute();
-                        JSONObject obj = new JSONObject(response.toString());
+                        JSONObject obj = new JSONObject(response.body().string());
                          r = obj.getJSONObject("colors").getJSONObject("dominant").getString("r");
                          g = obj.getJSONObject("colors").getJSONObject("dominant").getString("g");
                          b = obj.getJSONObject("colors").getJSONObject("dominant").getString("b");
@@ -155,7 +155,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
+        return null;
 
     }
 
