@@ -1,3 +1,10 @@
+## Sprint 5
+- [ ] ConfirmToWardrobe: Automate ALL RadioGroups and Buttons for clothing attributes
+- [ ] ConfirmToWardrobe: Finish implementing Color API -- add color field to Clothes item in DB
+- [ ] ConfirmToWardrobe: Improve styling of confirmation screen
+- [ ] ViewWardrobe: Improve layout and develop sorting (by type, by recently added)
+- [ ] GenerateOutfit: Start generating simple outfits on button click
+
 ## Sprint 4
 - [x] Automate RadioGroups and RadioButtons for clothing qualities in ConfirmToWardrobe
 - [x] Implement background removal API
@@ -5,7 +12,7 @@
 - [x] Upload images to Firebase Storage manager
 - [x] Successfully add items to database
 - [x] Successfully read items from database
-- [ ] Develop scrolling layout XML template for ViewWardrobe (RecyclerView)
+- [x] Develop scrolling layout XML template for ViewWardrobe (RecyclerView)
 - [x] Display items from database in ViewWardrobe activity
 
 ## Sprint 3
