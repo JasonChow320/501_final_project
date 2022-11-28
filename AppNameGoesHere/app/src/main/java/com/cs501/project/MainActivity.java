@@ -43,6 +43,10 @@ public class MainActivity extends AppCompatActivity {
         Button toAdd = (Button) findViewById(R.id.button4);
         Button settings = (Button) findViewById(R.id.button6);
 
+        //Load clothes for future use
+        fb_manager = FireBaseManager.getInstance();
+        fb_manager.getClothes();
+
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
