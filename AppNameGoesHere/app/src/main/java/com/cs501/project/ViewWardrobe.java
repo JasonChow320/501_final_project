@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.FireBaseManager;
@@ -116,16 +117,28 @@ class MyCustomAdapter extends BaseAdapter {
 
         Clothes clothes_view = clothes.get(position);
 
-        clothes_type.setText(clothes_view.getType().name());
-        clothes_id.setText(clothes_view.getUniqueId());
+        // everything we add to view should be in the try catch
+        try {
+            clothes_type.setText(clothes_view.getType().name());
+            clothes_id.setText(clothes_view.getUniqueId());
+        } catch (Exception e){
+            Toast.makeText(context, "Unable to parse data for the " + position + " clothing. Please try again",
+                    Toast.LENGTH_SHORT).show();
+        }
 
+        // get image
         StorageReference pathReference = FirebaseStorage.getInstance().getReference();
-        pathReference.child(clothes_view.getImageURL()).getBytes(1000000).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+        pathReference.child(clothes_view.getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
             @Override
             public void onComplete(@NonNull Task<byte[]> task) {
-                byte[] bytes = task.getResult();
-                Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                image.setImageBitmap(b);
+                try{
+                    byte[] bytes = task.getResult();
+                    Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    image.setImageBitmap(b);
+                } catch (Exception e){
+                    Toast.makeText(context, "Unable to parse image for the " + position + " clothing. Please try again",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

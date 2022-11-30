@@ -9,13 +9,13 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-    <uses-feature android:name="android.hardware.camera.any" />
-
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera.any" />
 
     <application
         android:allowBackup="true"
@@ -26,6 +26,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppNameGoesHere"
+        android:requestLegacyExternalStorage="true"
         tools:targetApi="31">
 
         <meta-data
@@ -33,7 +34,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".SignIn"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -43,24 +44,33 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ViewWardrobe"
-            android:screenOrientation="portrait"></activity>
+            android:name=".SignUp"
+            android:screenOrientation="portrait"/>
         <activity
-            android:name=".GenerateOutfit"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".AddToWardrobe"
-            android:screenOrientation="portrait"></activity>
-        <activity
-            android:name=".ConfirmToWardrobe"
-            android:screenOrientation="portrait"></activity>
+            android:name=".ResetPassword"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Login"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ViewWardrobe"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".GenerateOutfit"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AddToWardrobe"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ConfirmToWardrobe"
             android:screenOrientation="portrait" />
         <activity
             android:name=".settings"
             android:screenOrientation="portrait" />
-            
     </application>
 
 </manifest>

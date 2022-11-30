@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.Clothes_Factory;
@@ -50,6 +51,9 @@ public class ConfirmToWardrobe extends AppCompatActivity {
     boolean imageReady = false;
     String[] color;
 
+    // Max size of the image
+    public final static int MAX_IMAGE_SIZE = 1000000;
+
     private void rmBackground(String fileName) {
         //IMAGE STUFF
         Thread thread = new Thread(new Runnable() {
@@ -71,7 +75,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                     Request request = new Request.Builder()
                             .url("https://api.remove.bg/v1.0/removebg")
                             .method("POST", body)
-                            .addHeader("X-Api-Key", "XdD9sWidE3fb2noUPs1CHYQA")
+                            .addHeader("X-Api-Key", "yptXMJeZiWUDmqGqPsiH9yao")
                             .build();
                     try {
                         Response response = client.newCall(request).execute();
@@ -291,10 +295,28 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(image);
             output.compress(Bitmap.CompressFormat.PNG, 80, fileOutputStream);
+            compress(output, fileOutputStream);
             fileOutputStream.flush();
             fileOutputStream.close();
         } catch (IOException e) {
             System.out.println("ERROR SAVING IMAGE: " + e);
         }
+    }
+
+    // private method to compress the image to at least under 1MB
+    private void compress(Bitmap image, FileOutputStream output_stream){
+
+        if(image == null){
+            Toast.makeText(ConfirmToWardrobe.this, "[+] Error! Unable to compress image. Please try again",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int size = image.getByteCount();
+        while(size >= MAX_IMAGE_SIZE){
+            image.compress(Bitmap.CompressFormat.PNG, 80, output_stream);
+            size = image.getByteCount();
+            Log.e(TAG, "Compressing image: " + size);
+        }
+        Log.e(TAG, "Size of image: " + size);
     }
 }

@@ -20,6 +20,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.Surface;
 import android.view.View;
 import android.widget.Button;
@@ -151,7 +152,8 @@ public class AddToWardrobe extends AppCompatActivity {
 
     //https://stackoverflow.com/questions/63410194/how-to-save-multiple-bitmaps-fastly-in-android-studio
     public void saveBitmap(Bitmap output){
-        String filepath = Environment.getExternalStorageDirectory().toString() + "/images";
+        String filepath = getApplicationContext().getFilesDir().toString();
+        //String filepath = Environment.getExternalStorageDirectory().toString() + "/images";
         File dir = new File(filepath);
         if(!dir.exists()){
             dir.mkdir();
@@ -167,6 +169,7 @@ public class AddToWardrobe extends AppCompatActivity {
             fileOutputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
+            Log.d("AddToWardrobe", "Error:" + e);
         }
     }
 
