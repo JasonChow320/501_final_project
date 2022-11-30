@@ -57,4 +57,15 @@
         <item>80</item>
     </string-array>
 
+    <string name="insert_email_here">Insert Email Here</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forget_password">Forget Password</string>
+    <string name="make_account">Make Account</string>
+    <string name="show_password">show password</string>
+    <string name="password_again_verify">Password Again (Verify)</string>
+    <string name="back">Back</string>
+
 </resources>

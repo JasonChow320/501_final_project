@@ -58,11 +58,12 @@
             android:id="@+id/button_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="60dp"
+            android:layout_marginStart="36dp"
             android:text="Sign Up"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/password_field" />
+            app:layout_constraintTop_toBottomOf="@+id/password_field"
+            app:layout_constraintVertical_bias="0.105" />
 
         <CheckBox
             android:id="@+id/password_protected_checkbox"
@@ -98,6 +99,18 @@
             app:layout_constraintHorizontal_bias="0.455"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+        <Button
+            android:id="@+id/login_sign_out_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="SIGN out"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/password_protected_checkbox"
+            app:layout_constraintHorizontal_bias="0.313"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/button_signup"
+            app:layout_constraintVertical_bias="0.333" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -79,15 +79,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ActivityResultLauncher<String[]> locationPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {  });
-
-        locationPermissionRequest.launch(new String[] { //request location permissions
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_NETWORK_STATE,
-                Manifest.permission.CAMERA,
-        });
-
         /*
         FileInputStream serviceAccount = new FileInputStream("./final-project-c05e5-firebase-adminsdk-hstj7-eab049ff7b.json");
 
