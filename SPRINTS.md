@@ -5,6 +5,7 @@
 - [ ] ViewWardrobe: Improve layout and develop sorting (by type, by recently added)
 - [ ] GenerateOutfit: Start generating simple outfits on button click
 - [ ] MainActivity/Other classes?: Ask for permissions before appropriate activity (storage & camera in AddToWardrobe, location in GenerateOutfit... etc)
+- [ ] Improve navigation + make it possible to log out
 
 ## Sprint 4
 - [x] Automate RadioGroups and RadioButtons for clothing qualities in ConfirmToWardrobe
