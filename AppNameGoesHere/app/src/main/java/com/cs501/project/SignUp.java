@@ -147,7 +147,7 @@ public class SignUp extends AppCompatActivity {
                             Toast.makeText(SignUp.this, "Authentication failed. Please make sure the"
                                             + " email is not used in another account and correctly formatted, the password needs to be"
                                             + " at least 6 characters long",
-                                    Toast.LENGTH_SHORT).show();
+                                    Toast.LENGTH_LONG).show();
                             resetFields();
                         }
                     }
