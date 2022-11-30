@@ -152,7 +152,8 @@ public class AddToWardrobe extends AppCompatActivity {
 
     //https://stackoverflow.com/questions/63410194/how-to-save-multiple-bitmaps-fastly-in-android-studio
     public void saveBitmap(Bitmap output){
-        String filepath = Environment.getExternalStorageDirectory().toString() + "/images";
+        String filepath = getApplicationContext().getFilesDir().toString();
+        //String filepath = Environment.getExternalStorageDirectory().toString() + "/images";
         File dir = new File(filepath);
         if(!dir.exists()){
             dir.mkdir();
