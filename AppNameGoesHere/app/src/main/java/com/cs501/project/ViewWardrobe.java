@@ -60,6 +60,7 @@ public class ViewWardrobe extends AppCompatActivity {
         lvAdapter = new MyCustomAdapter(this.getBaseContext(), fb_manager.getClothes());  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
         lvClothes.setAdapter(lvAdapter);
         Context mContext=getApplicationContext();
+
     }
 }
 
@@ -69,6 +70,7 @@ class MyCustomAdapter extends BaseAdapter {
     ArrayList<Clothes> clothes;
     SharedPreferences sharedPreferences;
     Context context;
+    MyCustomAdapter adapter;
 
     public MyCustomAdapter(Context aContext, ArrayList<Clothes> clothes) {
         //initializing our data in the constructor.
@@ -79,7 +81,7 @@ class MyCustomAdapter extends BaseAdapter {
         } else{
             this.clothes = clothes;
         }
-
+        this.adapter=this;
         sharedPreferences = context.getSharedPreferences("MySharedPref", MODE_PRIVATE);
     }
 
@@ -114,6 +116,7 @@ class MyCustomAdapter extends BaseAdapter {
         ImageView image = (ImageView) row.findViewById(R.id.clothes_image);
         View color1 = (View) row.findViewById(R.id.color1);
         View color2 = (View) row.findViewById(R.id.color2);
+        Button delete = (Button) row.findViewById(R.id.delete_button);
 
         Clothes clothes_view = clothes.get(position);
 
@@ -154,6 +157,17 @@ class MyCustomAdapter extends BaseAdapter {
         });
 
         SharedPreferences sh = context.getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FireBaseManager.getInstance().deleteItem(clothes_view.getUniqueId());
+                Toast.makeText(context, "Deleted item " + position + ".",
+                        Toast.LENGTH_SHORT).show();
+                adapter.notifyDataSetChanged();
+                System.out.println("ADAPTER NOTIFIED");
+            }
+        });
 
         return row;
     }

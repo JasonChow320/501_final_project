@@ -204,14 +204,6 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         rmBackground(fileNames.get(0));
         color = extractColor(fileNames.get(0));
 
-//        Bitmap b = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().toString() + "/images/test.png");
-//        while (!imageReady) {
-//
-//        }
-//        Bitmap b = BitmapFactory.decodeFile(fileNames.get(0));
-//        editItemImage.setImageBitmap(b);
-            //        System.out.println(b.getHeight() + " x " + b.getWidth());
-
         String[] types = Clothes.getTypes(Clothes.Type.class);
         for (int i = 0; i < types.length; i++) {
             RadioButton current = new RadioButton(this);
