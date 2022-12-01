@@ -56,10 +56,44 @@ public class ViewWardrobe extends AppCompatActivity {
         // Get FireBaseManager singleton object and initialize ListView for user's wardrobe
         fb_manager = FireBaseManager.getInstance();
 
-        lvClothes = (ListView)findViewById(R.id.lvClothes);
+        // Get account's users
+        //fb_manager = FireBaseManager.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        lvAdapter = new MyCustomAdapter(this.getBaseContext(), fb_manager.getClothes());  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
-        lvClothes.setAdapter(lvAdapter);
+        // retrieve account database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("accounts");
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        Log.d(TAG, "Signed in as user: " + currentUser.getUid());
+
+        // Initialize our firebase manager
+        fb_manager = FireBaseManager.getInstance();
+
+        // Have our listview auto update when database changes
+        myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Log.d(TAG, "Got data from database");
+                Profile profile = dataSnapshot.getValue(Profile.class);
+
+                // update list
+                lvClothes = (ListView)findViewById(R.id.lvClothes);
+
+                lvAdapter = new MyCustomAdapter(ViewWardrobe.this, fb_manager.getClothes());  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
+                lvClothes.setAdapter(lvAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
     }
 }
 
@@ -159,11 +193,11 @@ class MyCustomAdapter extends BaseAdapter {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clothes.remove(position);
+                //clothes.remove(position);
                 FireBaseManager.getInstance().deleteItem(clothes_view.getUniqueId());
                 Toast.makeText(context, "Deleted item " + position + ".",
                         Toast.LENGTH_SHORT).show();
-                adapter.notifyDataSetChanged();
+                //adapter.notifyDataSetChanged();
             }
         });
 
