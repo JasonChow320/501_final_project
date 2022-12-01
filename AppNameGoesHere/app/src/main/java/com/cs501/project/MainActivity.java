@@ -10,23 +10,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.cs501.project.Model.FireBaseManager;
-import com.cs501.project.Model.Profile;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.io.FileInputStream;
-import com.cs501.project.Model.Color;
-import com.cs501.project.Model.Jacket;
-import com.cs501.project.Model.Pants;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,9 +32,8 @@ public class MainActivity extends AppCompatActivity {
         Button toAdd = (Button) findViewById(R.id.button4);
         Button settings = (Button) findViewById(R.id.button6);
 
-        //Load clothes for future use
+        // if we want to use User's data here
         fb_manager = FireBaseManager.getInstance();
-        fb_manager.getClothes();
 
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,20 +66,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
-
-        /*
-        FileInputStream serviceAccount = new FileInputStream("./final-project-c05e5-firebase-adminsdk-hstj7-eab049ff7b.json");
-
-        FirebaseOptions options = new FirebaseOptions.Builder()
-                .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                .setDatabaseUrl("https://final-project-c05e5-default-rtdb.firebaseio.com")
-                .build();
-
-        FirebaseApp.initializeApp(options);
-        */
-
-        // should be login now
-//        fb_manager = FireBaseManager.getInstance();
     }
 
     // reload the user credential everytime
@@ -111,9 +85,10 @@ public class MainActivity extends AppCompatActivity {
             // continue with the app
         } else {
 
-            // calls login
-            Intent i = new Intent(MainActivity.this, Login.class);
-            startActivity(i);
+            // this is bad :( user's not logged in but we're in the main application
+            Toast.makeText(MainActivity.this, "Unable to retrieve user data. Please try again",
+                    Toast.LENGTH_SHORT).show();
+            finish();
         }
     }
 }

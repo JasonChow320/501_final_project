@@ -53,13 +53,13 @@ public class ViewWardrobe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_wardrobe);
 
+        // Get FireBaseManager singleton object and initialize ListView for user's wardrobe
         fb_manager = FireBaseManager.getInstance();
 
         lvClothes = (ListView)findViewById(R.id.lvClothes);
 
         lvAdapter = new MyCustomAdapter(this.getBaseContext(), fb_manager.getClothes());  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
         lvClothes.setAdapter(lvAdapter);
-        Context mContext=getApplicationContext();
     }
 }
 
