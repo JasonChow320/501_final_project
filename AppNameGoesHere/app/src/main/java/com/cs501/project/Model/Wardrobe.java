@@ -1,5 +1,7 @@
 package com.cs501.project.Model;
 
+import android.util.Log;
+
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
@@ -20,6 +22,34 @@ public class Wardrobe {
 
         this.clothes.add(clothing);
         return true;
+    }
+
+    public boolean deleteItem(String uid) {
+        for (Clothes c: clothes) {
+            if(c.getUniqueId().equals(uid)) {
+                clothes.remove(c);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // private to get clothes by its unique id
+    public Clothes getClothesByUid(String uid){
+
+        Clothes clothes_return = null;
+
+        Log.d("Wardrobe", "uid: " + uid);
+        for(Clothes clothing : this.clothes){
+            Log.d("Wardrobe", "clothes' uid: " + clothing.getUniqueId());
+            if(clothing.getUniqueId().equals(uid)){
+                Log.d("Wardrobe", "found id: " + uid);
+                clothes_return = clothing;
+            }
+        }
+
+        // we're okay with returning null
+        return clothes_return;
     }
 
     public ArrayList<Clothes> getClothes(){

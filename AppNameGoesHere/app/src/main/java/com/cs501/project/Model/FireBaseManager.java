@@ -2,6 +2,10 @@ package com.cs501.project.Model;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -9,6 +13,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -53,6 +59,7 @@ public class FireBaseManager {
         myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 Log.d(TAG, "Got data from database");
@@ -65,6 +72,7 @@ public class FireBaseManager {
 
             @Override
             public void onCancelled(DatabaseError error) {
+
                 // Failed to read value
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
@@ -73,6 +81,7 @@ public class FireBaseManager {
 
     // static get instance method
     public static FireBaseManager getInstance() {
+
         if (manager_instance == null) {
             manager_instance = new FireBaseManager();
         }
@@ -84,6 +93,7 @@ public class FireBaseManager {
     }
 
     public void setProfile(Profile user){
+
         if(user == null){
             return;
         }
@@ -108,6 +118,48 @@ public class FireBaseManager {
         return;
     }
 
+    public void deleteItem(String uid) {
+        Wardrobe user_wardrobe = user.getUsers().get(user_idx).getWardrobe();
+
+        // Get item to delete
+        Log.d(TAG, "uid: " + uid);
+        Clothes clothes_to_delete = user_wardrobe.getClothesByUid(uid);
+
+        if(clothes_to_delete == null){
+            Log.d(TAG, "Cannot find clothing with the unique id");
+            return;
+        }
+
+        // delete image from storage database
+        // Create a storage reference from our app
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        // Create a reference to the file to delete
+        StorageReference imageRef = storageRef.child(clothes_to_delete.getImageURL());
+
+        imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // File deleted successfully
+                Log.d(TAG, "onSuccess: deleted file");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+                Log.d(TAG, "onFailure: did not delete file");
+            }
+        });
+
+        // delete image from user realtime database
+        user_wardrobe.deleteItem(uid);
+
+        myRef.child(currentUser.getUid()).setValue(user);
+
+        return;
+    }
+
     public ArrayList<Clothes> getClothes(){
 
         ArrayList<User> users = user.getUsers();
@@ -123,5 +175,25 @@ public class FireBaseManager {
 
         Log.d(TAG, "The clothes is: " + clothes);
         return clothes;
+    }
+
+    // set which user we're using
+    public void setUserIdx(int userIdx){
+
+        ArrayList<User> users = user.getUsers();
+        if(userIdx < 0 || userIdx >= users.size()){
+            Log.e(TAG, "Unable to add userIdx to FireBaseManager, invalid idx value: " + userIdx);
+            return;
+        }
+
+        this.user_idx = userIdx;
+        return; // thx Android Studio
+    }
+
+    // add user to firebase
+    public void addUser(User user){
+
+        this.user.addUser(user);
+        myRef.child(currentUser.getUid()).setValue(this.user);
     }
 }

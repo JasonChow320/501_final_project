@@ -67,5 +67,6 @@
     <string name="show_password">show password</string>
     <string name="password_again_verify">Password Again (Verify)</string>
     <string name="back">Back</string>
+    <string name="title_activity_make_profile">MakeProfile</string>
 
 </resources>

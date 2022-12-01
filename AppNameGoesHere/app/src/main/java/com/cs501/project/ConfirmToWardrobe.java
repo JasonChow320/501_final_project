@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.Clothes_Factory;
+import com.cs501.project.Model.Color;
 import com.cs501.project.Model.FireBaseManager;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,7 +50,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
 //    public static ArrayList<String> images = new ArrayList<>();
     RadioGroup clothingTypes;
     boolean imageReady = false;
-    String[] color;
+    Color color;
 
     // Max size of the image
     public final static int MAX_IMAGE_SIZE = 1000000;
@@ -75,7 +76,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                     Request request = new Request.Builder()
                             .url("https://api.remove.bg/v1.0/removebg")
                             .method("POST", body)
-                            .addHeader("X-Api-Key", "yptXMJeZiWUDmqGqPsiH9yao")
+                            .addHeader("X-Api-Key", "zpoaX6fjfhptWHCX6Er9A9J9")
                             .build();
                     try {
                         Response response = client.newCall(request).execute();
@@ -108,13 +109,9 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         editItemImage.setImageBitmap(b);
     }
 
-    private String[] extractColor (String filename){
-
-
-
+    private Color extractColor (String filename){
+        final Color[] c = new Color[1];
         Thread thread = new Thread(new Runnable() {
-
-
 
             @Override
             public void run() {
@@ -131,16 +128,32 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                             .url("https://api.sightengine.com/1.0/check.json?models=properties&api_user=596819012&api_secret=dy3YJZP5WJ3qtoYWqaXs")
                             .method("POST", body)
                             .build();
-                    String r, g, b;
+                    float r, g, b, r2, g2, b2;
+                    String hex1, hex2;
 
                     try {
                         Response response = client.newCall(request).execute();
                         JSONObject obj = new JSONObject(response.body().string());
-                         r = obj.getJSONObject("colors").getJSONObject("dominant").getString("r");
-                         g = obj.getJSONObject("colors").getJSONObject("dominant").getString("g");
-                         b = obj.getJSONObject("colors").getJSONObject("dominant").getString("b");
 
-                         System.out.println("COLOR IS: "+ r + " " + g + " " +  b);
+                        hex1 = (obj.getJSONObject("colors").getJSONObject("dominant").getString("hex"));
+                        r = Float.parseFloat(obj.getJSONObject("colors").getJSONObject("dominant").getString("r"));
+                        g = Float.parseFloat(obj.getJSONObject("colors").getJSONObject("dominant").getString("g"));
+                        b = Float.parseFloat(obj.getJSONObject("colors").getJSONObject("dominant").getString("b"));
+
+                        JSONObject accentObj;
+
+                        try {
+                            accentObj = obj.getJSONObject("colors").getJSONArray("accent").getJSONObject(0);
+                        } catch (Exception e) {
+                            accentObj = obj.getJSONObject("colors").getJSONArray("other").getJSONObject(0);
+                        }
+
+                        hex2 = (accentObj.getString("hex"));
+                        r2 = Float.parseFloat(accentObj.getString("r"));
+                        g2 = Float.parseFloat(accentObj.getString("g"));
+                        b2 = Float.parseFloat(accentObj.getString("b"));
+
+                        c[0] = new Color(r, g, b, r2, g2, b2, hex1, hex2);
 
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -160,7 +173,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        return null;
+        return c[0];
 
     }
 
@@ -189,17 +202,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         System.out.println(fileNames.size() + " submitted");
 
         rmBackground(fileNames.get(0));
-        extractColor(fileNames.get(0));
-
-
-
-//        Bitmap b = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().toString() + "/images/test.png");
-//        while (!imageReady) {
-//
-//        }
-//        Bitmap b = BitmapFactory.decodeFile(fileNames.get(0));
-//        editItemImage.setImageBitmap(b);
-            //        System.out.println(b.getHeight() + " x " + b.getWidth());
+        color = extractColor(fileNames.get(0));
 
         String[] types = Clothes.getTypes(Clothes.Type.class);
         for (int i = 0; i < types.length; i++) {
@@ -233,6 +236,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                 System.out.println("IMAGE ADDED TO DB");
 
                 new_clothes.setImageURL(newName);
+                new_clothes.setColor(color);
 
                 if(new_clothes == null){
                     // TODO ERROR! do something

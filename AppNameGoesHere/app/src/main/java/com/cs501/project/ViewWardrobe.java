@@ -53,13 +53,47 @@ public class ViewWardrobe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_wardrobe);
 
+        // Get FireBaseManager singleton object and initialize ListView for user's wardrobe
         fb_manager = FireBaseManager.getInstance();
 
-        lvClothes = (ListView)findViewById(R.id.lvClothes);
+        // Get account's users
+        //fb_manager = FireBaseManager.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        lvAdapter = new MyCustomAdapter(this.getBaseContext(), fb_manager.getClothes());  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
-        lvClothes.setAdapter(lvAdapter);
-        Context mContext=getApplicationContext();
+        // retrieve account database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("accounts");
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        Log.d(TAG, "Signed in as user: " + currentUser.getUid());
+
+        // Initialize our firebase manager
+        fb_manager = FireBaseManager.getInstance();
+
+        // Have our listview auto update when database changes
+        myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+                Log.d(TAG, "Got data from database");
+                Profile profile = dataSnapshot.getValue(Profile.class);
+
+                // update list
+                lvClothes = (ListView)findViewById(R.id.lvClothes);
+
+                lvAdapter = new MyCustomAdapter(ViewWardrobe.this, fb_manager.getClothes());  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
+                lvClothes.setAdapter(lvAdapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
     }
 }
 
@@ -69,6 +103,7 @@ class MyCustomAdapter extends BaseAdapter {
     ArrayList<Clothes> clothes;
     SharedPreferences sharedPreferences;
     Context context;
+    MyCustomAdapter adapter;
 
     public MyCustomAdapter(Context aContext, ArrayList<Clothes> clothes) {
         //initializing our data in the constructor.
@@ -79,7 +114,7 @@ class MyCustomAdapter extends BaseAdapter {
         } else{
             this.clothes = clothes;
         }
-
+        this.adapter=this;
         sharedPreferences = context.getSharedPreferences("MySharedPref", MODE_PRIVATE);
     }
 
@@ -101,7 +136,6 @@ class MyCustomAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row;
-
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(R.layout.listview_row, parent, false);
@@ -114,6 +148,7 @@ class MyCustomAdapter extends BaseAdapter {
         ImageView image = (ImageView) row.findViewById(R.id.clothes_image);
         View color1 = (View) row.findViewById(R.id.color1);
         View color2 = (View) row.findViewById(R.id.color2);
+        Button delete = (Button) row.findViewById(R.id.delete_button);
 
         Clothes clothes_view = clothes.get(position);
 
@@ -123,6 +158,17 @@ class MyCustomAdapter extends BaseAdapter {
             clothes_id.setText(clothes_view.getUniqueId());
         } catch (Exception e){
             Toast.makeText(context, "Unable to parse data for the " + position + " clothing. Please try again",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        try {
+            String hex1 = clothes_view.getColor().getHex1();
+            String hex2 = clothes_view.getColor().getHex2();
+
+            color1.setBackgroundColor(Color.parseColor(hex1));
+            color2.setBackgroundColor(Color.parseColor(hex2));
+        } catch (Exception e) {
+            Toast.makeText(context, "Unable to parse color data for the " + position + " clothing.",
                     Toast.LENGTH_SHORT).show();
         }
 
@@ -143,6 +189,17 @@ class MyCustomAdapter extends BaseAdapter {
         });
 
         SharedPreferences sh = context.getSharedPreferences("MySharedPref", MODE_PRIVATE);
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //clothes.remove(position);
+                FireBaseManager.getInstance().deleteItem(clothes_view.getUniqueId());
+                Toast.makeText(context, "Deleted item " + position + ".",
+                        Toast.LENGTH_SHORT).show();
+                //adapter.notifyDataSetChanged();
+            }
+        });
 
         return row;
     }
