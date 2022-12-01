@@ -102,7 +102,7 @@ public class Login extends AppCompatActivity {
         // Initialize our firebase manager
         fb_manager = FireBaseManager.getInstance();
 
-        // Read from the database
+        // Listview auto updates when database changes
         myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -2,6 +2,10 @@ package com.cs501.project.Model;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -9,6 +13,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -114,6 +120,39 @@ public class FireBaseManager {
 
     public void deleteItem(String uid) {
         Wardrobe user_wardrobe = user.getUsers().get(user_idx).getWardrobe();
+
+        // Get item to delete
+        Log.d(TAG, "uid: " + uid);
+        Clothes clothes_to_delete = user_wardrobe.getClothesByUid(uid);
+
+        if(clothes_to_delete == null){
+            Log.d(TAG, "Cannot find clothing with the unique id");
+            return;
+        }
+
+        // delete image from storage database
+        // Create a storage reference from our app
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        // Create a reference to the file to delete
+        StorageReference imageRef = storageRef.child(clothes_to_delete.getImageURL());
+
+        imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // File deleted successfully
+                Log.d(TAG, "onSuccess: deleted file");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+                Log.d(TAG, "onFailure: did not delete file");
+            }
+        });
+
+        // delete image from user realtime database
         user_wardrobe.deleteItem(uid);
 
         myRef.child(currentUser.getUid()).setValue(user);
