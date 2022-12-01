@@ -7,14 +7,25 @@ public class Color {
     float red;
     float green;
     float blue;
+    float red2;
+    float green2;
+    float blue2;
+    String hex1;
+    String hex2;
 
     public Color(){
         this.red = 0;
         this.green = 0;
         this.blue = 0;
+        this.red2 = 0;
+        this.green2 = 0;
+        this.blue2 = 0;
     }
 
-    public Color(float r, float g, float b){
+    public Color(float r, float g, float b, float r2, float g2, float b2, String hex1, String hex2){
+
+        this.hex1 = hex1;
+        this.hex2 = hex2;
 
         if(r < 0 || r >= 256){
             this.red = 0;
@@ -33,6 +44,24 @@ public class Color {
         } else {
             this.blue = b;
         }
+
+        if(r2 < 0 || r2 >= 256){
+            this.red2 = 0;
+        } else {
+            this.red2 = r2;
+        }
+
+        if(g2 < 0 || g2 >= 256){
+            this.green2 = 0;
+        } else {
+            this.green2 = g2;
+        }
+
+        if(b2 < 0 || b2 >= 256){
+            this.blue2 = 0;
+        } else {
+            this.blue2 = b2;
+        }
     }
 
     // public methods
@@ -46,6 +75,26 @@ public class Color {
 
     public float getBlue(){
         return this.blue;
+    }
+
+    public float getRed2(){
+        return this.red2;
+    }
+
+    public float getGreen2(){
+        return this.green2;
+    }
+
+    public float getBlue2(){
+        return this.blue2;
+    }
+
+    public String getHex1(){
+        return this.hex1;
+    }
+
+    public String getHex2(){
+        return this.hex2;
     }
 
     // usefull for detemining if two colors are similar, works for colors of similar shades, even across different hues
@@ -64,6 +113,8 @@ public class Color {
         String str = new String();
 
         str += "(red, green, blue) -> (" + red + ", " + green + ", " + blue + ")";
+
+        str += " accent=(" + red2 + ", " + green2 + ", " + blue2 + ")";
 
         return str;
     }

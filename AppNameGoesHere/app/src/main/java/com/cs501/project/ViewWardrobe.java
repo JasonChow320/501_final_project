@@ -126,6 +126,17 @@ class MyCustomAdapter extends BaseAdapter {
                     Toast.LENGTH_SHORT).show();
         }
 
+        try {
+            String hex1 = clothes_view.getColor().getHex1();
+            String hex2 = clothes_view.getColor().getHex2();
+
+            color1.setBackgroundColor(Color.parseColor(hex1));
+            color2.setBackgroundColor(Color.parseColor(hex2));
+        } catch (Exception e) {
+            Toast.makeText(context, "Unable to parse color data for the " + position + " clothing.",
+                    Toast.LENGTH_SHORT).show();
+        }
+
         // get image
         StorageReference pathReference = FirebaseStorage.getInstance().getReference();
         pathReference.child(clothes_view.getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
