@@ -4,7 +4,7 @@
 - [ ] ConfirmToWardrobe: Improve styling of confirmation screen
 - [ ] ViewWardrobe: Improve layout and develop sorting (by type, by recently added)
 - [ ] GenerateOutfit: Start generating simple outfits on button click
-- [ ] MainActivity/Other classes?: Ask for permissions before appropriate activity (storage & camera in AddToWardrobe, location in GenerateOutfit... etc)
+- [x] MainActivity/Other classes?: Ask for permissions before appropriate activity (storage & camera in AddToWardrobe, location in GenerateOutfit... etc)
 - [ ] Improve navigation between all activities
 - [x] Add profiles functionality
 
