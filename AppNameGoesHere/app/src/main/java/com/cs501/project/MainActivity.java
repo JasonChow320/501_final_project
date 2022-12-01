@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         Button toWardrobe = (Button) findViewById(R.id.button1);
         Button toGeneration = (Button) findViewById(R.id.button2);
         Button toAdd = (Button) findViewById(R.id.button4);
-        Button settings = (Button) findViewById(R.id.main_back_button);
+        Button settings = (Button) findViewById(R.id.main_setting_button);
         Button back = (Button) findViewById(R.id.main_back_button);
 
         // if we want to use User's data here
