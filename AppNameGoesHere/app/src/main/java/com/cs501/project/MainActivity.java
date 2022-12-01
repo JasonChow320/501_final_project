@@ -30,7 +30,8 @@ public class MainActivity extends AppCompatActivity {
         Button toWardrobe = (Button) findViewById(R.id.button1);
         Button toGeneration = (Button) findViewById(R.id.button2);
         Button toAdd = (Button) findViewById(R.id.button4);
-        Button settings = (Button) findViewById(R.id.button6);
+        Button settings = (Button) findViewById(R.id.main_back_button);
+        Button back = (Button) findViewById(R.id.main_back_button);
 
         // if we want to use User's data here
         fb_manager = FireBaseManager.getInstance();
@@ -40,6 +41,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, settings.class);
                 startActivity(i);
+            }
+        });
+
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
