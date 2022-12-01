@@ -1,5 +1,7 @@
 package com.cs501.project;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.camera.core.Camera;
@@ -14,7 +16,9 @@ import androidx.lifecycle.LifecycleOwner;
 
 import com.google.common.util.concurrent.ListenableFuture;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -26,6 +30,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -49,6 +54,17 @@ public class AddToWardrobe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_to_wardrobe);
 
+
+        ActivityResultLauncher<String> requestPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
+            if(result == false) {
+                Toast toast = Toast.makeText(AddToWardrobe.this, "Cannot take photos with permissions from device", Toast.LENGTH_LONG);
+                toast.show();
+                Intent intent = new Intent(AddToWardrobe.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        requestPermissionRequest.launch(Manifest.permission.CAMERA); //request location permissions
         fileNames = new ArrayList<>();
 
         takePhoto = (Button) findViewById(R.id.takePhoto);

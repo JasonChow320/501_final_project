@@ -54,10 +54,7 @@ public class Login extends AppCompatActivity {
         ActivityResultLauncher<String[]> locationPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {  });
 
         locationPermissionRequest.launch(new String[] { //request location permissions
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
                 Manifest.permission.ACCESS_NETWORK_STATE,
-                Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.MANAGE_EXTERNAL_STORAGE,

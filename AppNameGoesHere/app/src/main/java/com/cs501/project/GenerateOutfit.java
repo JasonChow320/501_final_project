@@ -1,10 +1,17 @@
 package com.cs501.project;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -45,8 +52,29 @@ public class GenerateOutfit extends AppCompatActivity {
         wind = findViewById(R.id.wind);
         weatherTile = findViewById(R.id.weatherTitle);
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        getLocation();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+            getLocation();
+        }
+
+        ActivityResultLauncher<String[]> locationPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {
+            boolean fineLoc = result.get("android.permission.ACCESS_FINE_LOCATION");
+            boolean coraseLoc = result.get("android.permission.ACCESS_COARSE_LOCATION");
+            System.out.println(fineLoc + " " + coraseLoc);
+            if (!fineLoc || !coraseLoc) {
+                Toast toast = Toast.makeText(GenerateOutfit.this, "App does not have location permissions from device", Toast.LENGTH_LONG);
+                toast.show();
+            } else {
+                fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+                getLocation();
+            }
+        });
+
+        locationPermissionRequest.launch(new String[]{ //request location permissions
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION});
+
+
     }
 
     //uses latitude and longitude to get current weather
@@ -68,7 +96,7 @@ public class GenerateOutfit extends AppCompatActivity {
                 String info = null;
                 String weatherType = null;
                 String weatherDescription = null;
-                double windSpeed = 0 ;
+                double windSpeed = 0;
                 double windGusts = 0;
                 double clouds = 0;
                 double humidity = 0;
@@ -78,8 +106,8 @@ public class GenerateOutfit extends AppCompatActivity {
                     JSONObject weatherINfo = obj.getJSONArray("weather").getJSONObject(0);
                     weatherType = weatherINfo.getString("main");
                     weatherDescription = weatherINfo.getString("description");
-                    windSpeed = Math.floor(Double.valueOf(obj.getJSONObject("wind").getString("speed"))*2.237);
-                    windGusts = Math.floor(Double.valueOf(obj.getJSONObject("wind").getString("gust"))*2.237);
+                    windSpeed = Math.floor(Double.valueOf(obj.getJSONObject("wind").getString("speed")) * 2.237);
+                    windGusts = Math.floor(Double.valueOf(obj.getJSONObject("wind").getString("gust")) * 2.237);
                     clouds = Double.valueOf(obj.getJSONObject("clouds").getString("all"));
                     humidity = Double.valueOf(obj.getJSONObject("main").getString("humidity"));
                 } catch (JSONException e) {
@@ -105,7 +133,11 @@ public class GenerateOutfit extends AppCompatActivity {
 
     public void getLocation() {
 
-        fusedLocationClient.getLastLocation() //permissions checked and asked on MainActivity onCreate
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        fusedLocationClient.getLastLocation() //permissions checked and asked on onCreate
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
