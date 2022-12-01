@@ -76,7 +76,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                     Request request = new Request.Builder()
                             .url("https://api.remove.bg/v1.0/removebg")
                             .method("POST", body)
-                            .addHeader("X-Api-Key", "yptXMJeZiWUDmqGqPsiH9yao")
+                            .addHeader("X-Api-Key", "zpoaX6fjfhptWHCX6Er9A9J9")
                             .build();
                     try {
                         Response response = client.newCall(request).execute();
@@ -203,14 +203,6 @@ public class ConfirmToWardrobe extends AppCompatActivity {
 
         rmBackground(fileNames.get(0));
         color = extractColor(fileNames.get(0));
-
-//        Bitmap b = BitmapFactory.decodeFile(Environment.getExternalStorageDirectory().toString() + "/images/test.png");
-//        while (!imageReady) {
-//
-//        }
-//        Bitmap b = BitmapFactory.decodeFile(fileNames.get(0));
-//        editItemImage.setImageBitmap(b);
-            //        System.out.println(b.getHeight() + " x " + b.getWidth());
 
         String[] types = Clothes.getTypes(Clothes.Type.class);
         for (int i = 0; i < types.length; i++) {

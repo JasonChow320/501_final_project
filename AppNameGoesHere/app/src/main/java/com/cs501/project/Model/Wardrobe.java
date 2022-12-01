@@ -22,6 +22,16 @@ public class Wardrobe {
         return true;
     }
 
+    public boolean deleteItem(String uid) {
+        for (Clothes c: clothes) {
+            if(c.getUniqueId().equals(uid)) {
+                clothes.remove(c);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public ArrayList<Clothes> getClothes(){
         return this.clothes;
     }
