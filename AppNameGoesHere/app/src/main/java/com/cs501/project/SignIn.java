@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.cs501.project.Model.FireBaseManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -103,6 +104,9 @@ public class SignIn extends AppCompatActivity {
 
                             resetFields();
                             progressBar_sign_in.setVisibility(View.GONE);
+
+                            // call FireBaseManager to sync up
+                            FireBaseManager.getInstance();
 
                             // calls login
                             Intent i = new Intent(SignIn.this, Login.class);

@@ -53,6 +53,7 @@ public class FireBaseManager {
         myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 // This method is called once with the initial value and again
                 // whenever data at this location is updated.
                 Log.d(TAG, "Got data from database");
@@ -65,6 +66,7 @@ public class FireBaseManager {
 
             @Override
             public void onCancelled(DatabaseError error) {
+
                 // Failed to read value
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
@@ -73,6 +75,7 @@ public class FireBaseManager {
 
     // static get instance method
     public static FireBaseManager getInstance() {
+
         if (manager_instance == null) {
             manager_instance = new FireBaseManager();
         }
@@ -84,6 +87,7 @@ public class FireBaseManager {
     }
 
     public void setProfile(Profile user){
+
         if(user == null){
             return;
         }
@@ -123,5 +127,25 @@ public class FireBaseManager {
 
         Log.d(TAG, "The clothes is: " + clothes);
         return clothes;
+    }
+
+    // set which user we're using
+    public void setUserIdx(int userIdx){
+
+        ArrayList<User> users = user.getUsers();
+        if(userIdx < 0 || userIdx >= users.size()){
+            Log.e(TAG, "Unable to add userIdx to FireBaseManager, invalid idx value: " + userIdx);
+            return;
+        }
+
+        this.user_idx = userIdx;
+        return; // thx Android Studio
+    }
+
+    // add user to firebase
+    public void addUser(User user){
+
+        this.user.addUser(user);
+        myRef.child(currentUser.getUid()).setValue(this.user);
     }
 }
