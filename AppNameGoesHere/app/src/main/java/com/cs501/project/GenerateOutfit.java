@@ -160,4 +160,9 @@ public class GenerateOutfit extends AppCompatActivity {
         clouds.setText("Cloud cover: "+String.valueOf(weather.getClouds()) + "%");
         wind.setText("Wind speed: " + String.valueOf(weather.getWindSpeed()) +" MPH");
     }
+
+
+    public void generateOutfitMonochrome (){
+
+    }
 }

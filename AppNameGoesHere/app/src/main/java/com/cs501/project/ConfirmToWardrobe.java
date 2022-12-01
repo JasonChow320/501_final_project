@@ -51,6 +51,8 @@ public class ConfirmToWardrobe extends AppCompatActivity {
     RadioGroup clothingTypes;
     boolean imageReady = false;
     Color color;
+    View mainCol;
+    View accCol;
 
     // Max size of the image
     public final static int MAX_IMAGE_SIZE = 1000000;
@@ -197,12 +199,17 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         ImageView editItemImage = (ImageView) findViewById(R.id.editItemImage);
         Button confirm = (Button) findViewById(R.id.ConfirmAdd);
         clothingTypes = (RadioGroup) findViewById(R.id.clothingTypes);
+        mainCol = (View) findViewById(R.id.colorMain);
+        accCol = (View) findViewById(R.id.colorAcc);
 
         ArrayList<String> fileNames = getIntent().getStringArrayListExtra("fileNames");
         System.out.println(fileNames.size() + " submitted");
 
         rmBackground(fileNames.get(0));
         color = extractColor(fileNames.get(0));
+
+        mainCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex1()));
+        accCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex2()));
 
         String[] types = Clothes.getTypes(Clothes.Type.class);
         for (int i = 0; i < types.length; i++) {
