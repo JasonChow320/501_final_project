@@ -99,6 +99,9 @@ public class Login extends AppCompatActivity {
 
         Log.d(TAG, "Signed in as user: " + currentUser.getUid());
 
+        // Initialize our firebase manager
+        fb_manager = FireBaseManager.getInstance();
+
         // Read from the database
         myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -113,8 +116,6 @@ public class Login extends AppCompatActivity {
                 lvUsers = (ListView)findViewById(R.id.profile_list);
                 lvAdapter = new LoginCustomAdapter(Login.this, profile.getUsers());
                 lvUsers.setAdapter(lvAdapter);
-
-                fb_manager = FireBaseManager.getInstance();
             }
 
             @Override
@@ -130,7 +131,8 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO add create user feature
-
+                Intent i = new Intent(Login.this, MakeProfile.class);
+                startActivity(i);
             }
         });
 

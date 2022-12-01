@@ -141,4 +141,11 @@ public class FireBaseManager {
         this.user_idx = userIdx;
         return; // thx Android Studio
     }
+
+    // add user to firebase
+    public void addUser(User user){
+
+        this.user.addUser(user);
+        myRef.child(currentUser.getUid()).setValue(this.user);
+    }
 }
