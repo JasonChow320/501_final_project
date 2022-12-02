@@ -160,6 +160,21 @@ public class FireBaseManager {
         return;
     }
 
+    public User getUser(){
+
+        ArrayList<User> users = user.getUsers();
+        Log.d(TAG, "Getting clothes from FireBaseManager: user_idx: " + user_idx + ", users size: " + users.size());
+
+        if(users.size() <= user_idx){
+            return null;
+        }
+
+        User user = users.get(user_idx);
+
+        Log.d(TAG, "The user is: " + user);
+        return user;
+    }
+
     public ArrayList<Clothes> getClothes(){
 
         ArrayList<User> users = user.getUsers();
