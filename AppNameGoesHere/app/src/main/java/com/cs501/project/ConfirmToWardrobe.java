@@ -208,8 +208,10 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         rmBackground(fileNames.get(0));
         color = extractColor(fileNames.get(0));
 
-        mainCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex1()));
-        accCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex2()));
+        if(color != null){
+            mainCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex1()));
+            accCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex2()));
+        }
 
         String[] types = Clothes.getTypes(Clothes.Type.class);
         for (int i = 0; i < types.length; i++) {

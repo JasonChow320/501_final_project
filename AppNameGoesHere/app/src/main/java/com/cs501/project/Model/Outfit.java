@@ -13,13 +13,7 @@ public class Outfit {
         this.shoes = null;
     }
 
-
-
-
-
-
     //Getters
-
 
     public Clothes[] getTop() {
         return top;
