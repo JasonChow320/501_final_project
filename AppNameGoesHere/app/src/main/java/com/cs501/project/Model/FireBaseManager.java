@@ -192,6 +192,28 @@ public class FireBaseManager {
         return clothes;
     }
 
+    public void updateOneLayerTemp(int temp){
+
+        User user = this.getUser();
+        User_settings settings = user.getUserSettings();
+        settings.setOneLayerTemp(temp);
+
+        myRef.child(currentUser.getUid()).setValue(this.user);
+    }
+
+    public void updateThreeLayerTemp(int temp){
+
+        User user = this.getUser();
+        User_settings settings = user.getUserSettings();
+        settings.setThreeLayerTemp(temp);
+
+        myRef.child(currentUser.getUid()).setValue(this.user);
+    }
+
+    public int getUserIdx(){
+        return this.user_idx;
+    }
+
     // set which user we're using
     public void setUserIdx(int userIdx){
 
