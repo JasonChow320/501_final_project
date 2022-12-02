@@ -1,12 +1,15 @@
 ## Sprint 5
-- [ ] ConfirmToWardrobe: Automate ALL RadioGroups and Buttons for clothing attributes
-- [x] ConfirmToWardrobe: Finish implementing Color API -- add color field to Clothes item in DB
-- [ ] ConfirmToWardrobe: Improve styling of confirmation screen
-- [ ] ViewWardrobe: Improve layout and develop sorting (by type, by recently added)
-- [ ] GenerateOutfit: Start generating simple outfits on button click
-- [x] MainActivity/Other classes?: Ask for permissions before appropriate activity (storage & camera in AddToWardrobe, location in GenerateOutfit... etc)
-- [ ] Improve navigation between all activities
 - [x] Add profiles functionality
+- [x] MainActivity/Other classes?: Ask for permissions before appropriate activity (storage & camera in AddToWardrobe, location in GenerateOutfit... etc)
+- [x] ConfirmToWardrobe: Finish implementing Color API -- add color field to Clothes item in DB
+- [x] **Jason** | Integrate Settings with Firebase
+- [x] **Sarsen** | ViewWardrobe: Add filtering by type
+- [ ] **Michael** | ConfirmToWardrobe: Add waterproof setting and make it look better
+- [ ] **Michael** | ViewWardrobe: Edit button
+- [ ] **Abdel** | GenerateOutfit: Start generating simple outfits on button click
+- [ ] **Abdel** | GenerateOutfit: Add save button which saves current outfit to database
+- [ ] ViewSavedOutfits: Pull saved outfits from DB and display
+- [ ] **Sarsen** | User friendly improvements (QA)
 
 ## Sprint 4
 - [x] Automate RadioGroups and RadioButtons for clothing qualities in ConfirmToWardrobe

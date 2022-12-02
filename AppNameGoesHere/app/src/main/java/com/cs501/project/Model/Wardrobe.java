@@ -10,9 +10,22 @@ import java.util.ArrayList;
  */
 public class Wardrobe {
     ArrayList<Clothes> clothes;
+    ArrayList<Outfit> outfits;
 
     public Wardrobe(){
         this.clothes = new ArrayList<Clothes>();
+        this.outfits = new ArrayList<Outfit>();
+    }
+
+    public ArrayList<Outfit> getOutfits(){
+        return this.outfits;
+    }
+
+    public void addOutfits(ArrayList<Outfit> outfits){
+
+        if(outfits != null){
+            this.outfits = outfits;
+        }
     }
 
     public boolean insertClothes(Clothes clothing){

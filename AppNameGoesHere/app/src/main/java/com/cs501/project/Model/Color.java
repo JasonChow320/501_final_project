@@ -1,6 +1,6 @@
 package com.cs501.project.Model;
 import java.lang.Math;
-
+import java.util.ArrayList;
 
 public class Color {
 
@@ -12,10 +12,8 @@ public class Color {
     float blue2;
     String hex1;
     String hex2;
-    float[] hsl1;
-    float[] hsl2;
-
-
+    ArrayList<Float> hsl1;
+    ArrayList<Float> hsl2;
 
     public Color(){
         this.red = 0;
@@ -24,8 +22,13 @@ public class Color {
         this.red2 = 0;
         this.green2 = 0;
         this.blue2 = 0;
-        this.hsl1 = new float[3];
-        this.hsl2 = new float[3];
+        this.hex1 = new String("hex");
+        this.hex2 = new String("hex2");
+        this.hsl1 = new ArrayList<Float>();
+        this.hsl2 = new ArrayList<Float>();
+
+        this.hsl1 = rgb2hsl(red, green, blue);
+        this.hsl2  = rgb2hsl(red2, green2, blue2);
     }
 
     public Color(float r, float g, float b, float r2, float g2, float b2, String hex1, String hex2){
@@ -107,12 +110,12 @@ public class Color {
     }
 
     //do not use this to print the HSL val, it will return classtype@hashcode.
-    public float[] getHsl1() {
+    public ArrayList<Float> getHsl1() {
         return hsl1;
     }
 
     //do not use this to print the HSL val, it will return classtype@hashcode.
-    public float[] getHsl2() {
+    public ArrayList<Float> getHsl2() {
         return hsl2;
     }
 
@@ -127,7 +130,7 @@ public class Color {
         return java.lang.Math.sqrt((((512+rmean)*r*r)>>8) + 4*g*g + (((767-rmean)*b*b)>>8));
     }
 
-    public float[] rgb2hsl(float r, float g, float b) {
+    public ArrayList<Float> rgb2hsl(float r, float g, float b) {
         // Make r, g, and b fractions of 1
         r /= 255;
         g /= 255;
@@ -171,23 +174,23 @@ public class Color {
         s = + Math.round(s * 100);
         l = + Math.round(l * 100);
 
-        float[] ret = {h,s,l};
+        ArrayList<Float> ret = new ArrayList<Float>();
+        ret.add(h);
+        ret.add(s);
+        ret.add(l);
+
         return ret;
     }
-
-
-
-
 
     public String toString(){
 
         String str = new String();
 
         str += "(red, green, blue) -> (" + red + ", " + green + ", " + blue + ")" + "\n" +
-        "(h, s, l) -> (" + hsl1[0] + ", " + hsl1[1] + ", " + hsl1[2] + ")";
+        "(h, s, l) -> (" + hsl1.get(0) + ", " + hsl1.get(1) + ", " + hsl1.get(2) + ")";
 
         str += " accent=(" + red2 + ", " + green2 + ", " + blue2 + ")" + "\n" +
-                "accent=(h, s, l) -> (" + hsl2[0] + ", " + hsl2[1] + ", " + hsl2[2] + ")";
+                "accent=(h, s, l) -> (" + hsl2.get(0) + ", " + hsl2.get(1) + ", " + hsl2.get(2) + ")";
 
         return str;
     }

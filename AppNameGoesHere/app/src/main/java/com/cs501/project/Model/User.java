@@ -4,6 +4,7 @@ public class User {
     private String userId, username;
     private Wardrobe wardrobe;
     private boolean passwordProtected;
+    private User_settings user_settings;
 
     public User(){
         this("default_id", "default_user");
@@ -35,6 +36,7 @@ public class User {
         }
 
         this.passwordProtected = password_protected;
+        this.user_settings = new User_settings();
     }
 
     /* Public methods */
@@ -52,6 +54,15 @@ public class User {
 
     public boolean getPasswordProtected(){
         return this.passwordProtected;
+    }
+
+    public User_settings getUserSettings(){
+        return this.user_settings;
+    }
+    public void setUserSettings(User_settings settings){
+        if(settings != null){
+            this.user_settings = settings;
+        }
     }
 
     public boolean setUserId(String userId){
