@@ -21,7 +21,5 @@ public class settingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.settings, rootKey);
         ListPreference signaturePreference = findPreference("onelayertemp");
-
-
     }
 }
