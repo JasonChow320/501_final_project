@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.cs501.project.Model.Color;
 import com.cs501.project.Model.FireBaseManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         Button toAdd = (Button) findViewById(R.id.button4);
         Button settings = (Button) findViewById(R.id.main_setting_button);
         Button back = (Button) findViewById(R.id.main_back_button);
-
         // if we want to use User's data here
         fb_manager = FireBaseManager.getInstance();
 

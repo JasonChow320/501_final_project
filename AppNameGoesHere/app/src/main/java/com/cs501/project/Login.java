@@ -30,6 +30,7 @@ import android.widget.EditText;
 
 import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.Clothes_Factory;
+import com.cs501.project.Model.Color;
 import com.cs501.project.Model.FireBaseManager;
 import com.cs501.project.Model.Profile;
 import com.cs501.project.Model.RandomString;
@@ -67,6 +68,7 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
 
         // Request for permissions
         ActivityResultLauncher<String[]> locationPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {  });
