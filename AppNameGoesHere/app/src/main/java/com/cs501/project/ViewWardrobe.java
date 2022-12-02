@@ -16,10 +16,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +31,7 @@ import com.cs501.project.Model.FireBaseManager;
 import com.cs501.project.Model.Profile;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +42,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ViewWardrobe extends AppCompatActivity {
@@ -47,15 +52,18 @@ public class ViewWardrobe extends AppCompatActivity {
 
     private ListView lvClothes;     //Reference to the listview GUI component
     MyCustomAdapter lvAdapter;   //Reference to the Adapter used to populate the listview.
+    Spinner clothingChoices;
+    TextView noneThere;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_wardrobe);
 
+        noneThere = (TextView) findViewById(R.id.noClothesAvalible);
+        noneThere.setVisibility(View.GONE);
         // Get FireBaseManager singleton object and initialize ListView for user's wardrobe
         fb_manager = FireBaseManager.getInstance();
-
         // Get account's users
         //fb_manager = FireBaseManager.getInstance();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -94,7 +102,60 @@ public class ViewWardrobe extends AppCompatActivity {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
+
+        //Initialize spinner
+        clothingChoices = (Spinner) findViewById(R.id.spinner2);
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.viewWardrobeSpinner ,android.R.layout.simple_spinner_item);
+        clothingChoices.setAdapter(adapter);
+        clothingChoices.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(getClothes(i).size() == 0) {
+                    if(i == 0){
+                        noneThere.setText("No Clothing available");
+
+                    } else {
+                        noneThere.setText("No Clothing of this type available");
+
+                    }
+                    noneThere.setVisibility(View.VISIBLE);
+                    lvClothes.setAdapter(null);
+                } else {
+                    lvAdapter = new MyCustomAdapter(ViewWardrobe.this, getClothes(i));  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
+                    lvClothes.setAdapter(lvAdapter);
+                    noneThere.setVisibility(View.GONE);
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                lvAdapter = new MyCustomAdapter(ViewWardrobe.this, getClothes(0));  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
+                lvClothes.setAdapter(lvAdapter);
+            }
+        });
     }
+
+    public ArrayList<Clothes> getClothes(Integer type){
+        switch(type){
+            case 1: //T shirt
+                return fb_manager.getUser().getWardrobe().getTShirts();
+            case 2: //Shirt
+                return fb_manager.getUser().getWardrobe().getShirt();
+            case 3: //Shorts
+                return fb_manager.getUser().getWardrobe().getShorts();
+            case 4: //Pants
+                return fb_manager.getUser().getWardrobe().getPants();
+            case 5: //Shoes
+                return fb_manager.getUser().getWardrobe().getShoes();
+            case 6: //Jackets
+                return fb_manager.getUser().getWardrobe().getJackets();
+            default:
+                return fb_manager.getClothes();
+        }
+    };
+
 }
 
 // custom adapter
