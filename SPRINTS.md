@@ -11,10 +11,6 @@
 - [ ] ViewSavedOutfits: Pull saved outfits from DB and display
 - [ ] **Sarsen** | User friendly improvements (QA)
 
-#### Back burner?
-- [ ] ViewSavedOutfits - work on saving outfits into db and list layout
-- [ ] Improve navigation between all activities
-
 ## Sprint 4
 - [x] Automate RadioGroups and RadioButtons for clothing qualities in ConfirmToWardrobe
 - [x] Implement background removal API
