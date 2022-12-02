@@ -78,7 +78,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                     Request request = new Request.Builder()
                             .url("https://api.remove.bg/v1.0/removebg")
                             .method("POST", body)
-                            .addHeader("X-Api-Key", "zpoaX6fjfhptWHCX6Er9A9J9")
+                            .addHeader("X-Api-Key", "N1TFiSGPTByHFzCwitEdMr9i")
                             .build();
                     try {
                         Response response = client.newCall(request).execute();
