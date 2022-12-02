@@ -2,48 +2,34 @@ package com.cs501.project.Model;
 
 import com.cs501.project.GenerateOutfit;
 
+import java.util.ArrayList;
+
 public class Outfit {
-    Clothes[] top;
-    Pants bottom;
-    Shoes shoes;
 
-    public Outfit(){
-        this.top = null;
-        this.bottom = null;
-        this.shoes = null;
+    private ArrayList<String> clothes_uniqueIds;
+
+    public Outfit() {
+        this.clothes_uniqueIds = new ArrayList<String>();
     }
 
-    //Getters
-
-    public Clothes[] getTop() {
-        return top;
+    public ArrayList<String> getOutfit(){
+        return this.clothes_uniqueIds;
     }
 
-    public Pants getBottom() {
-        return bottom;
+    public void setOutfit(ArrayList<String> outfit){
+
+        if(outfit == null){
+            return;
+        }
+        this.clothes_uniqueIds = outfit;
     }
 
-    public Shoes getShoes() {
-        return shoes;
-    }
+    public void addClothesToOutfit(String clothing){
 
+        if(clothing == null){
+            return;
+        }
 
-    //Setters
-
-
-    public void setTop(Clothes[] top) {
-        this.top = top;
-    }
-
-    public void setTopItem(int index, Clothes item) {
-        this.top[index] = item;
-    }
-
-    public void setBottom(Pants bottom) {
-        this.bottom = bottom;
-    }
-
-    public void setShoes(Shoes shoes) {
-        this.shoes = shoes;
+        this.clothes_uniqueIds.add(clothing);
     }
 }
