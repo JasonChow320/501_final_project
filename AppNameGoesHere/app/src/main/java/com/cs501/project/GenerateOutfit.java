@@ -21,6 +21,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.cs501.project.Model.Clothes;
+import com.cs501.project.Model.FireBaseManager;
+import com.cs501.project.Model.Outfit;
+import com.cs501.project.Model.RandomString;
+import com.cs501.project.Model.Wardrobe;
 import com.cs501.project.Model.Weather;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -28,6 +33,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class GenerateOutfit extends AppCompatActivity {
 
@@ -43,6 +51,8 @@ public class GenerateOutfit extends AppCompatActivity {
     private TextView wind;
     private TextView weatherTile;
 
+    private FireBaseManager fb_manager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +63,8 @@ public class GenerateOutfit extends AppCompatActivity {
         clouds = findViewById(R.id.clouds);
         wind = findViewById(R.id.wind);
         weatherTile = findViewById(R.id.weatherTitle);
+
+        fb_manager = FireBaseManager.getInstance();
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -173,6 +185,43 @@ public class GenerateOutfit extends AppCompatActivity {
 
     public void random_outfit(){
 
+        // generate random number
+        Random rand = new Random();
+
+        // generate random outfit
+        Wardrobe wardrobe = fb_manager.getUser().getWardrobe();
+
+        // get clothes
+        ArrayList<Clothes> top = wardrobe.getTShirts();
+        ArrayList<Clothes> mid = wardrobe.getShirt();
+        ArrayList<Clothes> bottom = wardrobe.getShorts();
+
+        int top_arr_size = top.size(), mid_arr_size = mid.size(), bottom_arr_size = bottom.size();
+
+        // generate the outfit
+        Outfit new_outfit = new Outfit();
+        String uniqueId = RandomString.getAlphaNumericString(16);
+        new_outfit.setOutfitUniqueId(uniqueId);
+        new_outfit.setName(uniqueId);
+
+        if(top_arr_size > 0){
+            // Generate random integers in range 0 to 999
+            int rand_int1 = rand.nextInt(1000);
+            new_outfit.addClothesToOutfit(top.get(rand_int1 % top_arr_size).getUniqueId());
+        }
+        if(mid_arr_size > 0){
+            // Generate random integers in range 0 to 999
+            int rand_int2 = rand.nextInt(1000);
+            new_outfit.addClothesToOutfit(mid.get(rand_int2 % mid_arr_size).getUniqueId());
+        }
+        if(bottom_arr_size > 0){
+            // Generate random integers in range 0 to 999
+            int rand_int3 = rand.nextInt(1000);
+            new_outfit.addClothesToOutfit(bottom.get(rand_int3 % bottom_arr_size).getUniqueId());
+        }
+
+        // save to database
+        fb_manager.addOutfit(new_outfit);
     }
     
     public void generateOutfitMonochrome (){
