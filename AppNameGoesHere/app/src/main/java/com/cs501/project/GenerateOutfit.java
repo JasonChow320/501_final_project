@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,7 +76,14 @@ public class GenerateOutfit extends AppCompatActivity {
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION});
 
-
+        // Generate random outfit (for now)
+        Button generate_outfit = (Button) findViewById(R.id.generate_outfit_button);
+        generate_outfit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                random_outfit();
+            }
+        });
     }
 
     //uses latitude and longitude to get current weather
@@ -162,6 +171,10 @@ public class GenerateOutfit extends AppCompatActivity {
     }
 
 
+    public void random_outfit(){
+
+    }
+    
     public void generateOutfitMonochrome (){
 
     }
