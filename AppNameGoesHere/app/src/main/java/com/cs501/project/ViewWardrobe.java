@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -209,6 +210,7 @@ class MyCustomAdapter extends BaseAdapter {
         ImageView image = (ImageView) row.findViewById(R.id.clothes_image);
         View color1 = (View) row.findViewById(R.id.color1);
         View color2 = (View) row.findViewById(R.id.color2);
+        Button edit = (Button) row.findViewById(R.id.edit_button);
         Button delete = (Button) row.findViewById(R.id.delete_button);
         ImageView waterIndicator = (ImageView) row.findViewById(R.id.waterproofIndicator);
 
@@ -216,6 +218,8 @@ class MyCustomAdapter extends BaseAdapter {
 
         if(clothes_view.isWaterResistant()) {
             waterIndicator.setVisibility(View.VISIBLE);
+        } else {
+            waterIndicator.setVisibility(View.INVISIBLE);
         }
 
         // everything we add to view should be in the try catch
@@ -263,6 +267,16 @@ class MyCustomAdapter extends BaseAdapter {
                 FireBaseManager.getInstance().deleteItem(clothes_view.getUniqueId());
                 Toast.makeText(context, "Deleted item " + position + ".",
                         Toast.LENGTH_SHORT).show();
+                //adapter.notifyDataSetChanged();
+            }
+        });
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(context, ConfirmToWardrobe.class);
+                i.putExtra("itemId", clothes_view.getUniqueId());
+                context.startActivity(i);
                 //adapter.notifyDataSetChanged();
             }
         });

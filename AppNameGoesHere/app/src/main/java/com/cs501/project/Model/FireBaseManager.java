@@ -118,6 +118,11 @@ public class FireBaseManager {
         return;
     }
 
+    public void updateEditedClothes() {
+        myRef.child(currentUser.getUid()).setValue(user);
+        return;
+    }
+
     public void deleteItem(String uid) {
         Wardrobe user_wardrobe = user.getUsers().get(user_idx).getWardrobe();
 
