@@ -5,7 +5,7 @@
 - [x] **Jason** | Integrate Settings with Firebase
 - [x] **Sarsen** | ViewWardrobe: Add filtering by type
 - [x] **Michael** | ConfirmToWardrobe: Add waterproof setting and make it look better
-- [ ] **Michael** | ViewWardrobe: Edit button
+- [x] **Michael** | ViewWardrobe: Edit button
 - [ ] **Abdel** | GenerateOutfit: Start generating simple outfits on button click
 - [ ] **Abdel** | GenerateOutfit: Add save button which saves current outfit to database
 - [ ] ViewSavedOutfits: Pull saved outfits from DB and display
