@@ -246,6 +246,13 @@ public class FireBaseManager {
         myRef.child(currentUser.getUid()).setValue(this.user);
     }
 
+    // delete user to firebase
+    public void deleteUser(int user_idx){
+
+        this.user.deleteUser(user_idx);
+        myRef.child(currentUser.getUid()).setValue(this.user);
+    }
+
     public boolean addOutfit(Outfit new_outfit){
 
         if(new_outfit == null){

@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.View;
@@ -30,7 +31,7 @@ public class MakeProfile extends AppCompatActivity {
     // Views for the Activity
     private EditText username, password_text, password_verify_text;
     private Button make_account, back_button;
-    private CheckBox checkbox;
+    private CheckBox checkbox, checkbox_pw_enable;
     private ProgressBar progressBar_make_account;
 
     // To interact with FireBase
@@ -60,10 +61,16 @@ public class MakeProfile extends AppCompatActivity {
         make_account = (Button) findViewById(R.id.make_user_button);
         back_button = (Button) findViewById(R.id.make_account_back_button);
         checkbox = (CheckBox) findViewById(R.id.make_account_checkBox);
+        checkbox_pw_enable = (CheckBox) findViewById(R.id.enable_password_checkbox);
         progressBar_make_account = (ProgressBar) findViewById(R.id.progressBar_make_account);
 
         // Hide Progress Bar
         progressBar_make_account.setVisibility(View.GONE);
+
+        password_text.setEnabled(false);
+        password_text.setInputType(InputType.TYPE_NULL);
+        password_verify_text.setEnabled(false);
+        password_verify_text.setInputType(InputType.TYPE_NULL);
 
         // Set Up Button OnClicks
         make_account.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +95,30 @@ public class MakeProfile extends AppCompatActivity {
                 }else{
                     password_text.setTransformationMethod(new PasswordTransformationMethod());
                     password_verify_text.setTransformationMethod(new PasswordTransformationMethod());
+                }
+            }
+        });
+
+        checkbox_pw_enable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(checkbox_pw_enable.isChecked()){
+                    password_text.setEnabled(true);
+                    password_text.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    password_verify_text.setEnabled(true);
+                    password_verify_text.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    if(checkbox.isChecked()){
+                        password_text.setTransformationMethod(null);
+                        password_verify_text.setTransformationMethod(null);
+                    }else{
+                        password_text.setTransformationMethod(new PasswordTransformationMethod());
+                        password_verify_text.setTransformationMethod(new PasswordTransformationMethod());
+                    }
+                }else{
+                    password_text.setEnabled(false);
+                    password_text.setInputType(InputType.TYPE_NULL);
+                    password_verify_text.setEnabled(false);
+                    password_verify_text.setInputType(InputType.TYPE_NULL);
                 }
             }
         });
@@ -120,6 +151,21 @@ public class MakeProfile extends AppCompatActivity {
 
         User user = new User();
         user.setUsername(username);
+
+        if(checkbox_pw_enable.isChecked()){
+
+            if(verifyPassword()){
+                Toast.makeText(MakeProfile.this, "Unable to make an user profile, password does not match!",
+                        Toast.LENGTH_SHORT).show();
+                this.resetFields();
+                progressBar_make_account.setVisibility(View.GONE);
+                return;
+            }
+
+            user.setPasswordProtected(true);
+            user.setPassword(Hash.md5(password_text.getText().toString()));
+        }
+
         fb_manager.addUser(user);
         this.resetFields();
 
@@ -127,5 +173,15 @@ public class MakeProfile extends AppCompatActivity {
                 Toast.LENGTH_SHORT).show();
         progressBar_make_account.setVisibility(View.GONE);
         finish();
+    }
+
+    private boolean verifyPassword(){
+        String password = password_text.getText().toString(), password_verify = password_verify_text.getText().toString();
+
+        if(password_text.length() <= 0 || !password_text.equals(password_verify)){
+            return false;
+        }
+
+        return true;
     }
 }

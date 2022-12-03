@@ -1,11 +1,15 @@
 package com.cs501.project.Model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class Profile {
     private ArrayList<User> users;
     private String accountEmail;
     private String userId;
+
+    private final static String TAG = "Profile";
 
     public Profile(){
         this(new String(), new String());
@@ -61,6 +65,18 @@ public class Profile {
         }
 
         this.users.add(user);
+        return;
+    }
+
+    public void deleteUser(int user_idx){
+
+        if(user_idx < 0 || user_idx > users.size()){
+            Log.d(TAG, "Can't find user_idx: " + user_idx);
+            return;
+        }
+
+        User user = users.get(user_idx);
+        this.users.remove(user);
         return;
     }
 

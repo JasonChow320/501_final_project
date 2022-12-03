@@ -1,7 +1,7 @@
 package com.cs501.project.Model;
 
 public class User {
-    private String userId, username;
+    private String userId, username, password;
     private Wardrobe wardrobe;
     private boolean passwordProtected;
     private User_settings user_settings;
@@ -17,6 +17,10 @@ public class User {
 
     public User(String userId, String username, Wardrobe wardrobe, boolean password_protected){
 
+        this(userId, username, wardrobe, password_protected, new String());
+    }
+
+    public User(String userId, String username, Wardrobe wardrobe, boolean password_protected, String password){
         if(userId == null){
             this.userId = new String();
         } else {
@@ -37,6 +41,7 @@ public class User {
 
         this.passwordProtected = password_protected;
         this.user_settings = new User_settings();
+        this.password = password;
     }
 
     /* Public methods */
@@ -54,6 +59,19 @@ public class User {
 
     public boolean getPasswordProtected(){
         return this.passwordProtected;
+    }
+
+    public String getPassword(){
+        return this.password;
+    }
+
+    public void setPassword(String password){
+
+        if(password == null || password.length() <= 0){
+            return;
+        }
+
+        this.password = password;
     }
 
     public User_settings getUserSettings(){
