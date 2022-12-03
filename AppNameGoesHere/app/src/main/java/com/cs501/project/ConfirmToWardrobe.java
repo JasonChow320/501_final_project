@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cs501.project.Model.Clothes;
@@ -48,7 +49,7 @@ import okhttp3.Response;
 public class ConfirmToWardrobe extends AppCompatActivity {
 
 //    public static ArrayList<String> images = new ArrayList<>();
-    RadioGroup clothingTypes;
+    RadioGroup clothingTypes, waterproofSetting;
     boolean imageReady = false;
     Color color;
     View mainCol;
@@ -199,6 +200,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         ImageView editItemImage = (ImageView) findViewById(R.id.editItemImage);
         Button confirm = (Button) findViewById(R.id.ConfirmAdd);
         clothingTypes = (RadioGroup) findViewById(R.id.clothingTypes);
+        waterproofSetting = (RadioGroup) findViewById(R.id.waterproof_group);
         mainCol = (View) findViewById(R.id.colorMain);
         accCol = (View) findViewById(R.id.colorAcc);
 
@@ -213,12 +215,18 @@ public class ConfirmToWardrobe extends AppCompatActivity {
             accCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex2()));
         }
 
+        TextView typeLabel = new TextView(getApplicationContext());
+        typeLabel.setText("Choose the type:");
+        clothingTypes.addView(typeLabel, 0);
+
         String[] types = Clothes.getTypes(Clothes.Type.class);
         for (int i = 0; i < types.length; i++) {
             RadioButton current = new RadioButton(this);
             current.setText(types[i]);
-            clothingTypes.addView(current, i);
+            clothingTypes.addView(current, i+1);
         }
+
+        clothingTypes.check(clothingTypes.getChildAt(1).getId());
 
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,9 +236,11 @@ public class ConfirmToWardrobe extends AppCompatActivity {
 
                 // get selected radio button from radioGroup
                 int selectedId = clothingTypes.getCheckedRadioButtonId();
+                int selectedWater = waterproofSetting.getCheckedRadioButtonId();
 
                 // find the radiobutton by returned id
                 RadioButton radio_button = (RadioButton) findViewById(selectedId);
+                RadioButton waterproofButton = (RadioButton) findViewById(selectedWater);
                 Log.d(TAG, (String) radio_button.getText());
 
                 Clothes new_clothes = getClothes(String.valueOf(radio_button.getText()));
@@ -244,6 +254,11 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                 picRef.putFile(Uri.fromFile(new File(fileNames.get(0))));
                 System.out.println("IMAGE ADDED TO DB");
 
+                if(waterproofButton.getText().equals("Yes")) {
+                    new_clothes.setWaterResistant(true);
+                } else {
+                    new_clothes.setWaterResistant(false);
+                }
                 new_clothes.setImageURL(newName);
                 new_clothes.setColor(color);
 
