@@ -12,6 +12,8 @@ public class Wardrobe {
     ArrayList<Clothes> clothes;
     ArrayList<Outfit> outfits;
 
+    private final static String TAG = "Wardrobe";
+
     public Wardrobe(){
         this.clothes = new ArrayList<Clothes>();
         this.outfits = new ArrayList<Outfit>();
@@ -63,6 +65,26 @@ public class Wardrobe {
 
         // we're okay with returning null
         return clothes_return;
+    }
+
+    @Exclude
+    public boolean addOutfitToWardRobe(Outfit outfit){
+
+        if(outfit == null){
+            return false;
+        }
+
+        // check for duplicate
+        for(Outfit o : this.outfits){
+            if(o.compareTo(outfit) == 0){
+                Log.d(TAG, "Duplicate outfit found");
+                return false;
+            }
+        }
+
+        this.outfits.add(outfit);
+
+        return true;
     }
 
     public ArrayList<Clothes> getClothes(){

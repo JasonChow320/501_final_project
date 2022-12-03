@@ -200,6 +200,9 @@ public class FireBaseManager {
     public void updateOneLayerTemp(int temp){
 
         User user = this.getUser();
+        if(user == null){
+            return;
+        }
         User_settings settings = user.getUserSettings();
         settings.setOneLayerTemp(temp);
 
@@ -209,6 +212,10 @@ public class FireBaseManager {
     public void updateThreeLayerTemp(int temp){
 
         User user = this.getUser();
+        if(user == null){
+            return;
+        }
+
         User_settings settings = user.getUserSettings();
         settings.setThreeLayerTemp(temp);
 
@@ -237,5 +244,29 @@ public class FireBaseManager {
 
         this.user.addUser(user);
         myRef.child(currentUser.getUid()).setValue(this.user);
+    }
+
+    public boolean addOutfit(Outfit new_outfit){
+
+        if(new_outfit == null){
+            return false;
+        }
+
+        User user = this.getUser();
+        if(user == null){
+            return false;
+        }
+
+        Wardrobe wardrobe = user.getWardrobe();
+
+        // check if we have a duplicate
+        if(!wardrobe.addOutfitToWardRobe(new_outfit)){
+            // got duplicate
+            return false;
+        }
+
+        // save to database
+        myRef.child(currentUser.getUid()).setValue(this.user);
+        return true;
     }
 }
