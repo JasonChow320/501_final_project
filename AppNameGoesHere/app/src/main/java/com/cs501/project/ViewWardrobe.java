@@ -210,8 +210,13 @@ class MyCustomAdapter extends BaseAdapter {
         View color1 = (View) row.findViewById(R.id.color1);
         View color2 = (View) row.findViewById(R.id.color2);
         Button delete = (Button) row.findViewById(R.id.delete_button);
+        ImageView waterIndicator = (ImageView) row.findViewById(R.id.waterproofIndicator);
 
         Clothes clothes_view = clothes.get(position);
+
+        if(clothes_view.isWaterResistant()) {
+            waterIndicator.setVisibility(View.VISIBLE);
+        }
 
         // everything we add to view should be in the try catch
         try {

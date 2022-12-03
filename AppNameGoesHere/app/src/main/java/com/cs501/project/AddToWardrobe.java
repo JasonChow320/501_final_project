@@ -97,6 +97,8 @@ public class AddToWardrobe extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                imageCapture.setFlashMode(ImageCapture.FLASH_MODE_ON);
+
                 imageCapture.takePicture(Executors.newSingleThreadExecutor(), new ImageCapture.OnImageCapturedCallback() {
                     @Override
                     public void onCaptureSuccess(@NonNull ImageProxy image) {
@@ -228,6 +230,10 @@ public class AddToWardrobe extends AppCompatActivity {
         preview.setSurfaceProvider(previewView.getSurfaceProvider());
 
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, imageCapture, preview);
+
+//        if ( camera.getCameraInfo().hasFlashUnit() ) {
+//            camera.getCameraControl().enableTorch(true); // or false
+//        }
     }
 
     //https://stackoverflow.com/questions/56772967/converting-imageproxy-to-bitmap
