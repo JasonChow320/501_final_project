@@ -2,16 +2,22 @@ package com.cs501.project;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +35,11 @@ import com.cs501.project.Model.Wardrobe;
 import com.cs501.project.Model.Weather;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,6 +60,7 @@ public class GenerateOutfit extends AppCompatActivity {
     private TextView clouds;
     private TextView wind;
     private TextView weatherTile;
+    private LinearLayout outfitLayout;
 
     private FireBaseManager fb_manager;
 
@@ -63,6 +74,7 @@ public class GenerateOutfit extends AppCompatActivity {
         clouds = findViewById(R.id.clouds);
         wind = findViewById(R.id.wind);
         weatherTile = findViewById(R.id.weatherTitle);
+        outfitLayout = findViewById(R.id.outfit_layout);
 
         fb_manager = FireBaseManager.getInstance();
 
@@ -93,7 +105,8 @@ public class GenerateOutfit extends AppCompatActivity {
         generate_outfit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                random_outfit();
+                Outfit new_outfit = random_outfit();
+                displayOutfit(new_outfit);
             }
         });
     }
@@ -183,7 +196,7 @@ public class GenerateOutfit extends AppCompatActivity {
     }
 
 
-    public void random_outfit(){
+    public Outfit random_outfit(){
 
         // generate random number
         Random rand = new Random();
@@ -222,6 +235,34 @@ public class GenerateOutfit extends AppCompatActivity {
 
         // save to database
         fb_manager.addOutfit(new_outfit);
+
+        return new_outfit;
+    }
+
+    public void displayOutfit(Outfit outfit) {
+        outfitLayout.removeAllViews();
+        outfitLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.outfit_view_border));
+        ArrayList<String> ids = outfit.getOutfit();
+        for(String id: ids) {
+            ImageView img = new ImageView(this);
+            img.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+
+            StorageReference pathReference = FirebaseStorage.getInstance().getReference();
+            pathReference.child(fb_manager.getUser().getWardrobe().getClothesByUid(id).getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+                @Override
+                public void onComplete(@NonNull Task<byte[]> task) {
+                    try{
+                        byte[] bytes = task.getResult();
+                        Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        img.setImageBitmap(b);
+                    } catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "Unable to parse image for the clothing. Please try again",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            outfitLayout.addView(img);
+        }
     }
     
     public void generateOutfitMonochrome (){
