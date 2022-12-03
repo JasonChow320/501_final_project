@@ -1,5 +1,6 @@
 package com.cs501.project;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,12 +15,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.Clothes_Factory;
 import com.cs501.project.Model.Color;
 import com.cs501.project.Model.FireBaseManager;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,7 +52,7 @@ import okhttp3.Response;
 public class ConfirmToWardrobe extends AppCompatActivity {
 
 //    public static ArrayList<String> images = new ArrayList<>();
-    RadioGroup clothingTypes;
+    RadioGroup clothingTypes, waterproofSetting;
     boolean imageReady = false;
     Color color;
     View mainCol;
@@ -78,7 +82,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                     Request request = new Request.Builder()
                             .url("https://api.remove.bg/v1.0/removebg")
                             .method("POST", body)
-                            .addHeader("X-Api-Key", "zpoaX6fjfhptWHCX6Er9A9J9")
+                            .addHeader("X-Api-Key", "N1TFiSGPTByHFzCwitEdMr9i")
                             .build();
                     try {
                         Response response = client.newCall(request).execute();
@@ -195,78 +199,150 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         
         clothes_factory = new Clothes_Factory();
         fb_manager = FireBaseManager.getInstance();
+        boolean edit = false;
+        Clothes oldClothes = null;
 
         ImageView editItemImage = (ImageView) findViewById(R.id.editItemImage);
         Button confirm = (Button) findViewById(R.id.ConfirmAdd);
         clothingTypes = (RadioGroup) findViewById(R.id.clothingTypes);
+        waterproofSetting = (RadioGroup) findViewById(R.id.waterproof_group);
         mainCol = (View) findViewById(R.id.colorMain);
         accCol = (View) findViewById(R.id.colorAcc);
 
         ArrayList<String> fileNames = getIntent().getStringArrayListExtra("fileNames");
-        System.out.println(fileNames.size() + " submitted");
+        String itemId = getIntent().getStringExtra("itemId");
 
-        rmBackground(fileNames.get(0));
-        color = extractColor(fileNames.get(0));
+        if(fileNames != null) { // IF PHOTOS ARE BEING SUBMITTED FROM ADDTOWARDROBE
+            edit = false;
+            System.out.println(fileNames.size() + " submitted");
+            rmBackground(fileNames.get(0));
+            color = extractColor(fileNames.get(0));
 
-        if(color != null){
-            mainCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex1()));
-            accCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex2()));
+            if(color != null){
+                mainCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex1()));
+                accCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex2()));
+            }
+        } else { //IF PHOTO IS BEING SUBMITTED FOR EDIT
+            edit = true;
+            oldClothes = fb_manager.getUser().getWardrobe().getClothesByUid(itemId);
+            System.out.println(itemId + " submitted for EDIT");
+
+            StorageReference pathReference = FirebaseStorage.getInstance().getReference();
+
+            Clothes finalOldClothes = oldClothes;
+            pathReference.child(oldClothes.getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+                @Override
+                public void onComplete(@NonNull Task<byte[]> task) {
+                    try{
+                        byte[] bytes = task.getResult();
+                        Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        editItemImage.setImageBitmap(b);
+                        if(finalOldClothes.getColor() != null){
+                            mainCol.setBackgroundColor(android.graphics.Color.parseColor(finalOldClothes.getColor().getHex1()));
+                            accCol.setBackgroundColor(android.graphics.Color.parseColor(finalOldClothes.getColor().getHex2()));
+                        }
+                    } catch (Exception e){
+                        Toast.makeText(getApplicationContext(), "Unable to parse image",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
         }
+
+        TextView typeLabel = new TextView(getApplicationContext());
+        typeLabel.setText("Choose the type:");
+        clothingTypes.addView(typeLabel, 0);
 
         String[] types = Clothes.getTypes(Clothes.Type.class);
         for (int i = 0; i < types.length; i++) {
             RadioButton current = new RadioButton(this);
             current.setText(types[i]);
-            clothingTypes.addView(current, i);
+            clothingTypes.addView(current, i+1);
+            if(edit && types[i].equals(oldClothes.getType().toString())) {
+                clothingTypes.check(clothingTypes.getChildAt(i+1).getId());
+            }
         }
 
+        if(!edit) {
+            clothingTypes.check(clothingTypes.getChildAt(1).getId());
+        } else {
+            if(oldClothes.isWaterResistant()) {
+                waterproofSetting.check(waterproofSetting.getChildAt(2).getId());
+            }
+        }
+
+
+        boolean finalEdit = edit;
+        Clothes finalOldClothes1 = oldClothes;
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //1. Add submission to database TODO
-
-                // get selected radio button from radioGroup
                 int selectedId = clothingTypes.getCheckedRadioButtonId();
+                int selectedWater = waterproofSetting.getCheckedRadioButtonId();
 
                 // find the radiobutton by returned id
                 RadioButton radio_button = (RadioButton) findViewById(selectedId);
+                RadioButton waterproofButton = (RadioButton) findViewById(selectedWater);
                 Log.d(TAG, (String) radio_button.getText());
 
-                Clothes new_clothes = getClothes(String.valueOf(radio_button.getText()));
+                if(finalEdit) { //IF EDIT
 
-                storage = FirebaseStorage.getInstance();
-                storageRef = storage.getReference();
+                    finalOldClothes1.setType(Clothes.Type.valueOf(radio_button.getText().toString()));
 
-                String[] spl = fileNames.get(0).split("/");
-                String newName=spl[spl.length-1].split("\\.")[0] + ".png";
-                StorageReference picRef = storageRef.child(newName);
-                picRef.putFile(Uri.fromFile(new File(fileNames.get(0))));
-                System.out.println("IMAGE ADDED TO DB");
+                    if (waterproofButton.getText().equals("Yes")) { //Update water resistance with new val
+                        finalOldClothes1.setWaterResistant(true);
+                    } else {
+                        finalOldClothes1.setWaterResistant(false);
+                    }
+                    System.out.println(finalOldClothes1.toString());
+                    fb_manager.updateEditedClothes();
 
-                new_clothes.setImageURL(newName);
-                new_clothes.setColor(color);
-
-                if(new_clothes == null){
-                    // TODO ERROR! do something
-                    return;
-                }
-
-                // Add to database
-                fb_manager.addClothes(new_clothes);
-
-                //2. Remove 1st item of arraylist and refresh activity with new list
-                //3. At end of list return to menu.
-                //Question: How can we reuse this Activity for editing clothes items?
-
-                fileNames.remove(0);
-                if (fileNames.size() > 0) {
-                    Intent i = new Intent(ConfirmToWardrobe.this, ConfirmToWardrobe.class);
-                    i.putExtra("fileNames", fileNames);
                     finish();
-                    startActivity(i);
-                } else {
-                    finish();
+                } else { //IF ADDING NEW CLOTHES ITEM
+                    //1. Add submission to database TODO
+
+                    Clothes new_clothes = getClothes(String.valueOf(radio_button.getText()));
+
+                    storage = FirebaseStorage.getInstance();
+                    storageRef = storage.getReference();
+
+                    String[] spl = fileNames.get(0).split("/");
+                    String newName = spl[spl.length - 1].split("\\.")[0] + ".png";
+                    StorageReference picRef = storageRef.child(newName);
+                    picRef.putFile(Uri.fromFile(new File(fileNames.get(0))));
+                    System.out.println("IMAGE ADDED TO DB");
+
+                    if (waterproofButton.getText().equals("Yes")) {
+                        new_clothes.setWaterResistant(true);
+                    } else {
+                        new_clothes.setWaterResistant(false);
+                    }
+                    new_clothes.setImageURL(newName);
+                    new_clothes.setColor(color);
+
+                    if (new_clothes == null) {
+                        // TODO ERROR! do something
+                        return;
+                    }
+
+                    // Add to database
+                    fb_manager.addClothes(new_clothes);
+
+                    //2. Remove 1st item of arraylist and refresh activity with new list
+                    //3. At end of list return to menu.
+                    //Question: How can we reuse this Activity for editing clothes items?
+
+                    fileNames.remove(0);
+                    if (fileNames.size() > 0) {
+                        Intent i = new Intent(ConfirmToWardrobe.this, ConfirmToWardrobe.class);
+                        i.putExtra("fileNames", fileNames);
+                        finish();
+                        startActivity(i);
+                    } else {
+                        finish();
+                    }
                 }
             }
         });

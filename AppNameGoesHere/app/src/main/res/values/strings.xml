@@ -57,6 +57,16 @@
         <item>80</item>
     </string-array>
 
+    <string-array name="viewWardrobeSpinner">
+        <item name="all">all</item>
+        <item name="t_shirt">t_shirt</item>
+        <item name="shirt">shirt</item>
+        <item name="shorts">shorts</item>
+        <item name="pants">pants</item>
+        <item name="shoes">shoes</item>
+        <item name="jacket">jacket</item>
+    </string-array>
+
     <string name="insert_email_here">Insert Email Here</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
@@ -68,5 +78,9 @@
     <string name="password_again_verify">Password Again (Verify)</string>
     <string name="back">Back</string>
     <string name="title_activity_make_profile">MakeProfile</string>
+    <string name="Choose_Clothing_type">Choose Clothing Type</string>
+    <string name="none_available_all">No Clothing available</string>
+    <string name="none_available">No Clothing of this type available</string>
+
 
 </resources>
