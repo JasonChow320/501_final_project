@@ -289,6 +289,8 @@ public class ConfirmToWardrobe extends AppCompatActivity {
 
                 if(finalEdit) { //IF EDIT
 
+                    finalOldClothes1.setType(Clothes.Type.valueOf(radio_button.getText().toString()));
+
                     if (waterproofButton.getText().equals("Yes")) { //Update water resistance with new val
                         finalOldClothes1.setWaterResistant(true);
                     } else {
