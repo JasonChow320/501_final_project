@@ -48,6 +48,7 @@ public class AddToWardrobe extends AppCompatActivity {
     private FrameLayout container;
     private ImageView imageView;
     private ArrayList<String> fileNames;
+    private boolean camReady = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,22 +98,26 @@ public class AddToWardrobe extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                imageCapture.setFlashMode(ImageCapture.FLASH_MODE_ON);
+                if(camReady) {
+                    takePhoto.setEnabled(false);
 
-                imageCapture.takePicture(Executors.newSingleThreadExecutor(), new ImageCapture.OnImageCapturedCallback() {
-                    @Override
-                    public void onCaptureSuccess(@NonNull ImageProxy image) {
-                        super.onCaptureSuccess(image);
-                        System.out.println("SUCCESS");
-                        photoTaken(image);
-                    }
+                    imageCapture.setFlashMode(ImageCapture.FLASH_MODE_ON);
 
-                    @Override
-                    public void onError(@NonNull ImageCaptureException exception) {
-                        super.onError(exception);
-                        System.out.println("ERROR: " +exception);
-                    }
-                });
+                    imageCapture.takePicture(Executors.newSingleThreadExecutor(), new ImageCapture.OnImageCapturedCallback() {
+                        @Override
+                        public void onCaptureSuccess(@NonNull ImageProxy image) {
+                            super.onCaptureSuccess(image);
+                            System.out.println("SUCCESS");
+                            photoTaken(image);
+                        }
+
+                        @Override
+                        public void onError(@NonNull ImageCaptureException exception) {
+                            super.onError(exception);
+                            System.out.println("ERROR: " + exception);
+                        }
+                    });
+                }
             }
         });
 
@@ -134,6 +139,8 @@ public class AddToWardrobe extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //send to new activity with image information (or stack of images) in intent
+
+                confirm.setEnabled(false);
                 try {
 //                    ConfirmToWardrobe.images = images;
                     Intent i = new Intent(AddToWardrobe.this, ConfirmToWardrobe.class);
@@ -195,6 +202,7 @@ public class AddToWardrobe extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                takePhoto.setEnabled(true);
                 if(!another) {
                     //add current photo to some stack which will be send to next activity
                     File file = new File(fileNames.get(fileNames.size() -1));
@@ -231,6 +239,7 @@ public class AddToWardrobe extends AppCompatActivity {
 
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, imageCapture, preview);
 
+        camReady = true;
 //        if ( camera.getCameraInfo().hasFlashUnit() ) {
 //            camera.getCameraControl().enableTorch(true); // or false
 //        }
