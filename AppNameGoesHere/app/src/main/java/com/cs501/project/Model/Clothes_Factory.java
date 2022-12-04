@@ -22,7 +22,7 @@ public class Clothes_Factory {
         return new T_shirt();
     }
 
-    public Shirt get_shirt(){
+    public Shirt get_long_sleeve(){
         return new Shirt();
     }
 
@@ -38,11 +38,15 @@ public class Clothes_Factory {
         return new Shorts();
     }
 
-    public Jacket get_jacket(){
-        return new Jacket();
+    public LightJacket get_light_jacket(){
+        return new LightJacket();
     }
 
     public HeavyJacket get_heavyjacket(){
         return new HeavyJacket();
+    }
+
+    public Sweater get_sweater(){
+        return new Sweater();
     }
 }

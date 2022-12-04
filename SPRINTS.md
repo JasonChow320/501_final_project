@@ -6,10 +6,13 @@
 - [x] **Sarsen** | ViewWardrobe: Add filtering by type
 - [x] **Michael** | ConfirmToWardrobe: Add waterproof setting and make it look better
 - [x] **Michael** | ViewWardrobe: Edit button
-- [ ] **Abdel** | GenerateOutfit: Start generating simple outfits on button click
-- [ ] **Abdel** | GenerateOutfit: Add save button which saves current outfit to database
-- [ ] ViewSavedOutfits: Pull saved outfits from DB and display
-- [ ] **Sarsen** | User friendly improvements (QA)
+- [x] **Abdel** | GenerateOutfit: Start generating simple outfits on button click
+- [x] **Sarsen** | User friendly improvements (QA)
+- [ ] **Jason** | ViewSavedOutfits: Pull saved outfits from DB and display
+- [ ] **Michael** | Generating multiple outfits and Add save button which saves current outfit to database
+- [x] **Jason** | Rename classes and make a couple new ones (Sweater, Heavy_jacket)
+- [ ] **Whoever wants to work on it** | Fine tune monochrome algorithm and layering system
+- [ ] **Sarsen** | Add settings to change Flash (AddToWardrobe:104) and primary color (themes.xml)
 
 ## Sprint 4
 - [x] Automate RadioGroups and RadioButtons for clothing qualities in ConfirmToWardrobe

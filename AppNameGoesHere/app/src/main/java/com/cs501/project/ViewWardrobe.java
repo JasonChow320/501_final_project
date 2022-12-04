@@ -143,15 +143,15 @@ public class ViewWardrobe extends AppCompatActivity {
             case 1: //T shirt
                 return fb_manager.getUser().getWardrobe().getTShirts();
             case 2: //Shirt
-                return fb_manager.getUser().getWardrobe().getShirt();
+                return fb_manager.getUser().getWardrobe().getLongSleeve();
             case 3: //Shorts
                 return fb_manager.getUser().getWardrobe().getShorts();
             case 4: //Pants
                 return fb_manager.getUser().getWardrobe().getPants();
             case 5: //Shoes
                 return fb_manager.getUser().getWardrobe().getShoes();
-            case 6: //Jackets
-                return fb_manager.getUser().getWardrobe().getJackets();
+            case 6: //LightJackets
+                return fb_manager.getUser().getWardrobe().getLightJackets();
             case 7: //Heavy Jackets
                 return fb_manager.getUser().getWardrobe().getHeavyJackets();
             default:

@@ -77,11 +77,6 @@ public class GenerateOutfit extends AppCompatActivity {
 
     private FireBaseManager fb_manager;
 
-
-    // Initialize our firebase manager
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,10 +90,6 @@ public class GenerateOutfit extends AppCompatActivity {
         outfitLayout = findViewById(R.id.outfit_layout);
 
         fb_manager = FireBaseManager.getInstance();
-
-        fb_manager = FireBaseManager.getInstance();
-
-
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -129,6 +120,15 @@ public class GenerateOutfit extends AppCompatActivity {
             public void onClick(View view) {
 //                Outfit new_outfit = random_outfit();
                 Outfit new_outfit = generateOutfitMonochrome();
+                displayOutfit(new_outfit);
+            }
+        });
+
+        Button random_outfit_button = (Button) findViewById(R.id.random_outfit_button);
+        random_outfit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Outfit new_outfit = random_outfit();
                 displayOutfit(new_outfit);
             }
         });
@@ -184,12 +184,9 @@ public class GenerateOutfit extends AppCompatActivity {
         });
 
         mRequestQueue.add(mStringRequest);
-
     }
 
-
     public void getLocation() {
-
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -228,7 +225,7 @@ public class GenerateOutfit extends AppCompatActivity {
 
         // get clothes
         ArrayList<Clothes> top = wardrobe.getTShirts();
-        ArrayList<Clothes> mid = wardrobe.getShirt();
+        ArrayList<Clothes> mid = wardrobe.getLongSleeve();
         ArrayList<Clothes> bottom = wardrobe.getShorts();
 
         int top_arr_size = top.size(), mid_arr_size = mid.size(), bottom_arr_size = bottom.size();
@@ -353,7 +350,7 @@ public class GenerateOutfit extends AppCompatActivity {
                 // REMEMBER: only add types that fit into bottom
                 if (layers == 1 ){
                     for (Clothes item: wardrobe){
-                        if ( (item.getType() == Clothes.Type.pants || item.getType() == Clothes.Type.shorts) && colorMatch(baseCol, item.getColor())){ //if the layer is 1, use shorts or pants that color match
+                        if ( (item.getType() == Clothes.Type.PANTS || item.getType() == Clothes.Type.SHORTS) && colorMatch(baseCol, item.getColor())){ //if the layer is 1, use shorts or pants that color match
                             bottom = item;
                             break;
                         }
@@ -361,7 +358,7 @@ public class GenerateOutfit extends AppCompatActivity {
                 }
                 else{
                     for (Clothes item: wardrobe){
-                        if ( item.getType() == Clothes.Type.pants  && colorMatch(baseCol, item.getColor())){ //if the layer is NOT 1, use only pants that color match
+                        if ( item.getType() == Clothes.Type.PANTS  && colorMatch(baseCol, item.getColor())){ //if the layer is NOT 1, use only pants that color match
                             bottom = item;
                             break;
                         }
@@ -395,7 +392,7 @@ public class GenerateOutfit extends AppCompatActivity {
 
         for (int j = 0; j < wardrobe.size(); j++){
             //check the item is shoes and color match
-            if ( wardrobe.get(j).getType() == Clothes.Type.shoes && colorMatch(baseCol, wardrobe.get(j).getColor())){ // if the current item's type has not been added yet, and it color matches, add it
+            if ( wardrobe.get(j).getType() == Clothes.Type.SHOES && colorMatch(baseCol, wardrobe.get(j).getColor())){ // if the current item's type has not been added yet, and it color matches, add it
                 shoes = wardrobe.get(j);
                 break;
             }
@@ -419,20 +416,18 @@ public class GenerateOutfit extends AppCompatActivity {
     public ArrayList<Clothes.Type>validItemsForLayer (int layer){
         ArrayList<Clothes.Type> arr = new ArrayList<>() ;
 
-
-
         if(layer == 1){
-            arr.add(Clothes.Type.t_shirt);
-            arr.add(Clothes.Type.shirt);
+            arr.add(Clothes.Type.T_SHIRT);
+            arr.add(Clothes.Type.LONG_SLEEVE);
         }
         else if (layer ==2){
-            arr.add(Clothes.Type.shirt);
-            arr.add(Clothes.Type.jacket);
-            arr.add(Clothes.Type.heavy_jacket);
+            arr.add(Clothes.Type.LONG_SLEEVE);
+            arr.add(Clothes.Type.LIGHT_JACKET);
+            arr.add(Clothes.Type.HEAVY_JACKET);
         }
         else{
-            arr.add(Clothes.Type.jacket);
-            arr.add(Clothes.Type.heavy_jacket);
+            arr.add(Clothes.Type.LIGHT_JACKET);
+            arr.add(Clothes.Type.HEAVY_JACKET);
         }
 
         return arr;
@@ -485,5 +480,4 @@ public class GenerateOutfit extends AppCompatActivity {
         long b = (long)e1.getBlue() - (long)e2.getBlue();
         return java.lang.Math.sqrt((((512+rmean)*r*r)>>8) + 4*g*g + (((767-rmean)*b*b)>>8));
     }
-
 }
