@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -267,12 +268,18 @@ public class GenerateOutfit extends AppCompatActivity {
     }
 
     public void displayOutfit(Outfit outfit) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        System.out.println(height);
+
         outfitLayout.removeAllViews();
         outfitLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.outfit_view_border));
         ArrayList<String> ids = outfit.getOutfit();
+        int number = ids.size();
         for(String id: ids) {
             ImageView img = new ImageView(this);
-            img.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            img.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, height/number));
 
             StorageReference pathReference = FirebaseStorage.getInstance().getReference();
             pathReference.child(fb_manager.getUser().getWardrobe().getClothesByUid(id).getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {

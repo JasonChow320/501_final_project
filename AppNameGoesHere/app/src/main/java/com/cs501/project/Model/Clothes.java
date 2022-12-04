@@ -16,6 +16,7 @@ public class Clothes {
         pants,
         shoes,
         jacket,
+        heavy_jacket
     }
 
     // public members
