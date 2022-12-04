@@ -42,7 +42,7 @@ public class Clothes_Factory {
         return new LightJacket();
     }
 
-    public Jacket get_heavyjacket(){
-        return new Jacket();
+    public HeavyJacket get_heavyjacket(){
+        return new HeavyJacket();
     }
 }
