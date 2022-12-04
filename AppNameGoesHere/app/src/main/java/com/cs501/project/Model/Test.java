@@ -26,7 +26,7 @@ public class Test {
         System.out.println(pants);
 
         // test shirt class
-        Shirt shirt = factory.get_shirt();
+        Shirt shirt = factory.get_long_sleeve();
         System.out.println(shirt);
 
         // test tshirt class

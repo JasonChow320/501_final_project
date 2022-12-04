@@ -22,7 +22,7 @@ public class Clothes_Factory {
         return new T_shirt();
     }
 
-    public Shirt get_shirt(){
+    public Shirt get_long_sleeve(){
         return new Shirt();
     }
 

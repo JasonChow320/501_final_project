@@ -359,16 +359,18 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                 case T_SHIRT:
                     return clothes_factory.get_tshirt();
                 case LONG_SLEEVE:
-                    return clothes_factory.get_shirt();
+                    return clothes_factory.get_long_sleeve();
                 case SHOES:
                     return clothes_factory.get_shoes();
                 case PANTS:
                     return clothes_factory.get_pants();
                 case SHORTS:
                     return clothes_factory.get_shorts();
+                case SWEATER:
+                    return clothes_factory.get_sweater();
                 default:
                     // should never get to this point unless we add now types
-                    return clothes_factory.get_shirt();
+                    return clothes_factory.get_long_sleeve();
             }
         } catch (IllegalArgumentException e){
             // shouldn't happen since we create the radio button text using the enum list
