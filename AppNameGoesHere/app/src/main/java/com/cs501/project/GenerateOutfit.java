@@ -243,7 +243,7 @@ public class GenerateOutfit extends AppCompatActivity {
         ArrayList<String> ids = outfit.getOutfit();
         for(String id: ids) {
             ImageView img = new ImageView(this);
-            img.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            img.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
             StorageReference pathReference = FirebaseStorage.getInstance().getReference();
             pathReference.child(fb_manager.getUser().getWardrobe().getClothesByUid(id).getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
