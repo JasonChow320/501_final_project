@@ -239,6 +239,11 @@ public class FireBaseManager {
         return; // thx Android Studio
     }
 
+    // api to update the database
+    public void update(){
+        myRef.child(currentUser.getUid()).setValue(this.user);
+    }
+
     // add user to firebase
     public void addUser(User user){
 

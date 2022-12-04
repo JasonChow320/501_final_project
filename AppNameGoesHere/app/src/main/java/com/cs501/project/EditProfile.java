@@ -1,12 +1,10 @@
 package com.cs501.project;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -15,38 +13,33 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cs501.project.Model.FireBaseManager;
-import com.cs501.project.Model.Profile;
-import com.cs501.project.Model.RandomString;
 import com.cs501.project.Model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class MakeProfile extends AppCompatActivity {
+public class EditProfile extends AppCompatActivity {
 
     // Views for the Activity
     private EditText username, password_text, password_verify_text;
-    private Button make_account, back_button;
+    private Button edit_account, back_button;
     private CheckBox checkbox, checkbox_pw_enable;
-    private ProgressBar progressBar_make_account;
 
     // To interact with FireBase
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
 
+    private User user;
+
     FireBaseManager fb_manager;
 
-    private final static String TAG = "MakeProfileActivity";
+    private final static String TAG = "EditProfileActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_make_profile);
+        setContentView(R.layout.activity_edit_profile);
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -54,18 +47,16 @@ public class MakeProfile extends AppCompatActivity {
         // get firebase manager
         fb_manager = FireBaseManager.getInstance();
 
-        // Initialize Views
-        username = (EditText) findViewById(R.id.editTextUsernameMakeAccount);
-        password_text = (EditText) findViewById(R.id.editTextPasswordMakeAccount);
-        password_verify_text = (EditText) findViewById(R.id.editTextPasswordVerifyMakeAccount);
-        make_account = (Button) findViewById(R.id.make_user_button);
-        back_button = (Button) findViewById(R.id.make_account_back_button);
-        checkbox = (CheckBox) findViewById(R.id.make_account_checkBox);
-        checkbox_pw_enable = (CheckBox) findViewById(R.id.enable_password_checkbox);
-        progressBar_make_account = (ProgressBar) findViewById(R.id.progressBar_make_account);
+        this.user = fb_manager.getUser();
 
-        // Hide Progress Bar
-        progressBar_make_account.setVisibility(View.GONE);
+        // Initialize Views
+        username = (EditText) findViewById(R.id.editTextUsernameEditProfile);
+        password_text = (EditText) findViewById(R.id.editTextPasswordEditProfile);
+        password_verify_text = (EditText) findViewById(R.id.editTextPasswordVerifyEditProfile);
+        edit_account = (Button) findViewById(R.id.edit_confirm_button);
+        back_button = (Button) findViewById(R.id.edit_back_button);
+        checkbox = (CheckBox) findViewById(R.id.edit_profile_checkBox);
+        checkbox_pw_enable = (CheckBox) findViewById(R.id.enable_password_edit_checkbox);
 
         password_text.setEnabled(false);
         password_text.setInputType(InputType.TYPE_NULL);
@@ -73,16 +64,13 @@ public class MakeProfile extends AppCompatActivity {
         password_verify_text.setInputType(InputType.TYPE_NULL);
 
         // Set Up Button OnClicks
-        make_account.setOnClickListener(new View.OnClickListener() {
+        edit_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                // make account
-                progressBar_make_account.setVisibility(View.VISIBLE);
-
                 // currently we're only adding username
                 // TODO allow password
-                make_account(username.getText().toString());
+                edit_account(username.getText().toString());
             }
         });
 
@@ -133,33 +121,34 @@ public class MakeProfile extends AppCompatActivity {
     }
 
     private void resetFields(){
-        this.username.setText("");
+
+        this.username.setText(this.user.getUsername());
         this.password_text.setText("");
         this.password_verify_text.setText("");
     }
 
     // private method to make account
-    private void make_account(String username){
+    private void edit_account(String username){
 
         if(username == null || username.length() <= 0){
 
             // ERROR
-            Toast.makeText(MakeProfile.this, "Unable to parse username fields. Please try again",
+            Toast.makeText(EditProfile.this, "Unable to parse username fields. Please try again",
                     Toast.LENGTH_SHORT).show();
             this.resetFields();
             return;
         }
 
-        User user = new User();
+        User user = fb_manager.getUser();
         user.setUsername(username);
+        user.setPasswordProtected(false);
 
         if(checkbox_pw_enable.isChecked()){
 
             if(verifyPassword()){
-                Toast.makeText(MakeProfile.this, "Unable to make an user profile, password does not match!",
+                Toast.makeText(EditProfile.this, "Unable to make an user profile, password does not match!",
                         Toast.LENGTH_SHORT).show();
                 this.resetFields();
-                progressBar_make_account.setVisibility(View.GONE);
                 return;
             }
 
@@ -167,12 +156,11 @@ public class MakeProfile extends AppCompatActivity {
             user.setPassword(Hash.md5(password_text.getText().toString()));
         }
 
-        fb_manager.addUser(user);
+        fb_manager.update();
         this.resetFields();
 
-        Toast.makeText(MakeProfile.this, "Successfully made an user profile!",
+        Toast.makeText(EditProfile.this, "Successfully edit an user profile!",
                 Toast.LENGTH_SHORT).show();
-        progressBar_make_account.setVisibility(View.GONE);
         finish();
     }
 

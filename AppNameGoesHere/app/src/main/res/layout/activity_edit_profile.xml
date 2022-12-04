@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="300dp"
-    android:layout_height="500dp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context=".MakeProfile">
 
     <Button
@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="0.9" />
 
     <EditText
-        android:id="@+id/editTextUsernameMakeAccount"
+        android:id="@+id/editTextUsernameEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
@@ -33,7 +33,7 @@
         app:layout_constraintVertical_bias="0.15" />
 
     <TextView
-        android:id="@+id/username_make_account"
+        android:id="@+id/username_edit_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
@@ -46,7 +46,7 @@
         app:layout_constraintVertical_bias="0.05" />
 
     <TextView
-        android:id="@+id/password_make_account"
+        android:id="@+id/password_edit_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
@@ -59,7 +59,7 @@
         app:layout_constraintVertical_bias="0.35"  />
 
     <EditText
-        android:id="@+id/editTextPasswordMakeAccount"
+        android:id="@+id/editTextPasswordEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -73,7 +73,7 @@
         app:layout_constraintVertical_bias="0.40"  />
 
     <CheckBox
-        android:id="@+id/make_account_checkBox"
+        android:id="@+id/edit_profile_checkBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
@@ -86,7 +86,7 @@
         app:layout_constraintVertical_bias="0.75"  />
 
     <EditText
-        android:id="@+id/editTextPasswordVerifyMakeAccount"
+        android:id="@+id/editTextPasswordVerifyEditProfile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -100,7 +100,7 @@
         app:layout_constraintVertical_bias="0.6"  />
 
     <TextView
-        android:id="@+id/make_account_password_verify"
+        android:id="@+id/edit_account_password_verify"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
@@ -113,7 +113,7 @@
         app:layout_constraintVertical_bias="0.55" />
 
     <TextView
-        android:id="@+id/make_profile_text"
+        android:id="@+id/edit_profile_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Modifying a user profile!"
@@ -125,10 +125,10 @@
         app:layout_constraintVertical_bias="0.05" />
 
     <CheckBox
-        android:id="@+id/enable_password_checkbox"
+        android:id="@+id/enable_password_edit_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enable Password"
+        android:text="Add/Change Password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
