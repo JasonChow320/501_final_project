@@ -405,10 +405,12 @@ public class ConfirmToWardrobe extends AppCompatActivity {
             return;
         }
         int size = image.getByteCount();
+        int compression = 40;
         while(size >= MAX_IMAGE_SIZE){
-            image.compress(Bitmap.CompressFormat.PNG, 80, output_stream);
+            image.compress(Bitmap.CompressFormat.PNG, compression, output_stream);
             size = image.getByteCount();
             Log.e(TAG, "Compressing image: " + size);
+            compression /= 2;
         }
         Log.e(TAG, "Size of image: " + size);
     }
