@@ -15,8 +15,9 @@ public class Clothes {
         SHORTS,
         PANTS,
         SHOES,
+        SWEATER,
         LIGHT_JACKET,
-        heavy_jacket
+        HEAVY_JACKET
     }
 
     // public members

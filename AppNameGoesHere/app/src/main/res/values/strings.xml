@@ -63,6 +63,7 @@
         <item name="shorts">Shorts</item>
         <item name="pants">Pants</item>
         <item name="shoes">Shoes</item>
+        <item name="sweater">Sweater</item>
         <item name="light_jacket">Light Jacket</item>
         <item name="heavy_jacket">Heavy Jacket</item>
     </string-array>

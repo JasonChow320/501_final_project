@@ -97,7 +97,7 @@ public class Wardrobe {
     }
 
     @Exclude
-    public ArrayList<Clothes> getShirt(){
+    public ArrayList<Clothes> getLongSleeve(){
         return this.getType(Clothes.Type.LONG_SLEEVE);
     }
 
@@ -123,7 +123,12 @@ public class Wardrobe {
 
     @Exclude
     public ArrayList<Clothes> getHeavyJackets(){
-        return this.getType(Clothes.Type.heavy_jacket);
+        return this.getType(Clothes.Type.HEAVY_JACKET);
+    }
+
+    @Exclude
+    public ArrayList<Clothes> getSweater(){
+        return this.getType(Clothes.Type.SWEATER);
     }
 
     private ArrayList<Clothes> getType(Clothes.Type type){

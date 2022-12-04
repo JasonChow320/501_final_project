@@ -4,7 +4,7 @@ public class HeavyJacket extends Clothes{
 
 
     public HeavyJacket() {
-        super(Type.heavy_jacket);
+        super(Type.HEAVY_JACKET);
         this.layer = 2;
 
     }

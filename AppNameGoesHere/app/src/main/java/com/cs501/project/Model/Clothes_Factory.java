@@ -45,4 +45,8 @@ public class Clothes_Factory {
     public HeavyJacket get_heavyjacket(){
         return new HeavyJacket();
     }
+
+    public Sweater get_sweater(){
+        return new Sweater();
+    }
 }
