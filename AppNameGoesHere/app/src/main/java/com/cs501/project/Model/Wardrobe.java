@@ -121,6 +121,11 @@ public class Wardrobe {
         return this.getType(Clothes.Type.jacket);
     }
 
+    @Exclude
+    public ArrayList<Clothes> getHeavyJackets(){
+        return this.getType(Clothes.Type.heavy_jacket);
+    }
+
     private ArrayList<Clothes> getType(Clothes.Type type){
         ArrayList<Clothes> ret = new ArrayList<Clothes>();
         for(Clothes clothing : this.clothes){

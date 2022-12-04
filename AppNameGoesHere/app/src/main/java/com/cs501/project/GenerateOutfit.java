@@ -296,8 +296,6 @@ public class GenerateOutfit extends AppCompatActivity {
     public Outfit generateOutfitMonochrome (){
 
         User_settings uSettings = fb_manager.getUser().getUserSettings();
-
-
         ArrayList<Clothes> wardrobe = fb_manager.getClothes();
 
         int oneLayerTemp = uSettings.getOneLayerTemp();
@@ -308,7 +306,7 @@ public class GenerateOutfit extends AppCompatActivity {
 
         if(weather.getWeatherType() == "Rain"){
             if (layers == 1){
-                layers =2;
+                layers = 2;
                 topLayerWtrProof = true;
             }
             else{
@@ -319,10 +317,10 @@ public class GenerateOutfit extends AppCompatActivity {
         ArrayList<Clothes> top = new ArrayList<Clothes>();
         ArrayList<Clothes.Type> noDup = new ArrayList<Clothes.Type>();
         Clothes bottom = null;
-        Clothes  shoes=null;
+        Clothes shoes = null;
         Color baseCol =null;
 
-        for (int i= layers-1; i >= 0; i--){
+        for (int i = layers-1; i >= 0; i--){
             if (i == layers -1){ // select the first top item
                 if (topLayerWtrProof == true){ // find a water resistant item
                     // no need to check duplicates, this is the first item being added
@@ -337,11 +335,9 @@ public class GenerateOutfit extends AppCompatActivity {
                         }
                     }
                 }
-
                 else{ // find a non water resistant item
                     // no need to check duplicates, this is the first item being added
                     // REMEMBER: only add types that fit into top
-
                     for (int j = 0; j < wardrobe.size(); j++){
                         if (validItemsForLayer(i+1).contains(wardrobe.get(j).getType()) ){ //if the current item is valid for this layer
                             top.add(wardrobe.get(j)); // add item to top
@@ -350,9 +346,7 @@ public class GenerateOutfit extends AppCompatActivity {
                             break;
                         }
                     }
-
                 }
-
 
                 // top layer chosen, now we choose bottom:
                 // only add items that are valid for the BOTTOM slot  (pants or shorts)
@@ -376,8 +370,8 @@ public class GenerateOutfit extends AppCompatActivity {
                 }
             }
             else{// We are no longer working on the top layer, and have also therefore chosen our bottoms
-
                 //top layer of top and bottom chosen, choose remaining top layers
+
                 for (int j = 0; j < wardrobe.size(); j++){
                     //check if item type has already been added, only new types allowed
                     //only add items that are valid for the TOP slot
@@ -434,9 +428,11 @@ public class GenerateOutfit extends AppCompatActivity {
         else if (layer ==2){
             arr.add(Clothes.Type.shirt);
             arr.add(Clothes.Type.jacket);
+            arr.add(Clothes.Type.heavy_jacket);
         }
         else{
             arr.add(Clothes.Type.jacket);
+            arr.add(Clothes.Type.heavy_jacket);
         }
 
         return arr;
@@ -444,18 +440,22 @@ public class GenerateOutfit extends AppCompatActivity {
 
 
     public int determineOutfitLayers(int oneLyrTmp, int threeLyrTmp) {
-        int layers = 0;
-        if (weather.getCurrentTemp() > oneLyrTmp){
-            layers = 1;
-        }
-        else if ( weather.getCurrentTemp() <= oneLyrTmp && weather.getCurrentTemp() >= threeLyrTmp){
-            layers = 2;
-        }
-        else{
-            layers= 3;
-        }
+        try{
+            int layers = 0;
+            if (weather.getCurrentTemp() > oneLyrTmp){
+                layers = 1;
+            }
+            else if ( weather.getCurrentTemp() <= oneLyrTmp && weather.getCurrentTemp() >= threeLyrTmp){
+                layers = 2;
+            }
+            else{
+                layers= 3;
+            }
 
-        return layers;
+            return layers;
+        } catch (Error error) {
+            return 2;
+        }
     }
 
     public boolean colorMatch (@NonNull Color baseCol, @NonNull Color c2){
