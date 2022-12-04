@@ -52,6 +52,7 @@ public class settings extends AppCompatActivity {
 
         // Initialize our firebase manager
         fb_manager = FireBaseManager.getInstance();
+        User_settings uSettings = fb_manager.getUser().getUserSettings();
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -90,12 +91,11 @@ public class settings extends AppCompatActivity {
         currOneTemp = 0;
         currThreeTemp = 0;
         int t = R.xml.settings;
-
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(this);
-        oneLayerTemp.setText(sharedPreferences.getString("onelayertemp","")+ "F");
-        threeLayerTemp.setText(sharedPreferences.getString("threelayertemp", "")+ "F");
-        flashMode.setText(sharedPreferences.getString("flashMode", ""));
+        oneLayerTemp.setText(uSettings.getOneLayerTemp() +" F");
+        threeLayerTemp.setText(uSettings.getThreeLayerTemp()+ " F");
+        flashMode.setText(uSettings.getFlashMode());
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
