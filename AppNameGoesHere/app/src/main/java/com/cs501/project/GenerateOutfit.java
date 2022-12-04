@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -76,9 +77,7 @@ public class GenerateOutfit extends AppCompatActivity {
 
     private FireBaseManager fb_manager;
 
-
-    // Initialize our firebase manager
-
+    private final static String TAG = "GenerateOutfitActivity";
 
 
     @Override
@@ -128,6 +127,15 @@ public class GenerateOutfit extends AppCompatActivity {
             public void onClick(View view) {
 //                Outfit new_outfit = random_outfit();
                 Outfit new_outfit = generateOutfitMonochrome();
+                displayOutfit(new_outfit);
+            }
+        });
+
+        Button random_outfit_button = (Button) findViewById(R.id.random_outfit_button);
+        random_outfit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Outfit new_outfit = random_outfit();
                 displayOutfit(new_outfit);
             }
         });
@@ -288,7 +296,6 @@ public class GenerateOutfit extends AppCompatActivity {
 
         User_settings uSettings = fb_manager.getUser().getUserSettings();
 
-
         ArrayList<Clothes> wardrobe = fb_manager.getClothes();
 
         int oneLayerTemp = uSettings.getOneLayerTemp();
@@ -310,7 +317,7 @@ public class GenerateOutfit extends AppCompatActivity {
         ArrayList<Clothes> top = new ArrayList<Clothes>();
         ArrayList<Clothes.Type> noDup = new ArrayList<Clothes.Type>();
         Clothes bottom = null;
-        Clothes  shoes=null;
+        Clothes shoes=null;
         Color baseCol =null;
 
         for (int i= layers-1; i >= 0; i--){
@@ -341,9 +348,7 @@ public class GenerateOutfit extends AppCompatActivity {
                             break;
                         }
                     }
-
                 }
-
 
                 // top layer chosen, now we choose bottom:
                 // only add items that are valid for the BOTTOM slot  (pants or shorts)
@@ -352,6 +357,7 @@ public class GenerateOutfit extends AppCompatActivity {
                     for (Clothes item: wardrobe){
                         if ( (item.getType() == Clothes.Type.pants || item.getType() == Clothes.Type.shorts) && colorMatch(baseCol, item.getColor())){ //if the layer is 1, use shorts or pants that color match
                             bottom = item;
+                            Log.d(TAG, "Hello world");
                             break;
                         }
                     }
@@ -377,26 +383,17 @@ public class GenerateOutfit extends AppCompatActivity {
                         top.add(wardrobe.get(j)); // add the item
                         break;
                     }
-
                 }
-
-
             }
-
-
-
-
         }
 
         // all top and bottom layers added, bottom chosen, now we choose shoes
-
         for (int j = 0; j < wardrobe.size(); j++){
             //check the item is shoes and color match
             if ( wardrobe.get(j).getType() == Clothes.Type.shoes && colorMatch(baseCol, wardrobe.get(j).getColor())){ // if the current item's type has not been added yet, and it color matches, add it
                 shoes = wardrobe.get(j);
                 break;
             }
-
         }
 
         Outfit outfit = new Outfit();
@@ -405,18 +402,19 @@ public class GenerateOutfit extends AppCompatActivity {
             outfit.addClothesToOutfit(item.getUniqueId());
         }
 
-        outfit.addClothesToOutfit(bottom.getUniqueId());
-        outfit.addClothesToOutfit(shoes.getUniqueId());
+        if(bottom != null){
+            outfit.addClothesToOutfit(bottom.getUniqueId());
+        }
+
+        if(shoes != null){
+            outfit.addClothesToOutfit(shoes.getUniqueId());
+        }
 
         return outfit;
-
-
     }
 
     public ArrayList<Clothes.Type>validItemsForLayer (int layer){
         ArrayList<Clothes.Type> arr = new ArrayList<>() ;
-
-
 
         if(layer == 1){
             arr.add(Clothes.Type.t_shirt);
@@ -463,7 +461,6 @@ public class GenerateOutfit extends AppCompatActivity {
             return true;
         }
         return false;
-
     }
 
     // usefull for detemining if two colors are similar, works for colors of similar shades, even across different hues
@@ -476,5 +473,4 @@ public class GenerateOutfit extends AppCompatActivity {
         long b = (long)e1.getBlue() - (long)e2.getBlue();
         return java.lang.Math.sqrt((((512+rmean)*r*r)>>8) + 4*g*g + (((767-rmean)*b*b)>>8));
     }
-
 }
