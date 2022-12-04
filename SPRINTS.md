@@ -13,6 +13,7 @@
 - [x] **Jason** | Rename classes and make a couple new ones (Sweater, Heavy_jacket)
 - [ ] **Whoever wants to work on it** | Fine tune monochrome algorithm and layering system
 - [ ] **Sarsen** | Add settings to change Flash (AddToWardrobe:104) and primary color (themes.xml)
+- [ ] Fix settings bug with SharedPreferences
 
 ## Sprint 4
 - [x] Automate RadioGroups and RadioButtons for clothing qualities in ConfirmToWardrobe
