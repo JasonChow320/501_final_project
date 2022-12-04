@@ -118,17 +118,17 @@ public class Color {
     public ArrayList<Float> getHsl2() {
         return hsl2;
     }
-
-    // usefull for detemining if two colors are similar, works for colors of similar shades, even across different hues
-    // (if you want to compare different shades of the same color, convert RGB to HSL, and look for colors of similar hue)
-    public double ColorDistance(Color e1, Color e2)
-    {
-        long rmean = ( (long)e1.red + (long)e2.red ) / 2;
-        long r = (long)e1.red - (long)e2.red;
-        long g = (long)e1.green - (long)e2.green;
-        long b = (long)e1.blue - (long)e2.blue;
-        return java.lang.Math.sqrt((((512+rmean)*r*r)>>8) + 4*g*g + (((767-rmean)*b*b)>>8));
-    }
+//
+//    // usefull for detemining if two colors are similar, works for colors of similar shades, even across different hues
+//    // (if you want to compare different shades of the same color, convert RGB to HSL, and look for colors of similar hue)
+//    public double ColorDistance(Color e1, Color e2)
+//    {
+//        long rmean = ( (long)e1.red + (long)e2.red ) / 2;
+//        long r = (long)e1.red - (long)e2.red;
+//        long g = (long)e1.green - (long)e2.green;
+//        long b = (long)e1.blue - (long)e2.blue;
+//        return java.lang.Math.sqrt((((512+rmean)*r*r)>>8) + 4*g*g + (((767-rmean)*b*b)>>8));
+//    }
 
     public ArrayList<Float> rgb2hsl(float r, float g, float b) {
         // Make r, g, and b fractions of 1
