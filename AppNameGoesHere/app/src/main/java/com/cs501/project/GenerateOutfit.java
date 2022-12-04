@@ -72,6 +72,7 @@ public class GenerateOutfit extends AppCompatActivity {
     private TextView clouds;
     private TextView wind;
     private TextView weatherTile;
+    private Outfit currentFit = null;
 
     private LinearLayout outfitLayout;
 
@@ -130,6 +131,15 @@ public class GenerateOutfit extends AppCompatActivity {
             public void onClick(View view) {
                 Outfit new_outfit = random_outfit();
                 displayOutfit(new_outfit);
+            }
+        });
+
+        Button save_outfit = (Button) findViewById(R.id.save_outfit);
+        save_outfit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(currentFit!=null)
+                    fb_manager.addOutfit(currentFit);
             }
         });
     }
@@ -253,12 +263,13 @@ public class GenerateOutfit extends AppCompatActivity {
         }
 
         // save to database
-        fb_manager.addOutfit(new_outfit);
+        //fb_manager.addOutfit(new_outfit);
 
         return new_outfit;
     }
 
     public void displayOutfit(Outfit outfit) {
+        currentFit = outfit;
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;
