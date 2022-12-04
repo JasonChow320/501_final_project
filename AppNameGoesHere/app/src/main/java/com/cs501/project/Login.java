@@ -5,16 +5,21 @@ import static android.content.Context.MODE_PRIVATE;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.telephony.data.ApnSetting;
+import android.text.InputType;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +28,7 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
@@ -68,7 +74,6 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
 
         // Request for permissions
         ActivityResultLauncher<String[]> locationPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result -> {  });
@@ -194,6 +199,7 @@ class LoginCustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         View row;
 
         if (convertView == null) {
@@ -219,11 +225,136 @@ class LoginCustomAdapter extends BaseAdapter {
                 FireBaseManager fb_manager = FireBaseManager.getInstance();
                 fb_manager.setUserIdx(position);
 
+                User user = fb_manager.getUser();
+
                 Log.d("LoginListView", "Clicked Sign IN");
 
-                // login!
-                Intent i = new Intent(context, MainActivity.class);
-                context.startActivity(i);
+                // request for password
+                if (user.getPasswordProtected()){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setCancelable(true);
+                    builder.setTitle("Password");
+                    builder.setMessage("This account is password protected, enter password:");
+                    final EditText input = new EditText(context);
+                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    builder.setView(input);
+
+                    builder.setPositiveButton("Confirm",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    // check password
+                                    if(!user.getPassword().equals(Hash.md5(input.getText().toString()))){
+                                        Toast.makeText(context, "Wrong password",
+                                                Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+
+                                    // login!
+                                    Intent i = new Intent(context, MainActivity.class);
+                                    context.startActivity(i);
+                                }
+                            });
+                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                } else {
+                    // login!
+                    Intent i = new Intent(context, MainActivity.class);
+                    context.startActivity(i);
+                }
+            }
+        });
+
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setCancelable(true);
+                builder.setTitle("Confirm");
+                builder.setMessage("Do you really want to delete this profile?");
+                builder.setPositiveButton("Confirm",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // confirm
+                                FireBaseManager fb_manager = FireBaseManager.getInstance();
+                                fb_manager.deleteUser(position);
+                            }
+                        });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                boolean able_to_edit = true;
+                if(user.getPasswordProtected()){
+
+                    able_to_edit = false;
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setCancelable(true);
+                    builder.setTitle("Password");
+                    builder.setMessage("This account is password protected, enter password:");
+                    final EditText input = new EditText(context);
+                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    builder.setView(input);
+
+                    builder.setPositiveButton("Confirm",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    // check password
+                                    if(!user.getPassword().equals(Hash.md5(input.getText().toString()))){
+                                        Toast.makeText(context, "Wrong password",
+                                                Toast.LENGTH_SHORT).show();
+                                        return;
+                                    } else{
+
+                                        FireBaseManager fb_manager = FireBaseManager.getInstance();
+                                        fb_manager.setUserIdx(position);
+
+                                        // call edit profile
+                                        Intent i = new Intent(context, EditProfile.class);
+                                        context.startActivity(i);
+                                    }
+                                }
+                            });
+                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                } else {
+
+                    FireBaseManager fb_manager = FireBaseManager.getInstance();
+                    fb_manager.setUserIdx(position);
+
+                    // call edit profile
+                    Intent i = new Intent(context, EditProfile.class);
+                    context.startActivity(i);
+                }
             }
         });
 
