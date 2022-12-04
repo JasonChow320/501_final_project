@@ -3,7 +3,7 @@ package com.cs501.project.Model;
 public class Shirt extends Clothes {
 
     public Shirt() {
-        super(Type.shirt);
+        super(Type.LONG_SLEEVE);
         this.layer = 1;
     }
 

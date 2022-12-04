@@ -10,12 +10,12 @@ public class Clothes {
 
     public enum Type {
 
-        t_shirt,
-        shirt,
-        shorts,
-        pants,
-        shoes,
-        jacket,
+        T_SHIRT,
+        LONG_SLEEVE,
+        SHORTS,
+        PANTS,
+        SHOES,
+        LIGHT_JACKET,
         heavy_jacket
     }
 
@@ -30,8 +30,8 @@ public class Clothes {
 
     public Clothes(){
         
-        // defaults to t_shirt
-        this(Type.t_shirt);
+        // defaults to T_SHIRT
+        this(Type.T_SHIRT);
     }
 
     public Clothes(Type type){
@@ -61,7 +61,7 @@ public class Clothes {
     public Clothes(Type type, Color color, String imageURL, boolean waterResistant, Integer layer){
 
         if(type == null){
-           this.type = Type.t_shirt; 
+           this.type = Type.T_SHIRT; 
         } else {
             this.type = type;
         }

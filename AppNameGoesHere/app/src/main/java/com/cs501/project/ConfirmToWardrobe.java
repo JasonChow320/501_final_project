@@ -354,17 +354,17 @@ public class ConfirmToWardrobe extends AppCompatActivity {
             switch(clothes_type){
                 case heavy_jacket:
                     return clothes_factory.get_heavyjacket();
-                case jacket:
+                case LIGHT_JACKET:
                     return clothes_factory.get_jacket();
-                case t_shirt:
+                case T_SHIRT:
                     return clothes_factory.get_tshirt();
-                case shirt:
+                case LONG_SLEEVE:
                     return clothes_factory.get_shirt();
-                case shoes:
+                case SHOES:
                     return clothes_factory.get_shoes();
-                case pants:
+                case PANTS:
                     return clothes_factory.get_pants();
-                case shorts:
+                case SHORTS:
                     return clothes_factory.get_shorts();
                 default:
                     // should never get to this point unless we add now types

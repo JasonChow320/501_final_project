@@ -362,7 +362,7 @@ public class GenerateOutfit extends AppCompatActivity {
                 // REMEMBER: only add types that fit into bottom
                 if (layers == 1 ){
                     for (Clothes item: wardrobe){
-                        if ( (item.getType() == Clothes.Type.pants || item.getType() == Clothes.Type.shorts) && colorMatch(baseCol, item.getColor())){ //if the layer is 1, use shorts or pants that color match
+                        if ( (item.getType() == Clothes.Type.PANTS || item.getType() == Clothes.Type.SHORTS) && colorMatch(baseCol, item.getColor())){ //if the layer is 1, use shorts or pants that color match
                             bottom = item;
                             Log.d(TAG, "Hello world");
                             break;
@@ -371,7 +371,7 @@ public class GenerateOutfit extends AppCompatActivity {
                 }
                 else{
                     for (Clothes item: wardrobe){
-                        if ( item.getType() == Clothes.Type.pants  && colorMatch(baseCol, item.getColor())){ //if the layer is NOT 1, use only pants that color match
+                        if ( item.getType() == Clothes.Type.PANTS  && colorMatch(baseCol, item.getColor())){ //if the layer is NOT 1, use only pants that color match
                             bottom = item;
                             break;
                         }
@@ -397,7 +397,7 @@ public class GenerateOutfit extends AppCompatActivity {
         // all top and bottom layers added, bottom chosen, now we choose shoes
         for (int j = 0; j < wardrobe.size(); j++){
             //check the item is shoes and color match
-            if ( wardrobe.get(j).getType() == Clothes.Type.shoes && colorMatch(baseCol, wardrobe.get(j).getColor())){ // if the current item's type has not been added yet, and it color matches, add it
+            if ( wardrobe.get(j).getType() == Clothes.Type.SHOES && colorMatch(baseCol, wardrobe.get(j).getColor())){ // if the current item's type has not been added yet, and it color matches, add it
                 shoes = wardrobe.get(j);
                 break;
             }
@@ -424,15 +424,15 @@ public class GenerateOutfit extends AppCompatActivity {
         ArrayList<Clothes.Type> arr = new ArrayList<>() ;
 
         if(layer == 1){
-            arr.add(Clothes.Type.t_shirt);
-            arr.add(Clothes.Type.shirt);
+            arr.add(Clothes.Type.T_SHIRT);
+            arr.add(Clothes.Type.LONG_SLEEVE);
         }
         else if (layer ==2){
-            arr.add(Clothes.Type.shirt);
-            arr.add(Clothes.Type.jacket);
+            arr.add(Clothes.Type.LONG_SLEEVE);
+            arr.add(Clothes.Type.LIGHT_JACKET);
         }
         else{
-            arr.add(Clothes.Type.jacket);
+            arr.add(Clothes.Type.LIGHT_JACKET);
         }
 
         return arr;

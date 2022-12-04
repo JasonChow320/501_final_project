@@ -38,8 +38,8 @@ public class Clothes_Factory {
         return new Shorts();
     }
 
-    public Jacket get_jacket(){
-        return new Jacket();
+    public LightJacket get_jacket(){
+        return new LightJacket();
     }
 
     public Jacket get_heavyjacket(){
