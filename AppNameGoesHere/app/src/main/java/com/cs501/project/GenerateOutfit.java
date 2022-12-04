@@ -193,7 +193,6 @@ public class GenerateOutfit extends AppCompatActivity {
         wind.setText("Wind speed: " + String.valueOf(weather.getWindSpeed()) +" MPH");
     }
 
-
     public Outfit random_outfit(){
 
         // generate random number
