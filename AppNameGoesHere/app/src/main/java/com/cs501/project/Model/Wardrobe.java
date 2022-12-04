@@ -93,37 +93,42 @@ public class Wardrobe {
 
     @Exclude
     public ArrayList<Clothes> getTShirts(){
-        return this.getType(Clothes.Type.t_shirt);
+        return this.getType(Clothes.Type.T_SHIRT);
     }
 
     @Exclude
-    public ArrayList<Clothes> getShirt(){
-        return this.getType(Clothes.Type.shirt);
+    public ArrayList<Clothes> getLongSleeve(){
+        return this.getType(Clothes.Type.LONG_SLEEVE);
     }
 
     @Exclude
     public ArrayList<Clothes> getShoes(){
-        return this.getType(Clothes.Type.shoes);
+        return this.getType(Clothes.Type.SHOES);
     }
 
     @Exclude
     public ArrayList<Clothes> getPants(){
-        return this.getType(Clothes.Type.pants);
+        return this.getType(Clothes.Type.PANTS);
     }
 
     @Exclude
     public ArrayList<Clothes> getShorts(){
-        return this.getType(Clothes.Type.shorts);
+        return this.getType(Clothes.Type.SHORTS);
     }
 
     @Exclude
-    public ArrayList<Clothes> getJackets(){
-        return this.getType(Clothes.Type.jacket);
+    public ArrayList<Clothes> getLightJackets(){
+        return this.getType(Clothes.Type.LIGHT_JACKET);
     }
 
     @Exclude
     public ArrayList<Clothes> getHeavyJackets(){
-        return this.getType(Clothes.Type.heavy_jacket);
+        return this.getType(Clothes.Type.HEAVY_JACKET);
+    }
+
+    @Exclude
+    public ArrayList<Clothes> getSweater(){
+        return this.getType(Clothes.Type.SWEATER);
     }
 
     private ArrayList<Clothes> getType(Clothes.Type type){

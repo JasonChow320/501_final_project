@@ -32,7 +32,6 @@
         <item>55</item>
     </string-array>
 
-
     <string-array name="tempValues1Layer">
         <item>60</item>
         <item>61</item>
@@ -58,14 +57,15 @@
     </string-array>
 
     <string-array name="viewWardrobeSpinner">
-        <item name="all">All</item>
-        <item name="t_shirt"> </item>
-        <item name="shirt">Shirt</item>
+        <item name="all">all</item>
+        <item name="t_shirt">T_shirt</item>
+        <item name="shirt">Long Sleeve</item>
         <item name="shorts">Shorts</item>
         <item name="pants">Pants</item>
         <item name="shoes">Shoes</item>
-        <item name="jacket">Jacket</item>
-        <item name="jacket">Heavy Jacket</item>
+        <item name="sweater">Sweater</item>
+        <item name="light_jacket">Light Jacket</item>
+        <item name="heavy_jacket">Heavy Jacket</item>
     </string-array>
 
     <string name="insert_email_here">Insert Email Here</string>
@@ -82,6 +82,4 @@
     <string name="Choose_Clothing_type">Choose Clothing Type</string>
     <string name="none_available_all">No Clothing available</string>
     <string name="none_available">No Clothing of this type available</string>
-
-
 </resources>

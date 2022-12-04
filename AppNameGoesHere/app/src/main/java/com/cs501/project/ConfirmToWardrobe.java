@@ -352,23 +352,25 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         try{
             Clothes.Type clothes_type = Clothes.Type.valueOf(type);
             switch(clothes_type){
-                case heavy_jacket:
+                case HEAVY_JACKET:
                     return clothes_factory.get_heavyjacket();
-                case jacket:
-                    return clothes_factory.get_jacket();
-                case t_shirt:
+                case LIGHT_JACKET:
+                    return clothes_factory.get_light_jacket();
+                case T_SHIRT:
                     return clothes_factory.get_tshirt();
-                case shirt:
-                    return clothes_factory.get_shirt();
-                case shoes:
+                case LONG_SLEEVE:
+                    return clothes_factory.get_long_sleeve();
+                case SHOES:
                     return clothes_factory.get_shoes();
-                case pants:
+                case PANTS:
                     return clothes_factory.get_pants();
-                case shorts:
+                case SHORTS:
                     return clothes_factory.get_shorts();
+                case SWEATER:
+                    return clothes_factory.get_sweater();
                 default:
                     // should never get to this point unless we add now types
-                    return clothes_factory.get_shirt();
+                    return clothes_factory.get_long_sleeve();
             }
         } catch (IllegalArgumentException e){
             // shouldn't happen since we create the radio button text using the enum list
@@ -403,10 +405,12 @@ public class ConfirmToWardrobe extends AppCompatActivity {
             return;
         }
         int size = image.getByteCount();
+        int compression = 40;
         while(size >= MAX_IMAGE_SIZE){
-            image.compress(Bitmap.CompressFormat.PNG, 80, output_stream);
+            image.compress(Bitmap.CompressFormat.PNG, compression, output_stream);
             size = image.getByteCount();
             Log.e(TAG, "Compressing image: " + size);
+            compression /= 2;
         }
         Log.e(TAG, "Size of image: " + size);
     }

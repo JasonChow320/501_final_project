@@ -1,10 +1,10 @@
 package com.cs501.project.Model;
 
-public class Jacket extends Clothes{
+public class LightJacket extends Clothes{
 
 
-    public Jacket() {
-        super(Type.jacket);
+    public LightJacket() {
+        super(Type.LIGHT_JACKET);
         this.layer = 2;
 
     }
@@ -14,7 +14,7 @@ public class Jacket extends Clothes{
         super.setLayer(layer);
 
         if (layer == 1){
-            throw new RuntimeException("Jackets can only be worn on layers 2 or 3");
+            throw new RuntimeException("LightJackets can only be worn on layers 2 or 3");
         }
     }
 }
