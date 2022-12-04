@@ -8,9 +8,9 @@
 - [x] **Michael** | ViewWardrobe: Edit button
 - [x] **Abdel** | GenerateOutfit: Start generating simple outfits on button click
 - [x] **Sarsen** | User friendly improvements (QA)
+- [x] **Jason** | Rename classes and make a couple new ones (Sweater, Heavy_jacket)
 - [ ] **Jason** | ViewSavedOutfits: Pull saved outfits from DB and display
 - [ ] **Michael** | Generating multiple outfits and Add save button which saves current outfit to database
-- [x] **Jason** | Rename classes and make a couple new ones (Sweater, Heavy_jacket)
 - [ ] **Whoever wants to work on it** | Fine tune monochrome algorithm and layering system
 - [ ] **Sarsen** | Add settings to change Flash (AddToWardrobe:104) and primary color (themes.xml)
 - [ ] Fix settings bug with SharedPreferences
