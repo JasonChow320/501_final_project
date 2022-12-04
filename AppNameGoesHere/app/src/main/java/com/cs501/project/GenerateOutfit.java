@@ -28,10 +28,18 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.cs501.project.Model.Clothes;
+
 import com.cs501.project.Model.FireBaseManager;
 import com.cs501.project.Model.Outfit;
 import com.cs501.project.Model.RandomString;
 import com.cs501.project.Model.Wardrobe;
+
+import com.cs501.project.Model.Color;
+import com.cs501.project.Model.FireBaseManager;
+import com.cs501.project.Model.Shirt;
+import com.cs501.project.Model.Shoes;
+import com.cs501.project.Model.User_settings;
+
 import com.cs501.project.Model.Weather;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -45,7 +53,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
 import java.util.Random;
+
+
 
 public class GenerateOutfit extends AppCompatActivity {
 
@@ -60,9 +71,15 @@ public class GenerateOutfit extends AppCompatActivity {
     private TextView clouds;
     private TextView wind;
     private TextView weatherTile;
+
     private LinearLayout outfitLayout;
 
     private FireBaseManager fb_manager;
+
+
+    // Initialize our firebase manager
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +94,10 @@ public class GenerateOutfit extends AppCompatActivity {
         outfitLayout = findViewById(R.id.outfit_layout);
 
         fb_manager = FireBaseManager.getInstance();
+
+        fb_manager = FireBaseManager.getInstance();
+
+
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
@@ -105,7 +126,8 @@ public class GenerateOutfit extends AppCompatActivity {
         generate_outfit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Outfit new_outfit = random_outfit();
+//                Outfit new_outfit = random_outfit();
+                Outfit new_outfit = generateOutfitMonochrome();
                 displayOutfit(new_outfit);
             }
         });
@@ -195,7 +217,6 @@ public class GenerateOutfit extends AppCompatActivity {
         wind.setText("Wind speed: " + String.valueOf(weather.getWindSpeed()) +" MPH");
     }
 
-
     public Outfit random_outfit(){
 
         // generate random number
@@ -264,8 +285,198 @@ public class GenerateOutfit extends AppCompatActivity {
             outfitLayout.addView(img);
         }
     }
-    
-    public void generateOutfitMonochrome (){
+
+    public Outfit generateOutfitMonochrome (){
+
+        User_settings uSettings = fb_manager.getUser().getUserSettings();
+
+
+        ArrayList<Clothes> wardrobe = fb_manager.getClothes();
+
+        int oneLayerTemp = uSettings.getOneLayerTemp();
+        int threeLayerTemp = uSettings.getThreeLayerTemp();
+        boolean topLayerWtrProof =false;
+
+        int layers = determineOutfitLayers(oneLayerTemp, threeLayerTemp);
+
+        if(weather.getWeatherType() == "Rain"){
+            if (layers == 1){
+                layers =2;
+                topLayerWtrProof = true;
+            }
+            else{
+                topLayerWtrProof = true;
+            }
+        }
+
+        ArrayList<Clothes> top = new ArrayList<Clothes>();
+        ArrayList<Clothes.Type> noDup = new ArrayList<Clothes.Type>();
+        Clothes bottom = null;
+        Clothes  shoes=null;
+        Color baseCol =null;
+
+        for (int i= layers-1; i >= 0; i--){
+            if (i == layers -1){ // select the first top item
+                if (topLayerWtrProof == true){ // find a water resistant item
+                    // no need to check duplicates, this is the first item being added
+                    // REMEMBER: only add types that fit into top
+
+                    for (int j = 0; j < wardrobe.size(); j++){
+                        if (validItemsForLayer(i+1).contains(wardrobe.get(j).getType()) && wardrobe.get(j).isWaterResistant() == true ){ //if the current item is valid for this layer AND is waterproof
+                            top.add(wardrobe.get(j)); // add item to top
+                            noDup.add(wardrobe.get(j).getType());; //add item to no duplicates list
+                            baseCol = wardrobe.get(j).getColor();
+                            break;
+                        }
+                    }
+                }
+
+                else{ // find a non water resistant item
+                    // no need to check duplicates, this is the first item being added
+                    // REMEMBER: only add types that fit into top
+
+                    for (int j = 0; j < wardrobe.size(); j++){
+                        if (validItemsForLayer(i+1).contains(wardrobe.get(j).getType()) ){ //if the current item is valid for this layer
+                            top.add(wardrobe.get(j)); // add item to top
+                            noDup.add(wardrobe.get(j).getType());; //add item to no duplicates list
+                            baseCol = wardrobe.get(j).getColor();
+                            break;
+                        }
+                    }
+
+                }
+
+
+                // top layer chosen, now we choose bottom:
+                // only add items that are valid for the BOTTOM slot  (pants or shorts)
+                // REMEMBER: only add types that fit into bottom
+                if (layers == 1 ){
+                    for (Clothes item: wardrobe){
+                        if ( (item.getType() == Clothes.Type.pants || item.getType() == Clothes.Type.shorts) && colorMatch(baseCol, item.getColor())){ //if the layer is 1, use shorts or pants that color match
+                            bottom = item;
+                            break;
+                        }
+                    }
+                }
+                else{
+                    for (Clothes item: wardrobe){
+                        if ( item.getType() == Clothes.Type.pants  && colorMatch(baseCol, item.getColor())){ //if the layer is NOT 1, use only pants that color match
+                            bottom = item;
+                            break;
+                        }
+                    }
+
+                }
+            }
+            else{// We are no longer working on the top layer, and have also therefore chosen our bottoms
+
+                //top layer of top and bottom chosen, choose remaining top layers
+                for (int j = 0; j < wardrobe.size(); j++){
+                    //check if item type has already been added, only new types allowed
+                    //only add items that are valid for the TOP slot
+                    //add item to no duplicates list
+                    if ( validItemsForLayer(i+1).contains(wardrobe.get(j).getType())  && !noDup.contains(wardrobe.get(j).getType()) && colorMatch(baseCol, wardrobe.get(j).getColor())){ // if the current item's type has not been added yet, and it color matches, and its type is valid for TOP, add it
+                        top.add(wardrobe.get(j)); // add the item
+                        break;
+                    }
+
+                }
+
+
+            }
+
+
+
+
+        }
+
+        // all top and bottom layers added, bottom chosen, now we choose shoes
+
+        for (int j = 0; j < wardrobe.size(); j++){
+            //check the item is shoes and color match
+            if ( wardrobe.get(j).getType() == Clothes.Type.shoes && colorMatch(baseCol, wardrobe.get(j).getColor())){ // if the current item's type has not been added yet, and it color matches, add it
+                shoes = wardrobe.get(j);
+                break;
+            }
+
+        }
+
+        Outfit outfit = new Outfit();
+
+        for (Clothes item: top){
+            outfit.addClothesToOutfit(item.getUniqueId());
+        }
+
+        outfit.addClothesToOutfit(bottom.getUniqueId());
+        outfit.addClothesToOutfit(shoes.getUniqueId());
+
+        return outfit;
+
 
     }
+
+    public ArrayList<Clothes.Type>validItemsForLayer (int layer){
+        ArrayList<Clothes.Type> arr = new ArrayList<>() ;
+
+
+
+        if(layer == 1){
+            arr.add(Clothes.Type.t_shirt);
+            arr.add(Clothes.Type.shirt);
+        }
+        else if (layer ==2){
+            arr.add(Clothes.Type.shirt);
+            arr.add(Clothes.Type.jacket);
+        }
+        else{
+            arr.add(Clothes.Type.jacket);
+        }
+
+        return arr;
+    }
+
+
+    public int determineOutfitLayers(int oneLyrTmp, int threeLyrTmp) {
+        int layers = 0;
+        if (weather.getCurrentTemp() > oneLyrTmp){
+            layers = 1;
+        }
+        else if ( weather.getCurrentTemp() <= oneLyrTmp && weather.getCurrentTemp() >= threeLyrTmp){
+            layers = 2;
+        }
+        else{
+            layers= 3;
+        }
+
+        return layers;
+    }
+
+    public boolean colorMatch (@NonNull Color baseCol, @NonNull Color c2){
+
+        float hueDiff = Math.abs(baseCol.getHsl1().get(0) - c2.getHsl1().get(0));
+
+        if (colorDistance(baseCol, c2) < 400 && hueDiff < 10){ //if the colors are similar (within monochrome shaded range) OR if they share the same hue (if they are diff shades of the same color)
+            return true;
+        }
+        else if ( c2.getHsl1().get(1) < 10 && c2.getHsl1().get(2) < 50  ){ // if the item is a shade of grey
+            return true;
+        }
+        else if ((c2.getHsl1().get(2) > 90 && c2.getHsl1().get(1) < 15 ) || c2.getHsl1().get(2) < 7 ){  //if the item is black (luminance < 7) or white (lum > 90 AND sat < 15)
+            return true;
+        }
+        return false;
+
+    }
+
+    // usefull for detemining if two colors are similar, works for colors of similar shades, even across different hues
+    // (if you want to compare different shades of the same color, convert RGB to HSL, and look for colors of similar hue)
+    public double colorDistance(Color e1, Color e2)
+    {
+        long rmean = ( (long)e1.getRed() + (long)e2.getRed() ) / 2;
+        long r = (long)e1.getRed() - (long)e2.getRed();
+        long g = (long)e1.getGreen() - (long)e2.getGreen();
+        long b = (long)e1.getBlue() - (long)e2.getBlue();
+        return java.lang.Math.sqrt((((512+rmean)*r*r)>>8) + 4*g*g + (((767-rmean)*b*b)>>8));
+    }
+
 }
