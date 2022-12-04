@@ -352,6 +352,8 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         try{
             Clothes.Type clothes_type = Clothes.Type.valueOf(type);
             switch(clothes_type){
+                case heavy_jacket:
+                    return clothes_factory.get_heavyjacket();
                 case jacket:
                     return clothes_factory.get_jacket();
                 case t_shirt:
