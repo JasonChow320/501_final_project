@@ -57,6 +57,12 @@
         <item>80</item>
     </string-array>
 
+    <string-array name="flashModes">
+        <item name="on">On</item>
+        <item name="off">Off</item>
+        <item name="auto">Auto</item>
+    </string-array>
+
     <string-array name="viewWardrobeSpinner">
         <item name="all">All</item>
         <item name="t_shirt"> </item>

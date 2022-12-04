@@ -27,6 +27,7 @@ public class settings extends AppCompatActivity {
     TextView oneLayerTemp;
     TextView twoLayerTemp;
     TextView threeLayerTemp;
+    TextView flashMode;
     int currOneTemp;
     int currThreeTemp;
 
@@ -59,6 +60,7 @@ public class settings extends AppCompatActivity {
 
         oneLayerTemp = (TextView) findViewById(R.id.textView6);
         threeLayerTemp = (TextView) findViewById(R.id.textView7);
+        flashMode = (TextView) findViewById(R.id.textView4);
 
         // Settings auto updates when database changes
         myRef.child(currentUser.getUid()).child("users").child(String.valueOf(fb_manager.getUserIdx())).addValueEventListener(new ValueEventListener() {
@@ -73,6 +75,8 @@ public class settings extends AppCompatActivity {
                 User_settings setting = user.getUserSettings();
                 oneLayerTemp.setText(String.valueOf(setting.getOneLayerTemp()) + "F");
                 threeLayerTemp.setText(String.valueOf(setting.getThreeLayerTemp()) + "F");
+                flashMode.setText(String.valueOf(setting.getFlashMode()));
+
             }
 
             @Override
@@ -91,6 +95,7 @@ public class settings extends AppCompatActivity {
                 PreferenceManager.getDefaultSharedPreferences(this);
         oneLayerTemp.setText(sharedPreferences.getString("onelayertemp","")+ "F");
         threeLayerTemp.setText(sharedPreferences.getString("threelayertemp", "")+ "F");
+        flashMode.setText(sharedPreferences.getString("flashMode", ""));
 
         sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
             @Override
@@ -104,6 +109,9 @@ public class settings extends AppCompatActivity {
                     System.out.println("change on layer three");
                     //threeLayerTemp.setText(sharedPreferences.getString("threelayertemp", "")+ "F");
                     fb_manager.updateThreeLayerTemp(Integer.parseInt(sharedPreferences.getString("threelayertemp","")));
+                } else if (s.equals("flashMode")){
+                    System.out.println("change on layer three");
+                    fb_manager.updateFlashMode(sharedPreferences.getString("flashMode",""));
                 }
             }
         });

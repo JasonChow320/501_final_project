@@ -14,6 +14,8 @@ import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.cs501.project.Model.FireBaseManager;
+import com.cs501.project.Model.User_settings;
 import com.google.common.util.concurrent.ListenableFuture;
 
 import android.Manifest;
@@ -49,6 +51,7 @@ public class AddToWardrobe extends AppCompatActivity {
     private ImageView imageView;
     private ArrayList<String> fileNames;
     private boolean camReady = false;
+    private FireBaseManager fb_manager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,8 @@ public class AddToWardrobe extends AppCompatActivity {
         confirm.setVisibility(View.INVISIBLE);
         addAnother.setVisibility(View.INVISIBLE);
 
+        fb_manager = FireBaseManager.getInstance();
+
         androidx.camera.view.PreviewView pre = (androidx.camera.view.PreviewView) findViewById(R.id.previewView);
 
         //from documentation
@@ -101,7 +106,16 @@ public class AddToWardrobe extends AppCompatActivity {
                 if(camReady) {
                     takePhoto.setEnabled(false);
 
-                    imageCapture.setFlashMode(ImageCapture.FLASH_MODE_ON);
+                    User_settings uSettings = fb_manager.getUser().getUserSettings();
+                    String flashMode = uSettings.getFlashMode();
+                    System.out.println(flashMode);
+                    if(flashMode.equals("On")){
+                        imageCapture.setFlashMode(ImageCapture.FLASH_MODE_ON);
+                    } else if(flashMode.equals("Off")){
+                        imageCapture.setFlashMode(ImageCapture.FLASH_MODE_OFF);
+                    } else if(flashMode.equals("Auto")){
+                        imageCapture.setFlashMode(ImageCapture.FLASH_MODE_AUTO);
+                    }
 
                     imageCapture.takePicture(Executors.newSingleThreadExecutor(), new ImageCapture.OnImageCapturedCallback() {
                         @Override

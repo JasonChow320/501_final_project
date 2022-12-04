@@ -21,5 +21,15 @@
             android:layout="@layout/custom_preference"
             />
 
+        <ListPreference
+            app:defaultValue="40"
+            app:key="flashMode"
+            app:title="Set Flash mode for camera"
+            android:entryValues="@array/flashModes"
+            android:entries="@array/flashModes"
+            android:layout="@layout/custom_preference"
+            />
+
+
 
 </PreferenceScreen>
