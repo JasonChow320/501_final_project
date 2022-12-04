@@ -458,10 +458,10 @@ public class GenerateOutfit extends AppCompatActivity {
         if (colorDistance(baseCol, c2) < 400 && hueDiff < 10){ //if the colors are similar (within monochrome shaded range) OR if they share the same hue (if they are diff shades of the same color)
             return true;
         }
-        else if ( c2.getHsl1().get(1) < 10 && c2.getHsl1().get(2) < 55 ){ // if the item is a shade of grey
+        else if ( c2.getHsl1().get(1) < 10 && c2.getHsl1().get(2) < 50  ){ // if the item is a shade of grey
             return true;
         }
-        else if ( c2.getHsl1().get(2) < 7 || (c2.getHsl1().get(2) > 90 && c2.getHsl1().get(1) < 15 )){  //if the item is black (luminance < 7) or white (lum > 90 AND sat < 15)
+        else if ((c2.getHsl1().get(2) > 90 && c2.getHsl1().get(1) < 15 ) || c2.getHsl1().get(2) < 7 ){  //if the item is black (luminance < 7) or white (lum > 90 AND sat < 15)
             return true;
         }
         return false;
