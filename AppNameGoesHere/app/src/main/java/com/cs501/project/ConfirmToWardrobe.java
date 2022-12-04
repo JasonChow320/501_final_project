@@ -355,7 +355,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                 case heavy_jacket:
                     return clothes_factory.get_heavyjacket();
                 case LIGHT_JACKET:
-                    return clothes_factory.get_jacket();
+                    return clothes_factory.get_light_jacket();
                 case T_SHIRT:
                     return clothes_factory.get_tshirt();
                 case LONG_SLEEVE:

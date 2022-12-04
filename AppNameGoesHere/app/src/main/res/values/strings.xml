@@ -64,7 +64,7 @@
         <item name="shorts">shorts</item>
         <item name="pants">pants</item>
         <item name="shoes">shoes</item>
-        <item name="jacket">jacket</item>
+        <item name="light_jacket">light_jacket</item>
     </string-array>
 
     <string name="insert_email_here">Insert Email Here</string>
