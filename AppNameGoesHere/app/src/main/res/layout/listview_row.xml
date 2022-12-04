@@ -21,13 +21,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Type"
+            android:textSize="24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintHorizontal_bias="0.113"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.1"
-            android:textSize="24dp"/>
+            app:layout_constraintVertical_bias="0.1" />
 
         <TextView
             android:id="@+id/clothes_id_view"
@@ -50,7 +50,7 @@
             android:text="EDIT"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.03"
+            app:layout_constraintHorizontal_bias="0.06"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clothes_id_view"
             app:layout_constraintTop_toTopOf="parent"
@@ -98,13 +98,13 @@
             android:id="@+id/waterproofIndicator"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.67"
+            app:layout_constraintHorizontal_bias="0.73"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.17"
-            android:visibility="invisible"
             app:srcCompat="@drawable/waterproof_indicator" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
