@@ -289,6 +289,7 @@ public class GenerateOutfit extends AppCompatActivity {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
         System.out.println(height);
 
         outfitLayout.removeAllViews();
@@ -297,7 +298,7 @@ public class GenerateOutfit extends AppCompatActivity {
         int number = ids.size();
         for(String id: ids) {
             ImageView img = new ImageView(this);
-            img.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, (height/(number+1))));
+            img.setLayoutParams(new LinearLayout.LayoutParams(width/2, (height/(number+1))));
 
             StorageReference pathReference = FirebaseStorage.getInstance().getReference();
             pathReference.child(fb_manager.getUser().getWardrobe().getClothesByUid(id).getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {

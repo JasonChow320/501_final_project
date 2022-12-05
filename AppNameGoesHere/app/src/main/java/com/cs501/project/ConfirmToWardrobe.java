@@ -382,7 +382,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
     
     //https://stackoverflow.com/questions/63410194/how-to-save-multiple-bitmaps-fastly-in-android-studio
     public void saveBitmap(Bitmap output, String fileName){
-     
+        output = TrimImage(output);
         System.out.println("Saved to " + fileName);
         File image = new File(fileName);
         try {
@@ -394,6 +394,50 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         } catch (IOException e) {
             System.out.println("ERROR SAVING IMAGE: " + e);
         }
+    }
+
+    //https://stackoverflow.com/questions/7385616/crop-trim-a-jpg-file-with-empty-space-with-java
+    public static Bitmap TrimImage(Bitmap bmp) {
+        int imgHeight = bmp.getHeight();
+        int imgWidth  = bmp.getWidth();
+
+        //TRIM WIDTH
+        int widthStart  = imgWidth;
+        int widthEnd = 0;
+        for(int i = 0; i < imgHeight; i++) {
+            for(int j = imgWidth - 1; j >= 0; j--) {
+                if(bmp.getPixel(j, i) != android.graphics.Color.TRANSPARENT &&
+                        j < widthStart) {
+                    widthStart = j;
+                }
+                if(bmp.getPixel(j, i) != android.graphics.Color.TRANSPARENT &&
+                        j > widthEnd) {
+                    widthEnd = j;
+                    break;
+                }
+            }
+        }
+        //TRIM HEIGHT
+        int heightStart = imgHeight;
+        int heightEnd = 0;
+        for(int i = 0; i < imgWidth; i++) {
+            for(int j = imgHeight - 1; j >= 0; j--) {
+                if(bmp.getPixel(i, j) != android.graphics.Color.TRANSPARENT &&
+                        j < heightStart) {
+                    heightStart = j;
+                }
+                if(bmp.getPixel(i, j) != android.graphics.Color.TRANSPARENT &&
+                        j > heightEnd) {
+                    heightEnd = j;
+                    break;
+                }
+            }
+        }
+
+        int finalWidth = widthEnd - widthStart;
+        int finalHeight = heightEnd - heightStart;
+
+        return Bitmap.createBitmap(bmp, widthStart,heightStart,finalWidth, finalHeight);
     }
 
     // private method to compress the image to at least under 1MB
