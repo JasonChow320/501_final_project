@@ -145,10 +145,13 @@ class ViewOutfitAdapter extends BaseAdapter {
         View row;
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            row = inflater.inflate(R.layout.listview_row, parent, false);
+            row = inflater.inflate(R.layout.outfit_list_view, parent, false);
         } else {
             row = convertView;
         }
+
+        TextView outfit_name = (TextView) row.findViewById(R.id.outfit_new_text);
+        outfit_name.setText(outfits.get(position).toString());
 
         return row;
     }

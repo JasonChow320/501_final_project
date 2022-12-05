@@ -189,7 +189,7 @@ public class SignUp extends AppCompatActivity {
         wardrobe.insertClothes(factory.get_tshirt()); */
 
         myRef.child(profile.getUserId()).setValue(profile);
-        
+
         // finish adding the user
         progressBar_signup.setVisibility(View.GONE);
         finish();
