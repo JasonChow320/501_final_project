@@ -91,4 +91,9 @@
     <string name="three_layer_temp">Maximum temperature for three layers  </string>
     <string name="one_layer_temp">Minimum temperature for one layer  </string>
     <string name="flashTypes">Flash type for camera</string>
+    <string name="you_do_not_have_any_saved_outfits">You do not have any saved outfits</string>
+    <string name="delete_password">delete password</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="add_change_password">Add/Change Password</string>
+    <string name="modifying_a_user_profile">Modifying a user profile!</string>
 </resources>
