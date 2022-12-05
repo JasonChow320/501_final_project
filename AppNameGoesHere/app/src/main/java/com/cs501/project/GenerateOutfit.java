@@ -55,6 +55,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import java.util.Collections;
 import java.util.Random;
 
 
@@ -72,6 +73,7 @@ public class GenerateOutfit extends AppCompatActivity {
     private TextView clouds;
     private TextView wind;
     private TextView weatherTile;
+    private Outfit currentFit = null;
 
     private LinearLayout outfitLayout;
 
@@ -120,7 +122,12 @@ public class GenerateOutfit extends AppCompatActivity {
             public void onClick(View view) {
 //                Outfit new_outfit = random_outfit();
                 Outfit new_outfit = generateOutfitMonochrome();
-                displayOutfit(new_outfit);
+                if(new_outfit!=null) {
+                    displayOutfit(new_outfit);
+                } else {
+                    Toast.makeText(getApplicationContext(), "Unable to create monochrome outfit. Please try again",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -130,6 +137,15 @@ public class GenerateOutfit extends AppCompatActivity {
             public void onClick(View view) {
                 Outfit new_outfit = random_outfit();
                 displayOutfit(new_outfit);
+            }
+        });
+
+        Button save_outfit = (Button) findViewById(R.id.save_outfit);
+        save_outfit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(currentFit!=null)
+                    fb_manager.addOutfit(currentFit);
             }
         });
     }
@@ -224,11 +240,16 @@ public class GenerateOutfit extends AppCompatActivity {
         Wardrobe wardrobe = fb_manager.getUser().getWardrobe();
 
         // get clothes
-        ArrayList<Clothes> top = wardrobe.getTShirts();
+        ArrayList<Clothes> top = wardrobe.getLightJackets();
+        top.addAll(wardrobe.getHeavyJackets());
+        top.addAll(wardrobe.getSweater());
         ArrayList<Clothes> mid = wardrobe.getLongSleeve();
+        mid.addAll(wardrobe.getTShirts());
         ArrayList<Clothes> bottom = wardrobe.getShorts();
+        bottom.addAll(wardrobe.getPants());
+        ArrayList<Clothes> shoes = wardrobe.getShoes();
 
-        int top_arr_size = top.size(), mid_arr_size = mid.size(), bottom_arr_size = bottom.size();
+        int top_arr_size = top.size(), mid_arr_size = mid.size(), bottom_arr_size = bottom.size(), shoe_arr_size=shoes.size();
 
         // generate the outfit
         Outfit new_outfit = new Outfit();
@@ -251,17 +272,24 @@ public class GenerateOutfit extends AppCompatActivity {
             int rand_int3 = rand.nextInt(1000);
             new_outfit.addClothesToOutfit(bottom.get(rand_int3 % bottom_arr_size).getUniqueId());
         }
+        if(shoe_arr_size > 0){
+            // Generate random integers in range 0 to 999
+            int rand_int4 = rand.nextInt(1000);
+            new_outfit.addClothesToOutfit(shoes.get(rand_int4 % shoe_arr_size).getUniqueId());
+        }
 
         // save to database
-        fb_manager.addOutfit(new_outfit);
+        //fb_manager.addOutfit(new_outfit);
 
         return new_outfit;
     }
 
     public void displayOutfit(Outfit outfit) {
+        currentFit = outfit;
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
         System.out.println(height);
 
         outfitLayout.removeAllViews();
@@ -270,7 +298,7 @@ public class GenerateOutfit extends AppCompatActivity {
         int number = ids.size();
         for(String id: ids) {
             ImageView img = new ImageView(this);
-            img.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, height/number));
+            img.setLayoutParams(new LinearLayout.LayoutParams(width/2, (height/(number+1))));
 
             StorageReference pathReference = FirebaseStorage.getInstance().getReference();
             pathReference.child(fb_manager.getUser().getWardrobe().getClothesByUid(id).getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
@@ -293,7 +321,10 @@ public class GenerateOutfit extends AppCompatActivity {
     public Outfit generateOutfitMonochrome (){
 
         User_settings uSettings = fb_manager.getUser().getUserSettings();
-        ArrayList<Clothes> wardrobe = fb_manager.getClothes();
+        ArrayList<Clothes> wardrobeOrig = fb_manager.getClothes();
+
+        ArrayList<Clothes> wardrobe = new ArrayList<>(wardrobeOrig);
+        Collections.shuffle(wardrobe);
 
         int oneLayerTemp = uSettings.getOneLayerTemp();
         int threeLayerTemp = uSettings.getThreeLayerTemp();
@@ -377,15 +408,8 @@ public class GenerateOutfit extends AppCompatActivity {
                         top.add(wardrobe.get(j)); // add the item
                         break;
                     }
-
                 }
-
-
             }
-
-
-
-
         }
 
         // all top and bottom layers added, bottom chosen, now we choose shoes
@@ -396,10 +420,16 @@ public class GenerateOutfit extends AppCompatActivity {
                 shoes = wardrobe.get(j);
                 break;
             }
+        }
 
+        if(top.size()==0 || bottom==null || shoes == null) {
+            return null; //outfit was not created successfully
         }
 
         Outfit outfit = new Outfit();
+        String uniqueId = RandomString.getAlphaNumericString(16);
+        outfit.setOutfitUniqueId(uniqueId);
+        outfit.setName(uniqueId);
 
         for (Clothes item: top){
             outfit.addClothesToOutfit(item.getUniqueId());
@@ -409,8 +439,6 @@ public class GenerateOutfit extends AppCompatActivity {
         outfit.addClothesToOutfit(shoes.getUniqueId());
 
         return outfit;
-
-
     }
 
     public ArrayList<Clothes.Type>validItemsForLayer (int layer){
@@ -421,7 +449,7 @@ public class GenerateOutfit extends AppCompatActivity {
             arr.add(Clothes.Type.LONG_SLEEVE);
         }
         else if (layer ==2){
-            arr.add(Clothes.Type.LONG_SLEEVE);
+            arr.add(Clothes.Type.SWEATER);
             arr.add(Clothes.Type.LIGHT_JACKET);
             arr.add(Clothes.Type.HEAVY_JACKET);
         }
