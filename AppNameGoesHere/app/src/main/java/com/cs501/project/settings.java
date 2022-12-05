@@ -7,7 +7,12 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.cs501.project.Model.FireBaseManager;
@@ -28,8 +33,11 @@ public class settings extends AppCompatActivity {
     TextView twoLayerTemp;
     TextView threeLayerTemp;
     TextView flashMode;
-    int currOneTemp;
-    int currThreeTemp;
+    int currOneTemp, currThreeTemp;
+    String CurrFlashMode;
+    Spinner oneLayerTempSpinner, threeLayerTempSpinner, flashModeSpinner;
+    String[] flashModeList, oneLayerTempList, threeLayerTempList;
+    ArrayAdapter adapter1, adapter2, adapter3;
 
     private FireBaseManager fb_manager;
     private final static String TAG = "SettingActivity";
@@ -54,14 +62,36 @@ public class settings extends AppCompatActivity {
         fb_manager = FireBaseManager.getInstance();
         User_settings uSettings = fb_manager.getUser().getUserSettings();
 
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame, new settingsFragment())
-                .commit();
+        Button back = (Button) findViewById(R.id.main_back_button);
+
+        CurrFlashMode = uSettings.getFlashMode();
+        currThreeTemp = uSettings.getThreeLayerTemp();
+        currOneTemp = uSettings.getOneLayerTemp();
+
+        System.out.println(CurrFlashMode  + " " + currOneTemp + " " + currThreeTemp);
+
+        oneLayerTempList = getResources().getStringArray(R.array.tempValues1Layer);
+        flashModeList = getResources().getStringArray(R.array.flashModes);
+        threeLayerTempList = getResources().getStringArray(R.array.tempValues3Layers);
 
         oneLayerTemp = (TextView) findViewById(R.id.textView6);
         threeLayerTemp = (TextView) findViewById(R.id.textView7);
         flashMode = (TextView) findViewById(R.id.textView4);
+
+        oneLayerTempSpinner = (Spinner) findViewById(R.id.spinner5);
+        adapter1 = ArrayAdapter.createFromResource(this, R.array.tempValues1Layer ,android.R.layout.simple_spinner_item);
+        oneLayerTempSpinner.setAdapter(adapter1);
+
+        threeLayerTempSpinner = (Spinner) findViewById(R.id.spinner4);
+        adapter2 = ArrayAdapter.createFromResource(this, R.array.tempValues3Layers ,android.R.layout.simple_spinner_item);
+        threeLayerTempSpinner.setAdapter(adapter2);
+        threeLayerTempSpinner.setSelection(adapter2.getPosition(currThreeTemp));
+
+        flashModeSpinner = (Spinner) findViewById(R.id.spinner3);
+        adapter3 = ArrayAdapter.createFromResource(this, R.array.flashModes ,android.R.layout.simple_spinner_item);
+        flashModeSpinner.setAdapter(adapter3);
+        System.out.println(adapter3.getPosition(CurrFlashMode));
+        flashModeSpinner.setSelection(adapter3.getPosition(CurrFlashMode));
 
         // Settings auto updates when database changes
         myRef.child(currentUser.getUid()).child("users").child(String.valueOf(fb_manager.getUserIdx())).addValueEventListener(new ValueEventListener() {
@@ -74,9 +104,6 @@ public class settings extends AppCompatActivity {
                 User user = dataSnapshot.getValue(User.class);
 
                 User_settings setting = user.getUserSettings();
-                oneLayerTemp.setText(String.valueOf(setting.getOneLayerTemp()) + "F");
-                threeLayerTemp.setText(String.valueOf(setting.getThreeLayerTemp()) + "F");
-                flashMode.setText(String.valueOf(setting.getFlashMode()));
 
             }
 
@@ -88,32 +115,61 @@ public class settings extends AppCompatActivity {
             }
         });
 
-        currOneTemp = 0;
-        currThreeTemp = 0;
-        int t = R.xml.settings;
-        SharedPreferences sharedPreferences =
-                PreferenceManager.getDefaultSharedPreferences(this);
-        oneLayerTemp.setText(uSettings.getOneLayerTemp() +" F");
-        threeLayerTemp.setText(uSettings.getThreeLayerTemp()+ " F");
-        flashMode.setText(uSettings.getFlashMode());
-
-        sharedPreferences.registerOnSharedPreferenceChangeListener(new SharedPreferences.OnSharedPreferenceChangeListener() {
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-                System.out.println(s);
-                if(s.equals("onelayertemp")){
-                    System.out.println("change layer one");
-                    //oneLayerTemp.setText(sharedPreferences.getString("onelayertemp","")+ "F");
-                    fb_manager.updateOneLayerTemp(Integer.parseInt(sharedPreferences.getString("onelayertemp","")));
-                } else if (s.equals("threelayertemp")){
-                    System.out.println("change on layer three");
-                    //threeLayerTemp.setText(sharedPreferences.getString("threelayertemp", "")+ "F");
-                    fb_manager.updateThreeLayerTemp(Integer.parseInt(sharedPreferences.getString("threelayertemp","")));
-                } else if (s.equals("flashMode")){
-                    System.out.println("change on layer three");
-                    fb_manager.updateFlashMode(sharedPreferences.getString("flashMode",""));
-                }
+            public void onClick(View view) {
+                finish();
             }
         });
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        oneLayerTempSpinner.setSelection(adapter1.getPosition(String.valueOf(currOneTemp)));
+        threeLayerTempSpinner.setSelection(adapter2.getPosition(String.valueOf(currThreeTemp)));
+        flashModeSpinner.setSelection(adapter3.getPosition(CurrFlashMode));
+
+
+        oneLayerTempSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String temp = oneLayerTempList[i];
+                fb_manager.updateOneLayerTemp(Integer.parseInt(temp));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        threeLayerTempSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String temp = threeLayerTempList[i];
+                fb_manager.updateThreeLayerTemp(Integer.parseInt(temp));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        flashModeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String temp = flashModeList[i];
+                fb_manager.updateFlashMode(temp);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 }

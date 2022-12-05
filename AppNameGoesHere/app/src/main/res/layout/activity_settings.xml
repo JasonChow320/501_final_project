@@ -137,13 +137,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleText">
 
-        <FrameLayout
-            android:id="@+id/frame"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-        </FrameLayout>
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -151,27 +144,63 @@
 
             <TextView
                 android:id="@+id/textView6"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="70dp"
                 android:gravity="center"
-                android:text="20F" />
+                android:text="@string/one_layer_temp" />
 
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="70dp"
                 android:gravity="center"
-                android:text="20 F" />
+                android:text="@string/three_layer_temp" />
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="70dp"
-                android:gravity="center" />
+                android:gravity="center"
+                android:text="@string/flashTypes" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Spinner
+                android:id="@+id/spinner5"
+                android:layout_width="match_parent"
+                android:layout_height="70dp" />
+
+            <Spinner
+                android:id="@+id/spinner4"
+                android:layout_width="match_parent"
+                android:layout_height="70dp" />
+
+            <Spinner
+                android:id="@+id/spinner3"
+                android:layout_width="match_parent"
+                android:layout_height="70dp" />
         </LinearLayout>
 
     </LinearLayout>
 
+    <Button
+        android:id="@+id/main_back_button"
+        android:layout_width="60dp"
+        android:layout_height="70dp"
+        android:gravity="center"
+        app:icon="@drawable/back_button_svgrepo_com"
+        app:iconGravity="top"
+        app:iconSize="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

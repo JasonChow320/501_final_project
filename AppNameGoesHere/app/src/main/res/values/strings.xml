@@ -88,4 +88,7 @@
     <string name="Choose_Clothing_type">Choose Clothing Type</string>
     <string name="none_available_all">No Clothing available</string>
     <string name="none_available">No Clothing of this type available</string>
+    <string name="three_layer_temp">Maximum temperature for three layers  </string>
+    <string name="one_layer_temp">Minimum temperature for one layer  </string>
+    <string name="flashTypes">Flash type for camera</string>
 </resources>
