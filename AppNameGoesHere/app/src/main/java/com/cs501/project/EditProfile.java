@@ -1,6 +1,7 @@
 package com.cs501.project;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.text.InputType;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.cs501.project.Model.FireBaseManager;
 import com.cs501.project.Model.User;
+import com.cs501.project.Model.User_settings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -118,6 +120,15 @@ public class EditProfile extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void onStart() {
+        super.onStart();
+        User_settings uSettings = fb_manager.getUser().getUserSettings();
+        ConstraintLayout con = findViewById(R.id.background);
+        String backgroundColor = getResources().getStringArray(R.array.themesValues)[uSettings.getTheme()];
+        System.out.println(backgroundColor);
+        con.setBackgroundColor(android.graphics.Color.parseColor(backgroundColor));
     }
 
     private void resetFields(){
