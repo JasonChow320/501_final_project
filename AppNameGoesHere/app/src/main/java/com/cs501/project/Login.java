@@ -4,13 +4,11 @@ import static android.content.Context.MODE_PRIVATE;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,18 +17,13 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.telephony.data.ApnSetting;
 import android.text.InputType;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Button;
@@ -39,10 +32,10 @@ import android.widget.EditText;
 import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.Clothes_Factory;
 import com.cs501.project.Model.FireBaseManager;
+import com.cs501.project.Model.Hash;
 import com.cs501.project.Model.Profile;
-import com.cs501.project.Model.RandomString;
-import com.cs501.project.Model.SQLDataBase;
 import com.cs501.project.Model.User;
+
 import com.cs501.project.Model.User_settings;
 import com.cs501.project.Model.Wardrobe;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -55,11 +48,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Login extends AppCompatActivity {
 
@@ -278,6 +268,14 @@ class LoginCustomAdapter extends BaseAdapter {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // get realtime database
+                FireBaseManager fb_manager = FireBaseManager.getInstance();
+                fb_manager.setUserIdx(position);
+
+                User user = fb_manager.getUser();
+
+                // define confirm delete dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
                 builder.setTitle("Confirm");
@@ -296,9 +294,47 @@ class LoginCustomAdapter extends BaseAdapter {
                     public void onClick(DialogInterface dialog, int which) {
                     }
                 });
+                AlertDialog confirm_dialog = builder.create();
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                if(user.getPasswordProtected()){
+
+                    // ask for password
+                    AlertDialog.Builder pass_builder = new AlertDialog.Builder(context);
+                    pass_builder.setCancelable(true);
+                    pass_builder.setTitle("Password");
+                    pass_builder.setMessage("This account is password protected, enter password:");
+                    final EditText input = new EditText(context);
+                    // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    pass_builder.setView(input);
+
+                    pass_builder.setPositiveButton("Confirm",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    // check password
+                                    if(!user.getPassword().equals(Hash.md5(input.getText().toString()))){
+                                        Toast.makeText(context, "Wrong password",
+                                                Toast.LENGTH_SHORT).show();
+                                        return;
+                                    } else{
+
+                                        confirm_dialog.show();
+                                    }
+                                }
+                            });
+                    pass_builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+
+                    AlertDialog pass_dialog = pass_builder.create();
+                    pass_dialog.show();
+                } else {
+                    confirm_dialog.show();
+                }
             }
         });
 
@@ -307,6 +343,13 @@ class LoginCustomAdapter extends BaseAdapter {
             public void onClick(View view) {
 
                 boolean able_to_edit = true;
+
+                // get realtime database
+                FireBaseManager fb_manager = FireBaseManager.getInstance();
+                fb_manager.setUserIdx(position);
+
+                User user = fb_manager.getUser();
+
                 if(user.getPasswordProtected()){
 
                     able_to_edit = false;
@@ -349,9 +392,6 @@ class LoginCustomAdapter extends BaseAdapter {
                     AlertDialog dialog = builder.create();
                     dialog.show();
                 } else {
-
-                    FireBaseManager fb_manager = FireBaseManager.getInstance();
-                    fb_manager.setUserIdx(position);
 
                     // call edit profile
                     Intent i = new Intent(context, EditProfile.class);

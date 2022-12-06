@@ -1,13 +1,11 @@
 package com.cs501.project;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,14 +14,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cs501.project.Model.FireBaseManager;
-import com.cs501.project.Model.Profile;
+import com.cs501.project.Model.Hash;
 import com.cs501.project.Model.RandomString;
 import com.cs501.project.Model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -153,10 +147,11 @@ public class MakeProfile extends AppCompatActivity {
 
         User user = new User();
         user.setUsername(username);
+        user.setUserId(RandomString.getAlphaNumericString(16));
 
         if(checkbox_pw_enable.isChecked()){
 
-            if(verifyPassword()){
+            if(!verifyPassword()){
                 Toast.makeText(MakeProfile.this, "Unable to make an user profile, password does not match!",
                         Toast.LENGTH_SHORT).show();
                 this.resetFields();
@@ -180,7 +175,7 @@ public class MakeProfile extends AppCompatActivity {
     private boolean verifyPassword(){
         String password = password_text.getText().toString(), password_verify = password_verify_text.getText().toString();
 
-        if(password_text.length() <= 0 || !password_text.equals(password_verify)){
+        if(password_text.length() <= 0 || !password.equals(password_verify)){
             return false;
         }
 

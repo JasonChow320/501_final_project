@@ -191,17 +191,6 @@ public class SignUp extends AppCompatActivity {
 
         myRef.child(profile.getUserId()).setValue(profile);
 
-        /* add this if we want to protect wardrobe
-            "wardrobe": {
-              "$userId": {
-                // grants write access to the owner of this user account
-                // whose uid must exactly match the key ($userId)
-                ".write": "$userId === auth.uid",
-                ".read": "$userId === auth.uid"
-              }
-            },
-         */
-
         // finish adding the user
         progressBar_signup.setVisibility(View.GONE);
         finish();

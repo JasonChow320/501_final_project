@@ -1,4 +1,4 @@
-package com.cs501.project;
+package com.cs501.project.Model;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

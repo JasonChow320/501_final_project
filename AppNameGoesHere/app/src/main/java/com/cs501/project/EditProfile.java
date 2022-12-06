@@ -1,19 +1,23 @@
 package com.cs501.project;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cs501.project.Model.FireBaseManager;
+import com.cs501.project.Model.Hash;
 import com.cs501.project.Model.User;
 import com.cs501.project.Model.User_settings;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,7 +28,7 @@ public class EditProfile extends AppCompatActivity {
 
     // Views for the Activity
     private EditText username, password_text, password_verify_text;
-    private Button edit_account, back_button;
+    private Button edit_account, back_button, delete_password;
     private CheckBox checkbox, checkbox_pw_enable;
 
     // To interact with FireBase
@@ -57,6 +61,7 @@ public class EditProfile extends AppCompatActivity {
         password_verify_text = (EditText) findViewById(R.id.editTextPasswordVerifyEditProfile);
         edit_account = (Button) findViewById(R.id.edit_confirm_button);
         back_button = (Button) findViewById(R.id.edit_back_button);
+        delete_password = (Button) findViewById(R.id.edit_delete_password_button);
         checkbox = (CheckBox) findViewById(R.id.edit_profile_checkBox);
         checkbox_pw_enable = (CheckBox) findViewById(R.id.enable_password_edit_checkbox);
 
@@ -64,6 +69,8 @@ public class EditProfile extends AppCompatActivity {
         password_text.setInputType(InputType.TYPE_NULL);
         password_verify_text.setEnabled(false);
         password_verify_text.setInputType(InputType.TYPE_NULL);
+
+        this.resetFields();
 
         // Set Up Button OnClicks
         edit_account.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +127,42 @@ public class EditProfile extends AppCompatActivity {
                 finish();
             }
         });
+
+        delete_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(user.getPasswordProtected()){
+
+                    // define confirm delete dialog
+                    AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
+                    builder.setCancelable(true);
+                    builder.setTitle("Confirm");
+                    builder.setMessage("Do you really want to delete this profile?");
+                    builder.setPositiveButton("Confirm",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    // delete password
+                                    user.setPasswordProtected(false);
+                                    Toast.makeText(EditProfile.this, "Password deleted",
+                                            Toast.LENGTH_SHORT).show();
+                                    fb_manager.update();
+                                }
+                            });
+                    builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    });
+                    AlertDialog confirm_dialog = builder.create();
+                    confirm_dialog.show();
+                } else {
+                    Toast.makeText(EditProfile.this, "You don't have a password setup",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     public void onStart() {
@@ -152,12 +195,11 @@ public class EditProfile extends AppCompatActivity {
 
         User user = fb_manager.getUser();
         user.setUsername(username);
-        user.setPasswordProtected(false);
 
         if(checkbox_pw_enable.isChecked()){
 
-            if(verifyPassword()){
-                Toast.makeText(EditProfile.this, "Unable to make an user profile, password does not match!",
+            if(!verifyPassword()){
+                Toast.makeText(EditProfile.this, "Unable to edit an user profile, password does not match!",
                         Toast.LENGTH_SHORT).show();
                 this.resetFields();
                 return;
@@ -168,7 +210,6 @@ public class EditProfile extends AppCompatActivity {
         }
 
         fb_manager.update();
-        this.resetFields();
 
         Toast.makeText(EditProfile.this, "Successfully edit an user profile!",
                 Toast.LENGTH_SHORT).show();
@@ -178,7 +219,7 @@ public class EditProfile extends AppCompatActivity {
     private boolean verifyPassword(){
         String password = password_text.getText().toString(), password_verify = password_verify_text.getText().toString();
 
-        if(password_text.length() <= 0 || !password_text.equals(password_verify)){
+        if(password_text.length() <= 0 || !password.equals(password_verify)){
             return false;
         }
 

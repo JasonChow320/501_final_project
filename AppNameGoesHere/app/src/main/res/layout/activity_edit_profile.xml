@@ -57,7 +57,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35"  />
+        app:layout_constraintVertical_bias="0.4"  />
 
     <EditText
         android:id="@+id/editTextPasswordEditProfile"
@@ -71,7 +71,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.40"  />
+        app:layout_constraintVertical_bias="0.45"  />
 
     <CheckBox
         android:id="@+id/edit_profile_checkBox"
@@ -117,7 +117,7 @@
         android:id="@+id/edit_profile_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Modifying a user profile!"
+        android:text="@string/modifying_a_user_profile"
         android:textSize="24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -129,23 +129,35 @@
         android:id="@+id/enable_password_edit_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add/Change Password"
+        android:text="@string/add_change_password"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
+        app:layout_constraintVertical_bias="0.28" />
 
     <Button
         android:id="@+id/edit_confirm_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CONFIRM"
+        android:text="@string/confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.8"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.9" />
+
+    <Button
+        android:id="@+id/edit_delete_password_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_password"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.35" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

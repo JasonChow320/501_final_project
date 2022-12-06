@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button toWardrobe = (Button) findViewById(R.id.button1);
         Button toGeneration = (Button) findViewById(R.id.button2);
+        Button toViewOutfit = (Button) findViewById(R.id.button3);
         Button toAdd = (Button) findViewById(R.id.button4);
         Button settings = (Button) findViewById(R.id.main_setting_button);
         Button back = (Button) findViewById(R.id.main_back_button);
@@ -72,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this, AddToWardrobe.class);
+                startActivity(i);
+            }
+        });
+
+        toViewOutfit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(MainActivity.this, ViewOutfit.class);
                 startActivity(i);
             }
         });
