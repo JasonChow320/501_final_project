@@ -4,6 +4,7 @@ import static android.content.Context.MODE_PRIVATE;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.FireBaseManager;
 import com.cs501.project.Model.Profile;
+import com.cs501.project.Model.User_settings;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationBarView;
@@ -137,6 +139,16 @@ public class ViewWardrobe extends AppCompatActivity {
             }
         });
     }
+
+    public void onStart() {
+        super.onStart();
+        User_settings uSettings = fb_manager.getUser().getUserSettings();
+        ConstraintLayout con = findViewById(R.id.background);
+        String backgroundColor = getResources().getStringArray(R.array.themesValues)[uSettings.getTheme()];
+        System.out.println(backgroundColor);
+        con.setBackgroundColor(Color.parseColor(backgroundColor));
+    }
+
 
     public ArrayList<Clothes> getClothes(Integer type){
         switch(type){

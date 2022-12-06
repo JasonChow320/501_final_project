@@ -2,7 +2,7 @@ package com.cs501.project.Model;
 
 public class User_settings {
 
-    int oneLayerTemp, threeLayerTemp;
+    int oneLayerTemp, threeLayerTemp, theme;
     String flashMode;
 
     public User_settings(){
@@ -11,6 +11,7 @@ public class User_settings {
         this.oneLayerTemp = 75;
         this.threeLayerTemp = 45;
         this.flashMode = "On";
+        this.theme = 0;
     }
 
     public void setOneLayerTemp(int temp){
@@ -20,6 +21,8 @@ public class User_settings {
         this.threeLayerTemp = temp;
     }
     public void setFlashMode(String temp) {this.flashMode = temp;}
+    public void setTheme(int temp) {this.theme = temp;}
+
 
     public int getOneLayerTemp(){
         return this.oneLayerTemp;
@@ -28,4 +31,5 @@ public class User_settings {
         return this.threeLayerTemp;
     }
     public String getFlashMode() { return this.flashMode;}
+    public int getTheme() { return this.theme;}
 }

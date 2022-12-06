@@ -3,17 +3,19 @@ package com.cs501.project;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.cs501.project.Model.Color;
 import com.cs501.project.Model.FireBaseManager;
+import com.cs501.project.Model.User_settings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -35,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         Button settings = (Button) findViewById(R.id.main_setting_button);
         Button back = (Button) findViewById(R.id.main_back_button);
         // if we want to use User's data here
-        fb_manager = FireBaseManager.getInstance();
 
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +94,12 @@ public class MainActivity extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseAuth mAuth;
         mAuth = FirebaseAuth.getInstance();
+        fb_manager = FireBaseManager.getInstance();
+        User_settings uSettings = fb_manager.getUser().getUserSettings();
+        ConstraintLayout con = findViewById(R.id.background);
+        String backgroundColor = getResources().getStringArray(R.array.themesValues)[uSettings.getTheme()];
+        System.out.println(backgroundColor);
+        con.setBackgroundColor(Color.parseColor(backgroundColor));
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){

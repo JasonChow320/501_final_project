@@ -1,18 +1,22 @@
 package com.cs501.project;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.preference.PreferenceManager;
 
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.cs501.project.Model.FireBaseManager;
@@ -33,11 +37,14 @@ public class settings extends AppCompatActivity {
     TextView twoLayerTemp;
     TextView threeLayerTemp;
     TextView flashMode;
-    int currOneTemp, currThreeTemp;
+    int currOneTemp, currThreeTemp, currTheme;
     String CurrFlashMode;
-    Spinner oneLayerTempSpinner, threeLayerTempSpinner, flashModeSpinner;
+    Spinner oneLayerTempSpinner, threeLayerTempSpinner, flashModeSpinner, themeSpinner;
     String[] flashModeList, oneLayerTempList, threeLayerTempList;
-    ArrayAdapter adapter1, adapter2, adapter3;
+    ArrayAdapter adapter1, adapter2, adapter3 ,adapter4;
+    ConstraintLayout con;
+    User_settings uSettings;
+    Switch themeSwitcher;
 
     private FireBaseManager fb_manager;
     private final static String TAG = "SettingActivity";
@@ -60,15 +67,17 @@ public class settings extends AppCompatActivity {
 
         // Initialize our firebase manager
         fb_manager = FireBaseManager.getInstance();
-        User_settings uSettings = fb_manager.getUser().getUserSettings();
+        uSettings = fb_manager.getUser().getUserSettings();
 
         Button back = (Button) findViewById(R.id.main_back_button);
 
         CurrFlashMode = uSettings.getFlashMode();
         currThreeTemp = uSettings.getThreeLayerTemp();
         currOneTemp = uSettings.getOneLayerTemp();
+        currTheme = uSettings.getTheme();
+        themeSwitcher = (Switch) findViewById(R.id.switch1);
 
-        System.out.println(CurrFlashMode  + " " + currOneTemp + " " + currThreeTemp);
+        System.out.println(CurrFlashMode  + " " + currOneTemp + " " + currThreeTemp + " " + currTheme);
 
         oneLayerTempList = getResources().getStringArray(R.array.tempValues1Layer);
         flashModeList = getResources().getStringArray(R.array.flashModes);
@@ -92,6 +101,10 @@ public class settings extends AppCompatActivity {
         flashModeSpinner.setAdapter(adapter3);
         System.out.println(adapter3.getPosition(CurrFlashMode));
         flashModeSpinner.setSelection(adapter3.getPosition(CurrFlashMode));
+
+//        themeSpinner = (Spinner) findViewById(R.id.spinner6);
+//        adapter4 = ArrayAdapter.createFromResource(this, R.array.themesNames, android.R.layout.simple_spinner_item);
+//        themeSpinner.setAdapter(adapter4);
 
         // Settings auto updates when database changes
         myRef.child(currentUser.getUid()).child("users").child(String.valueOf(fb_manager.getUserIdx())).addValueEventListener(new ValueEventListener() {
@@ -127,9 +140,17 @@ public class settings extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+
+        con = findViewById(R.id.background);
+        String backgroundColor = getResources().getStringArray(R.array.themesValues)[currTheme];
+        con.setBackgroundColor(Color.parseColor(backgroundColor));
         oneLayerTempSpinner.setSelection(adapter1.getPosition(String.valueOf(currOneTemp)));
         threeLayerTempSpinner.setSelection(adapter2.getPosition(String.valueOf(currThreeTemp)));
         flashModeSpinner.setSelection(adapter3.getPosition(CurrFlashMode));
+        User_settings uSettings = fb_manager.getUser().getUserSettings();
+        if(uSettings.getTheme() == 1) themeSwitcher.setChecked(true);
+        else themeSwitcher.setChecked(false);
+
 
 
         oneLayerTempSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -167,6 +188,39 @@ public class settings extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+//        themeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                fb_manager.updateTheme(i);
+//                String backgroundColor = getResources().getStringArray(R.array.themesValues)[i];
+//                System.out.println(backgroundColor);
+//                con.setBackgroundColor(Color.parseColor(backgroundColor));
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
+
+        themeSwitcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    fb_manager.updateTheme(1);
+                    String backgroundColor = getResources().getStringArray(R.array.themesValues)[1];
+                    System.out.println(backgroundColor);
+                    con.setBackgroundColor(Color.parseColor(backgroundColor));
+                } else {
+                    fb_manager.updateTheme(0);
+                    String backgroundColor = getResources().getStringArray(R.array.themesValues)[0];
+                    System.out.println(backgroundColor);
+                    con.setBackgroundColor(Color.parseColor(backgroundColor));
+                }
 
             }
         });

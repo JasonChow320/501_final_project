@@ -4,6 +4,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -152,6 +153,16 @@ public class GenerateOutfit extends AppCompatActivity {
             }
         });
     }
+
+    public void onStart() {
+        super.onStart();
+        User_settings uSettings = fb_manager.getUser().getUserSettings();
+        ConstraintLayout con = findViewById(R.id.background);
+        String backgroundColor = getResources().getStringArray(R.array.themesValues)[uSettings.getTheme()];
+        System.out.println(backgroundColor);
+        con.setBackgroundColor(android.graphics.Color.parseColor(backgroundColor));
+    }
+
 
     //uses latitude and longitude to get current weather
     public void getWeather(String lat, String lon) {

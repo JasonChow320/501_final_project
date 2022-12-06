@@ -9,6 +9,15 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">16sp</item>
     </style>
+    <style name="HomeButtonDark">
+        <item name="android:layout_width">240dp</item>
+        <item name="android:layout_height">80dp</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="fontFamily">casual</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
     <style name="TextStyle">
         <item name="fontFamily">casual</item>
         <item name="android:textStyle">bold</item>

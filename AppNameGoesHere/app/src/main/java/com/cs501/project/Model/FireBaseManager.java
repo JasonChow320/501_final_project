@@ -262,6 +262,18 @@ public class FireBaseManager {
         myRef.child(currentUser.getUid()).setValue(this.user);
     }
 
+    public void updateTheme(int temp){
+
+        User user = this.getUser();
+        if(user == null){
+            return;
+        }
+
+        User_settings settings = user.getUserSettings();
+        settings.setTheme(temp);
+
+        myRef.child(currentUser.getUid()).setValue(this.user);
+    }
 
     public int getUserIdx(){
         return this.user_idx;

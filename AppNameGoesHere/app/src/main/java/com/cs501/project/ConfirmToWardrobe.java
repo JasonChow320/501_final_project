@@ -2,6 +2,7 @@ package com.cs501.project;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,6 +23,7 @@ import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.Clothes_Factory;
 import com.cs501.project.Model.Color;
 import com.cs501.project.Model.FireBaseManager;
+import com.cs501.project.Model.User_settings;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -196,7 +198,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         Log.d(TAG, "Entering onCreate for ConfirmToWardrobe");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.confirm_to_wardrobe);
-        
+
         clothes_factory = new Clothes_Factory();
         fb_manager = FireBaseManager.getInstance();
         boolean edit = false;
@@ -347,6 +349,16 @@ public class ConfirmToWardrobe extends AppCompatActivity {
             }
         });
     }
+
+    public void onStart() {
+        super.onStart();
+        User_settings uSettings = fb_manager.getUser().getUserSettings();
+        ConstraintLayout con = findViewById(R.id.background);
+        String backgroundColor = getResources().getStringArray(R.array.themesValues)[uSettings.getTheme()];
+        System.out.println(backgroundColor);
+        con.setBackgroundColor(android.graphics.Color.parseColor(backgroundColor));
+    }
+
 
     private Clothes getClothes(String type){
         try{

@@ -74,6 +74,16 @@
         <item name="heavy_jacket">Heavy Jacket</item>
     </string-array>
 
+    <string-array name="themesValues">
+        <item name="light">#FFFFFFFF</item>
+        <item name="dark">#676464</item>
+    </string-array>
+
+    <string-array name="themesNames">
+        <item name="light">Light</item>
+        <item name="dark">Dark</item>
+    </string-array>
+
     <string name="insert_email_here">Insert Email Here</string>
     <string name="sign_in">Sign In</string>
     <string name="sign_up">Sign Up</string>
@@ -96,4 +106,5 @@
     <string name="confirm">CONFIRM</string>
     <string name="add_change_password">Add/Change Password</string>
     <string name="modifying_a_user_profile">Modifying a user profile!</string>
+    <string name="themeChanger">Theme</string>
 </resources>
