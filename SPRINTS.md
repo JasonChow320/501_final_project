@@ -1,3 +1,11 @@
+## Final Sprint
+- [ ] Finalize monochrome outfit algorithm
+- [ ] Finish ViewSavedOutfits
+- [ ] Make sure all strings, colors are in appropriate xml files
+- [ ] Finalize all layouts
+- [ ] Add documentation, comments, instructions, etc.
+- [ ] QA & Crash testing
+
 ## Sprint 5
 - [x] Add profiles functionality
 - [x] MainActivity/Other classes?: Ask for permissions before appropriate activity (storage & camera in AddToWardrobe, location in GenerateOutfit... etc)
