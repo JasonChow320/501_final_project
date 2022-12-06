@@ -144,8 +144,11 @@ public class GenerateOutfit extends AppCompatActivity {
         save_outfit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(currentFit!=null)
+                if(currentFit!=null) {
                     fb_manager.addOutfit(currentFit);
+                    Toast.makeText(getApplicationContext(), "Outfit saved.",
+                            Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
