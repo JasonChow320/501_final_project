@@ -126,7 +126,7 @@ public class GenerateOutfit extends AppCompatActivity {
                 if(new_outfit!=null) {
                     displayOutfit(new_outfit);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Unable to create monochrome outfit. Please try again",
+                    Toast.makeText(getApplicationContext(), "Unable to create monochrome outfit. Please add more items to the wardrobe.",
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -436,7 +436,7 @@ public class GenerateOutfit extends AppCompatActivity {
             }
         }
 
-        if(top.size()==0 || bottom==null || shoes == null) {
+        if(top.size()!= layers || bottom==null || shoes == null) {
             return null; //outfit was not created successfully
         }
 
@@ -497,15 +497,19 @@ public class GenerateOutfit extends AppCompatActivity {
 
     public boolean colorMatch (@NonNull Color baseCol, @NonNull Color c2){
 
+        if(baseCol == null || c2 == null){
+            return false;
+        }
+
         float hueDiff = Math.abs(baseCol.getHsl1().get(0) - c2.getHsl1().get(0));
 
-        if (colorDistance(baseCol, c2) < 400 && hueDiff < 10){ //if the colors are similar (within monochrome shaded range) OR if they share the same hue (if they are diff shades of the same color)
+        if (colorDistance(baseCol, c2) < 400 && hueDiff < 12){ //if the colors are similar (within monochrome shaded range) OR if they share the same hue (if they are diff shades of the same color)
             return true;
         }
-        else if ( c2.getHsl1().get(1) < 10 && c2.getHsl1().get(2) < 50  ){ // if the item is a shade of grey
+        else if ( c2.getHsl1().get(1) < 10 && c2.getHsl1().get(2) < 90 && (c2.getHsl1().get(0) > 30 && c2.getHsl1().get(0) < 250 )){ // if the item is a shade of grey (hues between 30 and 250 tend to show color so we must exclude them)
             return true;
         }
-        else if ((c2.getHsl1().get(2) > 90 && c2.getHsl1().get(1) < 15 ) || c2.getHsl1().get(2) < 7 ){  //if the item is black (luminance < 7) or white (lum > 90 AND sat < 15)
+        else if ((c2.getHsl1().get(2) > 90 && c2.getHsl1().get(1) < 15 ) || (c2.getHsl1().get(2) < 7) || (c2.getHsl1().get(2) < 23 && c2.getHsl1().get(1) < 25 && (c2.getHsl1().get(0) > 200 && c2.getHsl1().get(0) < 235 )) ){  //if the item is black (luminance < 7) or white (lum > 90 AND sat < 15)
             return true;
         }
         return false;
