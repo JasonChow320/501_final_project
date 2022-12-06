@@ -30,6 +30,36 @@ public class Wardrobe {
         }
     }
 
+    public Outfit getOutfitByUid(String uid){
+
+        Outfit outfit_return = null;
+
+        Log.d("Wardrobe", "uid: " + uid);
+        for(Outfit outfit : this.outfits){
+            Log.d("Wardrobe", "clothes' uid: " + outfit.getOutfitUniqueId());
+            if(outfit.getOutfitUniqueId().equals(uid)){
+                Log.d("Wardrobe", "found id: " + uid);
+                outfit_return = outfit;
+            }
+        }
+
+        // we're okay with returning null
+        return outfit_return;
+    }
+
+    public boolean deleteOutfitByUid(String uid){
+
+        for(Outfit outfit : this.outfits){
+            if(outfit.getOutfitUniqueId().equals(uid)){
+                Log.d("Wardrobe", "found id: " + uid);
+                outfits.remove(outfit);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean insertClothes(Clothes clothing){
         if(clothing == null){
             return false;
@@ -48,6 +78,8 @@ public class Wardrobe {
         }
         return false;
     }
+
+
 
     // private to get clothes by its unique id
     public Clothes getClothesByUid(String uid){

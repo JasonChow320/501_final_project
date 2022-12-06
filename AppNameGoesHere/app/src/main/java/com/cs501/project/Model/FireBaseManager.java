@@ -165,6 +165,33 @@ public class FireBaseManager {
         return;
     }
 
+    public void deleteOutFit(String uid) {
+        Wardrobe user_wardrobe = user.getUsers().get(user_idx).getWardrobe();
+
+        // Get item to delete
+        Log.d(TAG, "uid: " + uid);
+        Outfit outfit_to_delete = user_wardrobe.getOutfitByUid(uid);
+
+        if(outfit_to_delete == null){
+            Log.d(TAG, "Cannot find outfit with the unique id");
+            return;
+        }
+
+        // delete image from storage database
+        // Create a storage reference from our app
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+        // Create a reference to the file to delete
+
+        // delete image from user realtime database
+        user_wardrobe.deleteOutfitByUid(uid);
+
+        myRef.child(currentUser.getUid()).setValue(user);
+
+        return;
+    }
+
     public User getUser(){
 
         ArrayList<User> users = user.getUsers();
@@ -294,5 +321,18 @@ public class FireBaseManager {
         // save to database
         myRef.child(currentUser.getUid()).setValue(this.user);
         return true;
+    }
+
+    public Wardrobe getWardrobe(){
+        ArrayList<User> users = user.getUsers();
+        Log.d(TAG, "Getting clothes from FireBaseManager: user_idx: " + user_idx + ", users size: " + users.size());
+
+        if(users.size() <= user_idx){
+            return null;
+        }
+
+        User user = users.get(user_idx);
+        Wardrobe user_wardrobe = user.getWardrobe();
+        return user_wardrobe;
     }
 }
