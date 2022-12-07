@@ -7,7 +7,7 @@
 - [ ] Make sure all activities are portrait-only
 - [ ] Dark mode on ViewSavedOutfits
 - [ ] QA & Crash testing
-- [ ] Break down technical arcitecture in final presentation
+- [ ] Break down technical arcitecture and add code snippets in final presentation
 
 ## Sprint 5
 - [x] Add profiles functionality
