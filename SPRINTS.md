@@ -4,7 +4,10 @@
 - [ ] Make sure all strings, colors are in appropriate xml files
 - [ ] Finalize all layouts
 - [ ] Add documentation, comments, instructions, etc.
+- [ ] Make sure all activities are portrait-only
+- [ ] Dark mode on ViewSavedOutfits
 - [ ] QA & Crash testing
+- [ ] Break down technical arcitecture in final presentation
 
 ## Sprint 5
 - [x] Add profiles functionality
