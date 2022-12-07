@@ -1,13 +1,19 @@
 ## Final Sprint
+
+#### Codebase
 - [ ] Finalize monochrome outfit algorithm
 - [ ] Finish ViewSavedOutfits
 - [ ] Fix RadioGroup lineup in ConfirmToWardrobe
 - [ ] Make sure all strings, colors are in appropriate xml files
 - [ ] Finalize all layouts
-- [ ] Add documentation, comments, instructions, etc.
+- [ ] Add comments to unclear code
 - [ ] Make sure all activities are portrait-only
 - [ ] Dark mode on ViewSavedOutfits
+- [ ] Spanish version of FitGen? Or some other languages
+
+#### Other
 - [ ] QA & Crash testing
+- [ ] Add documentation, instructions, etc.
 - [ ] Break down technical arcitecture and add code snippets in final presentation
 
 ## Sprint 5
