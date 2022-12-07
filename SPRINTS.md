@@ -1,6 +1,7 @@
 ## Final Sprint
 - [ ] Finalize monochrome outfit algorithm
 - [ ] Finish ViewSavedOutfits
+- [ ] Fix RadioGroup lineup in ConfirmToWardrobe
 - [ ] Make sure all strings, colors are in appropriate xml files
 - [ ] Finalize all layouts
 - [ ] Add documentation, comments, instructions, etc.
