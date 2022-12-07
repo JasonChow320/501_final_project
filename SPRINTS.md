@@ -3,6 +3,7 @@
 #### Codebase
 - [ ] Finalize monochrome outfit algorithm
 - [ ] Finish ViewSavedOutfits
+- [ ] Delete saved outfits containing item when item is removed
 - [ ] Fix RadioGroup lineup in ConfirmToWardrobe
 - [ ] Make sure all strings, colors are in appropriate xml files
 - [ ] Finalize all layouts
