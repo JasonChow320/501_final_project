@@ -125,7 +125,6 @@ class ViewOutfitAdapter extends BaseAdapter {
     int height, width;
     FireBaseManager fb_manager;
 
-
     public ViewOutfitAdapter(Context aContext, ArrayList<Outfit> outfits, int height, int width,  Wardrobe wardrobeNeeded, FireBaseManager fb_manager) {
         //initializing our data in the constructor.
         context = aContext;
@@ -175,7 +174,7 @@ class ViewOutfitAdapter extends BaseAdapter {
 
         Outfit outfit_view = outfits.get(position);
         TextView outfit_name = (TextView) row.findViewById(R.id.outfit_new_text);
-        outfit_name.setText("OutFit " + position);
+        outfit_name.setText(outfit_view.getName());
         LinearLayout singularOutfit = (LinearLayout) row.findViewById(R.id.outfitClothes);
 
         ArrayList<String> clothes_in_outfit = outfit_view.getOutfit();
@@ -217,7 +216,6 @@ class ViewOutfitAdapter extends BaseAdapter {
                 e.printStackTrace();
             }
             singularOutfit.addView(img);
-
         }
 
         Button delete = (Button) row.findViewById(R.id.button);

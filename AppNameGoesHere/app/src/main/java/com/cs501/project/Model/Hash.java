@@ -4,10 +4,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Hash {
-    public static String md5(String s) {
+    public static String sha256(String s) {
         try {
-            // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            // Create SHA256 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("SHA256");
             digest.update(s.getBytes());
             byte messageDigest[] = digest.digest();
 

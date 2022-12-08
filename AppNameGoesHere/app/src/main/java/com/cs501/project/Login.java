@@ -238,7 +238,7 @@ class LoginCustomAdapter extends BaseAdapter {
                                 public void onClick(DialogInterface dialog, int which) {
 
                                     // check password
-                                    if(!user.getPassword().equals(Hash.md5(input.getText().toString()))){
+                                    if(!user.getPassword().equals(user.getUserId() + Hash.sha256(input.getText().toString()))){
                                         Toast.makeText(context, "Wrong password",
                                                 Toast.LENGTH_SHORT).show();
                                         return;
@@ -314,7 +314,7 @@ class LoginCustomAdapter extends BaseAdapter {
                                 public void onClick(DialogInterface dialog, int which) {
 
                                     // check password
-                                    if(!user.getPassword().equals(Hash.md5(input.getText().toString()))){
+                                    if(!user.getPassword().equals(user.getUserId() + Hash.sha256(input.getText().toString()))){
                                         Toast.makeText(context, "Wrong password",
                                                 Toast.LENGTH_SHORT).show();
                                         return;
@@ -368,7 +368,7 @@ class LoginCustomAdapter extends BaseAdapter {
                                 public void onClick(DialogInterface dialog, int which) {
 
                                     // check password
-                                    if(!user.getPassword().equals(Hash.md5(input.getText().toString()))){
+                                    if(!user.getPassword().equals(user.getUserId() + Hash.sha256(input.getText().toString()))){
                                         Toast.makeText(context, "Wrong password",
                                                 Toast.LENGTH_SHORT).show();
                                         return;

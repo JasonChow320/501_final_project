@@ -22,6 +22,7 @@ public class Outfit implements Comparable<Outfit> {
     }
 
     public void setName(String name){
+        System.out.println("got name: " + name);
         if(name == null || name.length() <= 0){
             return;
         }

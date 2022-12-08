@@ -160,7 +160,7 @@ public class MakeProfile extends AppCompatActivity {
             }
 
             user.setPasswordProtected(true);
-            user.setPassword(Hash.md5(password_text.getText().toString()));
+            user.setPassword(user.getUserId() + Hash.sha256(password_text.getText().toString()));
         }
 
         fb_manager.addUser(user);

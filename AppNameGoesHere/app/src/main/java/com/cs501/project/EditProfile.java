@@ -136,8 +136,8 @@ public class EditProfile extends AppCompatActivity {
                     // define confirm delete dialog
                     AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
                     builder.setCancelable(true);
-                    builder.setTitle("Confirm");
-                    builder.setMessage("Do you really want to delete this profile?");
+                    builder.setTitle("Confirm to delete password");
+                    builder.setMessage("Do you really want to delete your password?");
                     builder.setPositiveButton("Confirm",
                             new DialogInterface.OnClickListener() {
                                 @Override
@@ -206,7 +206,7 @@ public class EditProfile extends AppCompatActivity {
             }
 
             user.setPasswordProtected(true);
-            user.setPassword(Hash.md5(password_text.getText().toString()));
+            user.setPassword(user.getUserId() + Hash.sha256(password_text.getText().toString()));
         }
 
         fb_manager.update();

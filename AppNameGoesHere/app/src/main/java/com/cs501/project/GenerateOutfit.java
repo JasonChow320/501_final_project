@@ -3,21 +3,25 @@ package com.cs501.project;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +36,7 @@ import com.android.volley.toolbox.Volley;
 import com.cs501.project.Model.Clothes;
 
 import com.cs501.project.Model.FireBaseManager;
+import com.cs501.project.Model.Hash;
 import com.cs501.project.Model.Outfit;
 import com.cs501.project.Model.RandomString;
 import com.cs501.project.Model.Wardrobe;
@@ -146,9 +151,47 @@ public class GenerateOutfit extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(currentFit!=null) {
-                    fb_manager.addOutfit(currentFit);
-                    Toast.makeText(getApplicationContext(), "Outfit saved.",
-                            Toast.LENGTH_SHORT).show();
+
+                    // ask for outfit name
+                    AlertDialog.Builder pass_builder = new AlertDialog.Builder(GenerateOutfit.this);
+                    pass_builder.setCancelable(true);
+                    pass_builder.setTitle("Outfit name");
+                    pass_builder.setMessage("Would you like to name your outfit? By default it'll be named Outfit");
+                    final EditText input = new EditText(GenerateOutfit.this);
+
+                    input.setInputType(InputType.TYPE_CLASS_TEXT);
+                    pass_builder.setView(input);
+                    pass_builder.setPositiveButton("Confirm",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    if(input.getText().toString() != null && input.getText().toString().length() > 0){
+                                        currentFit.setName(input.getText().toString());
+                                    } else {
+                                        currentFit.setName("Outfit");
+                                        Toast.makeText(getApplicationContext(), "Outfit saved. But no name was given",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    fb_manager.addOutfit(currentFit);
+                                    Toast.makeText(getApplicationContext(), "Outfit saved.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                    pass_builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            currentFit.setName("Outfit");
+                            fb_manager.addOutfit(currentFit);
+                            Toast.makeText(getApplicationContext(), "Outfit saved.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    AlertDialog pass_dialog = pass_builder.create();
+                    pass_dialog.show();
                 }
             }
         });
