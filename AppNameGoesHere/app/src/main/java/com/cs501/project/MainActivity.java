@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
 
             // this is bad :( user's not logged in but we're in the main application
-            Toast.makeText(MainActivity.this, "Unable to retrieve user data. Please try again",
+            Toast.makeText(MainActivity.this, getResources().getString(R.string.fail_user_data),
                     Toast.LENGTH_SHORT).show();
             finish();
         }

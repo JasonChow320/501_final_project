@@ -83,7 +83,7 @@ public class SignIn extends AppCompatActivity {
 
         // Check Inputs
         if(email == null || password == null || email.length() <= 0 || password.length() <= 0){
-            Toast.makeText(SignIn.this, "Unable to parse text fields. Please try again",
+            Toast.makeText(SignIn.this, getResources().getString(R.string.unable_parse_text),
                     Toast.LENGTH_SHORT).show();
             this.resetFields();
             return;
@@ -100,7 +100,7 @@ public class SignIn extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithEmail:success");
 
-                            Toast.makeText(SignIn.this, "Sign in successful",
+                            Toast.makeText(SignIn.this, getResources().getString(R.string.sign_in_success),
                                     Toast.LENGTH_SHORT).show();
 
                             resetFields();
@@ -115,7 +115,7 @@ public class SignIn extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user
                             Log.d(TAG, "signInWithEmail:failure", task.getException());
-                            Toast.makeText(SignIn.this, "Authentication failed.",
+                            Toast.makeText(SignIn.this, getResources().getString(R.string.auth_failed_simple),
                                     Toast.LENGTH_SHORT).show();
                             resetFields();
                             progressBar_sign_in.setVisibility(View.GONE);

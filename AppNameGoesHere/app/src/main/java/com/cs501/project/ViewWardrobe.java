@@ -115,10 +115,10 @@ public class ViewWardrobe extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(getClothes(i).size() == 0) {
                     if(i == 0){
-                        noneThere.setText("No Clothing available");
+                        noneThere.setText(getResources().getString(R.string.none_available_all));
 
                     } else {
-                        noneThere.setText("No Clothing of this type available");
+                        noneThere.setText(getResources().getString(R.string.none_available));
 
                     }
                     noneThere.setVisibility(View.VISIBLE);
@@ -241,7 +241,7 @@ class MyCustomAdapter extends BaseAdapter {
             clothes_type.setText(clothes_view.getType().name());
             clothes_id.setText(clothes_view.getUniqueId());
         } catch (Exception e){
-            Toast.makeText(context, "Unable to parse data for the " + position + " clothing. Please try again",
+            Toast.makeText(context, context.getString(R.string.fail_data_start) + position + context.getString(R.string.clothing_period),
                     Toast.LENGTH_SHORT).show();
         }
 
@@ -252,7 +252,7 @@ class MyCustomAdapter extends BaseAdapter {
             color1.setBackgroundColor(Color.parseColor(hex1));
             color2.setBackgroundColor(Color.parseColor(hex2));
         } catch (Exception e) {
-            Toast.makeText(context, "Unable to parse color data for the " + position + " clothing.",
+            Toast.makeText(context, context.getString(R.string.fail_color_data) + position + context.getString(R.string.clothing_period),
                     Toast.LENGTH_SHORT).show();
         }
 
@@ -266,7 +266,7 @@ class MyCustomAdapter extends BaseAdapter {
                     Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                     image.setImageBitmap(b);
                 } catch (Exception e){
-                    Toast.makeText(context, "Unable to parse image for the " + position + " clothing. Please try again",
+                    Toast.makeText(context, context.getString(R.string.fail_image_data) + position + context.getString(R.string.clothing_period),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -279,7 +279,7 @@ class MyCustomAdapter extends BaseAdapter {
             public void onClick(View view) {
                 //clothes.remove(position);
                 FireBaseManager.getInstance().deleteItem(clothes_view.getUniqueId());
-                Toast.makeText(context, "Deleted item " + position + ".",
+                Toast.makeText(context, context.getString(R.string.del_item) + position + ".",
                         Toast.LENGTH_SHORT).show();
                 //adapter.notifyDataSetChanged();
             }

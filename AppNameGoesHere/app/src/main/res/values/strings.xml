@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">FitGen</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
     <string-array name="tempValues3Layers">
         <item>30</item>
@@ -145,4 +145,40 @@
     <string name="English">English</string>
     <string name="Spanish">Spanish</string>
     <string name="toggle_language">Toggle Language</string>
+    <string name="choose_the_type">Choose the type:</string>
+    <string name="current_weather">Current Weather</string>
+    <string name="description">Description: </string>
+    <string name="tempLabel">Temperature: </string>
+    <string name="cloud_label">Cloud cover: </string>
+    <string name="windLabel">Wind speed: </string>
+    <string name="loc_permissions">App does not have location permissions from device</string>
+    <string name="unable_to_parse_email">Unable to parse email. Please try again</string>
+    <string name="unable_parse_text">Unable to parse text fields. Please try again</string>
+    <string name="email_sent">Email sent.</string>
+    <string name="photo_permission">Cannot take photos with permissions from device</string>
+    <string name="cant_parse_image">Unable to parse image</string>
+    <string name="parse_text_fields">Unable to parse text fields. Please try again</string>
+    <string name="pass_length">Password must be at least 6 characters long. Please try again</string>
+    <string name="pass_dont_match">Passwords does not match. Please try again</string>
+    <string name="valid_email">Please enter a valid email. Please try again</string>
+    <string name="sign_up_success">Sign Up Successful!</string>
+    <string name="sign_in_success">Sign In Successful!</string>
+    <string name="auth_failed">Authentication failed. Please make sure the email is not used in another account and correctly formatted, the password needs to be at least 6 characters long</string>
+    <string name="compress_fail">[+] Error! Unable to compress image. Please try again</string>
+    <string name="confirm_delete_pass">Confirm to delete password</string>
+    <string name="confirm_delete_pass_q">Do you really want to delete your password?</string>
+    <string name="password_del">Password deleted</string>
+    <string name="no_pass">You don\'t have a password setup</string>
+    <string name="del_item">Deleted item </string>
+    <string name="clothing_period"> clothing.</string>
+    <string name="fail_color_data">Unable to parse color data for the </string>
+    <string name="fail_image_data">Unable to parse image for the </string>
+    <string name="fail_data_start">Unable to parse data for the </string>
+    <string name="auth_failed_simple">Authentication failed.</string>
+    <string name="fail_user_data">Unable to retrieve user data. Please try again</string>
+    <string name="fail_monochrome">Unable to create monochrome outfit. Please add more items to the wardrobe.</string>
+    <string name="outfit_name">Outfit name</string>
+    <string name="name_outfit_question">Would you like to name your outfit? By default it\'ll be named Outfit</string>
+    <string name="fail_no_name">Outfit saved. But no name was given</string>
+    <string name="outfit_saved">Outfit saved.</string>
 </resources>

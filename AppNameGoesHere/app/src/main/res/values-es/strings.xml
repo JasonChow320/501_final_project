@@ -65,11 +65,10 @@
         <item name="auto">Auto</item>
     </string-array>
 
-    <string name="app_name">FEET GEN</string>
+    <string name="app_name">FitGen</string>
     <string name="settings">Testing</string>
     <string name="English">Ingles</string>
     <string name="Spanish">Espanol</string>
-    <string name="hello_blank_fragment">d</string>
     <string name="insert_email_here">d</string>
     <string name="sign_in">d</string>
     <string name="sign_up">d</string>

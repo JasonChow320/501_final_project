@@ -202,7 +202,7 @@ class ViewOutfitAdapter extends BaseAdapter {
                                 Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                                 img.setImageBitmap(b);
                             } catch (Exception e){
-                                Toast.makeText(context, "Unable to parse image for the clothing. Please try again",
+                                Toast.makeText(context, context.getString(R.string.cant_parse_image),
                                         Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -224,7 +224,7 @@ class ViewOutfitAdapter extends BaseAdapter {
             public void onClick(View view) {
                 //clothes.remove(position);
                 fb_manager.deleteOutFit(outfit_view.getOutfitUniqueId());
-                Toast.makeText(context, "Deleted item " + position + ".",
+                Toast.makeText(context, context.getString(R.string.del_item) + position + ".",
                         Toast.LENGTH_SHORT).show();
                 //adapter.notifyDataSetChanged();
             }

@@ -63,7 +63,7 @@ public class AddToWardrobe extends AppCompatActivity {
 
         ActivityResultLauncher<String> requestPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
             if(result == false) {
-                Toast toast = Toast.makeText(AddToWardrobe.this, "Cannot take photos with permissions from device", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(AddToWardrobe.this, getResources().getString(R.string.photo_permission), Toast.LENGTH_LONG);
                 toast.show();
                 Intent intent = new Intent(AddToWardrobe.this, MainActivity.class);
                 startActivity(intent);
