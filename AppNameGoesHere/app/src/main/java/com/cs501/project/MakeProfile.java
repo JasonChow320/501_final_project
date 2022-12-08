@@ -139,7 +139,7 @@ public class MakeProfile extends AppCompatActivity {
         if(username == null || username.length() <= 0){
 
             // ERROR
-            Toast.makeText(MakeProfile.this, "Unable to parse username fields. Please try again",
+            Toast.makeText(MakeProfile.this, getResources().getString(R.string.fail_username),
                     Toast.LENGTH_SHORT).show();
             this.resetFields();
             return;
@@ -152,7 +152,7 @@ public class MakeProfile extends AppCompatActivity {
         if(checkbox_pw_enable.isChecked()){
 
             if(!verifyPassword()){
-                Toast.makeText(MakeProfile.this, "Unable to make an user profile, password does not match!",
+                Toast.makeText(MakeProfile.this, getResources().getString(R.string.fail_pass_dont_match),
                         Toast.LENGTH_SHORT).show();
                 this.resetFields();
                 progressBar_make_account.setVisibility(View.GONE);
@@ -166,7 +166,7 @@ public class MakeProfile extends AppCompatActivity {
         fb_manager.addUser(user);
         this.resetFields();
 
-        Toast.makeText(MakeProfile.this, "Successfully made an user profile!",
+        Toast.makeText(MakeProfile.this, getResources().getString(R.string.profile_success),
                 Toast.LENGTH_SHORT).show();
         progressBar_make_account.setVisibility(View.GONE);
         finish();

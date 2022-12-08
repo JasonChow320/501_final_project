@@ -181,4 +181,11 @@
     <string name="name_outfit_question">Would you like to name your outfit? By default it\'ll be named Outfit</string>
     <string name="fail_no_name">Outfit saved. But no name was given</string>
     <string name="outfit_saved">Outfit saved.</string>
+    <string name="fail_username">Unable to parse username fields. Please try again</string>
+    <string name="fail_pass_dont_match">Unable to make an user profile, password does not match!</string>
+    <string name="profile_success">Successfully made an user profile!</string>
+    <string name="pass_protected">This account is password protected, enter password:</string>
+    <string name="wrong_pass">Wrong password</string>
+    <string name="fail_edit_profile">Unable to edit an user profile, password does not match!</string>
+    <string name="edit_profile_success">Successfully edit an user profile!</string>
 </resources>

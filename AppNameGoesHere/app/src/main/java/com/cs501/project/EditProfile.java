@@ -187,7 +187,7 @@ public class EditProfile extends AppCompatActivity {
         if(username == null || username.length() <= 0){
 
             // ERROR
-            Toast.makeText(EditProfile.this, "Unable to parse username fields. Please try again",
+            Toast.makeText(EditProfile.this, getResources().getString(R.string.fail_username),
                     Toast.LENGTH_SHORT).show();
             this.resetFields();
             return;
@@ -199,7 +199,7 @@ public class EditProfile extends AppCompatActivity {
         if(checkbox_pw_enable.isChecked()){
 
             if(!verifyPassword()){
-                Toast.makeText(EditProfile.this, "Unable to edit an user profile, password does not match!",
+                Toast.makeText(EditProfile.this, getResources().getString(R.string.fail_edit_profile),
                         Toast.LENGTH_SHORT).show();
                 this.resetFields();
                 return;
@@ -211,7 +211,7 @@ public class EditProfile extends AppCompatActivity {
 
         fb_manager.update();
 
-        Toast.makeText(EditProfile.this, "Successfully edit an user profile!",
+        Toast.makeText(EditProfile.this, getResources().getString(R.string.edit_profile_success),
                 Toast.LENGTH_SHORT).show();
         finish();
     }
