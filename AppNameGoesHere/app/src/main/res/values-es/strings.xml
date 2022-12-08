@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string-array name="languages">
-        <item name="English">Ingles</item>
-        <item name="Spanish">Espanol</item>
-    </string-array>
+    <string name="app_name">FitGen</string>
 
     <string-array name="tempValues3Layers">
         <item>30</item>
@@ -65,61 +61,87 @@
         <item name="auto">Auto</item>
     </string-array>
 
-    <string name="app_name">FitGen</string>
-    <string name="settings">Testing</string>
-    <string name="English">Ingles</string>
-    <string name="Spanish">Espanol</string>
-    <string name="insert_email_here">d</string>
-    <string name="sign_in">d</string>
-    <string name="sign_up">d</string>
-    <string name="email">d</string>
-    <string name="password">d</string>
-    <string name="forget_password">d</string>
-    <string name="make_account">d</string>
-    <string name="show_password">d</string>
-    <string name="password_again_verify">d</string>
-    <string name="back">d</string>
-    <string name="title_activity_make_profile">d</string>
-    <string name="Choose_Clothing_type">d</string>
-    <string name="none_available_all">d</string>
-    <string name="none_available">d</string>
-    <string name="three_layer_temp">d</string>
-    <string name="one_layer_temp">d</string>
-    <string name="flashTypes">d</string>
-    <string name="you_do_not_have_any_saved_outfits">d</string>
-    <string name="delete_password">d</string>
-    <string name="confirm">d</string>
-    <string name="add_change_password">d</string>
-    <string name="modifying_a_user_profile">d</string>
-    <string name="themeChanger">d</string>
-    <string name="username">d</string>
-    <string name="save_outfit">d</string>
-    <string name="generate_outfit">d</string>
-    <string name="random_outfit">d</string>
-    <string name="make_profile">d</string>
-    <string name="sign_out">d</string>
-    <string name="display_name">d</string>
-    <string name="view_wardrobe">d</string>
-    <string name="view_saved">d</string>
-    <string name="add_to_wardrobe">d</string>
-    <string name="create_profile">d</string>
-    <string name="make_profile_header">d</string>
-    <string name="enable_pass">d</string>
-    <string name="insert_email_to_reset">d</string>
-    <string name="reset">d</string>
-    <string name="making_account_for_fitgen">d</string>
-    <string name="take_photo">d</string>
-    <string name="redo">d</string>
-    <string name="add_another">d</string>
-    <string name="is_this_water_resistant">d</string>
-    <string name="no">d</string>
-    <string name="yes">d</string>
-    <string name="type">d</string>
-    <string name="id">d</string>
-    <string name="edit">d</string>
-    <string name="delete">d</string>
-    <string name="default_username">d</string>
-    <string name="name">d</string>
-    <string name="choose_language">d</string>
-    <string name="toggle_language">Toggle idioma</string>
+    <string-array name="languages">
+        <item name="English">English</item>
+        <item name="Spanish">Spanish</item>
+    </string-array>
+
+    <string-array name="viewWardrobeSpinner">
+        <item name="all">all</item>
+        <item name="t_shirt">T_shirt</item>
+        <item name="shirt">Long Sleeve</item>
+        <item name="shorts">Shorts</item>
+        <item name="pants">Pants</item>
+        <item name="shoes">Shoes</item>
+        <item name="sweater">Sweater</item>
+        <item name="light_jacket">Light Jacket</item>
+        <item name="heavy_jacket">Heavy Jacket</item>
+    </string-array>
+
+    <string-array name="themesValues">
+        <item name="light">#FFFFFFFF</item>
+        <item name="dark">#676464</item>
+    </string-array>
+
+    <string-array name="themesNames">
+        <item name="light">Light</item>
+        <item name="dark">Dark</item>
+    </string-array>
+
+    <string name="settings">Ajustes</string>
+    <string name="English">Inglés</string>
+    <string name="Spanish">Español</string>
+    <string name="insert_email_here">Inserte email aquí</string>
+    <string name="sign_in">Registrarse</string>
+    <string name="sign_up">Inscribirse</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="forget_password">¿Olvidó contraseña?</string>
+    <string name="make_account">Hacer cuenta</string>
+    <string name="show_password">Mostrar contraseña</string>
+    <string name="password_again_verify">Contraseña (verificación)</string>
+    <string name="back">De vuelta</string>
+    <string name="title_activity_make_profile">HacerCuenta</string>
+    <string name="Choose_Clothing_type">Elegir tipo</string>
+    <string name="none_available_all">No hay ropa</string>
+    <string name="none_available">No hay ropa de este tipo</string>
+    <string name="three_layer_temp">Temperatura máxima para tres capas</string>
+    <string name="one_layer_temp">Temperatura mínima para una capa</string>
+    <string name="flashTypes">Flash para cámara</string>
+    <string name="you_do_not_have_any_saved_outfits">No tienes trajes salvados</string>
+    <string name="delete_password">Borrar contraseña</string>
+    <string name="confirm">CONFIRMAR</string>
+    <string name="add_change_password">Añadir/cambiar contraseña</string>
+    <string name="modifying_a_user_profile">⁄⁄¡Cambiar un perfil!</string>
+    <string name="themeChanger">Tema</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="save_outfit">Guardar traje</string>
+    <string name="generate_outfit">Generar traje</string>
+    <string name="random_outfit">Traje aleatorio</string>
+    <string name="make_profile">Hacer perfil</string>
+    <string name="sign_out">Fichar al salir</string>
+    <string name="display_name">FitGen🇪🇸</string>
+    <string name="view_wardrobe">Ver armario</string>
+    <string name="view_saved">Ver trajes salvados</string>
+    <string name="add_to_wardrobe">Añadir al armario</string>
+    <string name="create_profile">Crear perfil</string>
+    <string name="make_profile_header">Creando un perfil usuario</string>
+    <string name="enable_pass">Activar contraseña</string>
+    <string name="insert_email_to_reset">Insertar correo electrónico</string>
+    <string name="reset">Reajustar</string>
+    <string name="making_account_for_fitgen">Haciendo Cuenta de FitGen</string>
+    <string name="take_photo">Tomar Foto</string>
+    <string name="redo">Rehacer</string>
+    <string name="add_another">Agregar otro</string>
+    <string name="is_this_water_resistant">¿Es resistente al agua?</string>
+    <string name="no">No</string>
+    <string name="type">Tipo</string>
+    <string name="id">Ello</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Borrar</string>
+    <string name="default_username">Nombre de Usuario</string>
+    <string name="name">Nombre</string>
+    <string name="choose_language">Elegir idioma</string>
+    <string name="toggle_language">Alternar idioma</string>
+    <string name="yes">Sí</string>
 </resources>

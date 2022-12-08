@@ -169,7 +169,7 @@
     <string name="confirm_delete_pass_q">Do you really want to delete your password?</string>
     <string name="password_del">Password deleted</string>
     <string name="no_pass">You don\'t have a password setup</string>
-    <string name="del_item">Deleted item </string>
+    <string name="del_item">Deleted item\ </string>
     <string name="clothing_period"> clothing.</string>
     <string name="fail_color_data">Unable to parse color data for the </string>
     <string name="fail_image_data">Unable to parse image for the </string>
