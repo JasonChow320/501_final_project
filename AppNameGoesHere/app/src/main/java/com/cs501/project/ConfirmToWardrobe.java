@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.os.Environment;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -265,6 +266,8 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                 clothingTypes.check(clothingTypes.getChildAt(i+1).getId());
             }
         }
+
+        clothingTypes.setGravity(Gravity.LEFT);
 
         if(!edit) {
             clothingTypes.check(clothingTypes.getChildAt(1).getId());

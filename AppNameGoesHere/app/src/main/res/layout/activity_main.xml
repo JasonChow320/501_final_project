@@ -11,7 +11,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="FitGen©"
+        android:text="@string/display_name"
         style="@style/TextStyle"
         android:textSize="46sp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
@@ -36,22 +36,22 @@
         <Button
             android:id="@+id/button1"
             style="@style/HomeButton"
-            android:text="View Wardrobe" />
+            android:text="@string/view_wardrobe" />
 
         <Button
             android:id="@+id/button2"
             style="@style/HomeButton"
-            android:text="Generate Outfit" />
+            android:text="@string/generate_outfit" />
 
         <Button
             android:id="@+id/button3"
             style="@style/HomeButton"
-            android:text="View Saved Outfits" />
+            android:text="@string/view_saved" />
 
         <Button
             android:id="@+id/button4"
             style="@style/HomeButton"
-            android:text="Add To Wardrobe" />
+            android:text="@string/add_to_wardrobe" />
     </LinearLayout>
 
 
@@ -91,6 +91,17 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.98"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <Button
+            android:id="@+id/toggle_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/toggle_language"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0" />

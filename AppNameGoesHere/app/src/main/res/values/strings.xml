@@ -62,6 +62,11 @@
         <item name="auto">Auto</item>
     </string-array>
 
+    <string-array name="languages">
+        <item name="English">English</item>
+        <item name="Spanish">Spanish</item>
+    </string-array>
+
     <string-array name="viewWardrobeSpinner">
         <item name="all">all</item>
         <item name="t_shirt">T_shirt</item>
@@ -107,4 +112,37 @@
     <string name="add_change_password">Add/Change Password</string>
     <string name="modifying_a_user_profile">Modifying a user profile!</string>
     <string name="themeChanger">Theme</string>
+    <string name="username">Username</string>
+    <string name="save_outfit">Save Outfit</string>
+    <string name="generate_outfit">Generate Outfit</string>
+    <string name="random_outfit">Random Outfit</string>
+    <string name="make_profile">Make Profile</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="display_name">FitGen©</string>
+    <string name="view_wardrobe">View Wardrobe</string>
+    <string name="view_saved">View Saved Outfits</string>
+    <string name="add_to_wardrobe">Add To Wardrobe</string>
+    <string name="create_profile">Create Profile</string>
+    <string name="make_profile_header">Making a user profile!</string>
+    <string name="enable_pass">Enable Password</string>
+    <string name="insert_email_to_reset">Insert email to reset password</string>
+    <string name="reset">RESET</string>
+    <string name="settings">Settings</string>
+    <string name="making_account_for_fitgen">Making account for FitGen!</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="redo">Redo</string>
+    <string name="add_another">Add another</string>
+    <string name="is_this_water_resistant">Is this water-resistant?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="type">Type</string>
+    <string name="id">Id</string>
+    <string name="edit">EDIT</string>
+    <string name="delete">Delete</string>
+    <string name="default_username">Default Username</string>
+    <string name="name">Name</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="English">English</string>
+    <string name="Spanish">Spanish</string>
+    <string name="toggle_language">Toggle Language</string>
 </resources>

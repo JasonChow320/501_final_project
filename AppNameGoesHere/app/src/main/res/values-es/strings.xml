@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="languages">
+        <item name="English">Ingles</item>
+        <item name="Spanish">Espanol</item>
+    </string-array>
+
+    <string-array name="tempValues3Layers">
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>40</item>
+        <item>41</item>
+        <item>42</item>
+        <item>43</item>
+        <item>44</item>
+        <item>45</item>
+        <item>46</item>
+        <item>47</item>
+        <item>48</item>
+        <item>49</item>
+        <item>50</item>
+        <item>51</item>
+        <item>52</item>
+        <item>53</item>
+        <item>54</item>
+        <item>55</item>
+    </string-array>
+
+    <string-array name="tempValues1Layer">
+        <item>60</item>
+        <item>61</item>
+        <item>62</item>
+        <item>63</item>
+        <item>64</item>
+        <item>65</item>
+        <item>66</item>
+        <item>67</item>
+        <item>68</item>
+        <item>69</item>
+        <item>70</item>
+        <item>71</item>
+        <item>72</item>
+        <item>73</item>
+        <item>74</item>
+        <item>75</item>
+        <item>76</item>
+        <item>77</item>
+        <item>78</item>
+        <item>79</item>
+        <item>80</item>
+    </string-array>
+
+    <string-array name="flashModes">
+        <item name="on">On</item>
+        <item name="off">Off</item>
+        <item name="auto">Auto</item>
+    </string-array>
+
+    <string name="app_name">FEET GEN</string>
+    <string name="settings">Testing</string>
+    <string name="English">Ingles</string>
+    <string name="Spanish">Espanol</string>
+    <string name="hello_blank_fragment">d</string>
+    <string name="insert_email_here">d</string>
+    <string name="sign_in">d</string>
+    <string name="sign_up">d</string>
+    <string name="email">d</string>
+    <string name="password">d</string>
+    <string name="forget_password">d</string>
+    <string name="make_account">d</string>
+    <string name="show_password">d</string>
+    <string name="password_again_verify">d</string>
+    <string name="back">d</string>
+    <string name="title_activity_make_profile">d</string>
+    <string name="Choose_Clothing_type">d</string>
+    <string name="none_available_all">d</string>
+    <string name="none_available">d</string>
+    <string name="three_layer_temp">d</string>
+    <string name="one_layer_temp">d</string>
+    <string name="flashTypes">d</string>
+    <string name="you_do_not_have_any_saved_outfits">d</string>
+    <string name="delete_password">d</string>
+    <string name="confirm">d</string>
+    <string name="add_change_password">d</string>
+    <string name="modifying_a_user_profile">d</string>
+    <string name="themeChanger">d</string>
+    <string name="username">d</string>
+    <string name="save_outfit">d</string>
+    <string name="generate_outfit">d</string>
+    <string name="random_outfit">d</string>
+    <string name="make_profile">d</string>
+    <string name="sign_out">d</string>
+    <string name="display_name">d</string>
+    <string name="view_wardrobe">d</string>
+    <string name="view_saved">d</string>
+    <string name="add_to_wardrobe">d</string>
+    <string name="create_profile">d</string>
+    <string name="make_profile_header">d</string>
+    <string name="enable_pass">d</string>
+    <string name="insert_email_to_reset">d</string>
+    <string name="reset">d</string>
+    <string name="making_account_for_fitgen">d</string>
+    <string name="take_photo">d</string>
+    <string name="redo">d</string>
+    <string name="add_another">d</string>
+    <string name="is_this_water_resistant">d</string>
+    <string name="no">d</string>
+    <string name="yes">d</string>
+    <string name="type">d</string>
+    <string name="id">d</string>
+    <string name="edit">d</string>
+    <string name="delete">d</string>
+    <string name="default_username">d</string>
+    <string name="name">d</string>
+    <string name="choose_language">d</string>
+    <string name="toggle_language">Toggle idioma</string>
+</resources>

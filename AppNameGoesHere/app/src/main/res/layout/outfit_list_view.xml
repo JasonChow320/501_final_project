@@ -18,7 +18,7 @@
                 android:id="@+id/outfit_new_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name"
+                android:text="@string/name"
                 android:textSize="24dp" />
 
             <Button
@@ -26,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="50dp"
-                android:text="Delete" />
+                android:text="@string/delete" />
 
         </TableRow>
 

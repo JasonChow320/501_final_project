@@ -69,7 +69,7 @@ public class settings extends AppCompatActivity {
         fb_manager = FireBaseManager.getInstance();
         uSettings = fb_manager.getUser().getUserSettings();
 
-        Button back = (Button) findViewById(R.id.main_back_button);
+        Button backButton = (Button) findViewById(R.id.settings_back_button);
 
         CurrFlashMode = uSettings.getFlashMode();
         currThreeTemp = uSettings.getThreeLayerTemp();
@@ -128,7 +128,7 @@ public class settings extends AppCompatActivity {
             }
         });
 
-        back.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
