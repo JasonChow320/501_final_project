@@ -1,15 +1,15 @@
 ## Final Sprint
 
 #### Codebase
+- [x] Make sure all activities are portrait-only
+- [x] Dark mode on ViewSavedOutfits
+- [x] Fix RadioGroup lineup in ConfirmToWardrobe
 - [ ] Finalize monochrome outfit algorithm
 - [ ] Finish ViewSavedOutfits
 - [ ] Delete saved outfits containing item when item is removed
-- [ ] Fix RadioGroup lineup in ConfirmToWardrobe
 - [ ] Make sure all strings, colors are in appropriate xml files
 - [ ] Finalize all layouts
 - [ ] Add comments to unclear code
-- [ ] Make sure all activities are portrait-only
-- [ ] Dark mode on ViewSavedOutfits
 - [ ] Spanish version of FitGen? Or some other languages
 
 #### Other
