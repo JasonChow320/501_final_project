@@ -136,16 +136,16 @@ public class EditProfile extends AppCompatActivity {
                     // define confirm delete dialog
                     AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
                     builder.setCancelable(true);
-                    builder.setTitle("Confirm to delete password");
-                    builder.setMessage("Do you really want to delete your password?");
-                    builder.setPositiveButton("Confirm",
+                    builder.setTitle(getResources().getString(R.string.confirm_delete_pass));
+                    builder.setMessage(getResources().getString(R.string.confirm_delete_pass_q));
+                    builder.setPositiveButton(getResources().getString(R.string.confirm),
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
                                     // delete password
                                     user.setPasswordProtected(false);
-                                    Toast.makeText(EditProfile.this, "Password deleted",
+                                    Toast.makeText(EditProfile.this, getResources().getString(R.string.password_del),
                                             Toast.LENGTH_SHORT).show();
                                     fb_manager.update();
                                 }
@@ -158,7 +158,7 @@ public class EditProfile extends AppCompatActivity {
                     AlertDialog confirm_dialog = builder.create();
                     confirm_dialog.show();
                 } else {
-                    Toast.makeText(EditProfile.this, "You don't have a password setup",
+                    Toast.makeText(EditProfile.this, getResources().getString(R.string.no_pass),
                             Toast.LENGTH_SHORT).show();
                 }
             }

@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.os.Environment;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -244,7 +245,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                             accCol.setBackgroundColor(android.graphics.Color.parseColor(finalOldClothes.getColor().getHex2()));
                         }
                     } catch (Exception e){
-                        Toast.makeText(getApplicationContext(), "Unable to parse image",
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.cant_parse_image),
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -253,7 +254,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         }
 
         TextView typeLabel = new TextView(getApplicationContext());
-        typeLabel.setText("Choose the type:");
+        typeLabel.setText(getResources().getString(R.string.choose_the_type));
         clothingTypes.addView(typeLabel, 0);
 
         String[] types = Clothes.getTypes(Clothes.Type.class);
@@ -265,6 +266,8 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                 clothingTypes.check(clothingTypes.getChildAt(i+1).getId());
             }
         }
+
+        clothingTypes.setGravity(Gravity.LEFT);
 
         if(!edit) {
             clothingTypes.check(clothingTypes.getChildAt(1).getId());
@@ -456,7 +459,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
     private void compress(Bitmap image, FileOutputStream output_stream){
 
         if(image == null){
-            Toast.makeText(ConfirmToWardrobe.this, "[+] Error! Unable to compress image. Please try again",
+            Toast.makeText(ConfirmToWardrobe.this, getResources().getString(R.string.compress_fail),
                     Toast.LENGTH_SHORT).show();
             return;
         }

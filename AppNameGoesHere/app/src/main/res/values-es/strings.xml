@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FitGen</string>
+
+    <string-array name="tempValues3Layers">
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+        <item>33</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
+        <item>37</item>
+        <item>38</item>
+        <item>39</item>
+        <item>40</item>
+        <item>41</item>
+        <item>42</item>
+        <item>43</item>
+        <item>44</item>
+        <item>45</item>
+        <item>46</item>
+        <item>47</item>
+        <item>48</item>
+        <item>49</item>
+        <item>50</item>
+        <item>51</item>
+        <item>52</item>
+        <item>53</item>
+        <item>54</item>
+        <item>55</item>
+    </string-array>
+
+    <string-array name="tempValues1Layer">
+        <item>60</item>
+        <item>61</item>
+        <item>62</item>
+        <item>63</item>
+        <item>64</item>
+        <item>65</item>
+        <item>66</item>
+        <item>67</item>
+        <item>68</item>
+        <item>69</item>
+        <item>70</item>
+        <item>71</item>
+        <item>72</item>
+        <item>73</item>
+        <item>74</item>
+        <item>75</item>
+        <item>76</item>
+        <item>77</item>
+        <item>78</item>
+        <item>79</item>
+        <item>80</item>
+    </string-array>
+
+    <string-array name="flashModes">
+        <item name="on">On</item>
+        <item name="off">Off</item>
+        <item name="auto">Auto</item>
+    </string-array>
+
+    <string-array name="languages">
+        <item name="English">English</item>
+        <item name="Spanish">Spanish</item>
+    </string-array>
+
+    <string-array name="viewWardrobeSpinner">
+        <item name="all">all</item>
+        <item name="t_shirt">T_shirt</item>
+        <item name="shirt">Long Sleeve</item>
+        <item name="shorts">Shorts</item>
+        <item name="pants">Pants</item>
+        <item name="shoes">Shoes</item>
+        <item name="sweater">Sweater</item>
+        <item name="light_jacket">Light Jacket</item>
+        <item name="heavy_jacket">Heavy Jacket</item>
+    </string-array>
+
+    <string-array name="themesValues">
+        <item name="light">#FFFFFFFF</item>
+        <item name="dark">#676464</item>
+    </string-array>
+
+    <string-array name="themesNames">
+        <item name="light">Light</item>
+        <item name="dark">Dark</item>
+    </string-array>
+
+    <string name="settings">Ajustes</string>
+    <string name="English">Inglés</string>
+    <string name="Spanish">Español</string>
+    <string name="insert_email_here">Inserte email aquí</string>
+    <string name="sign_in">Registrarse</string>
+    <string name="sign_up">Inscribirse</string>
+    <string name="email">Email</string>
+    <string name="password">Contraseña</string>
+    <string name="forget_password">¿Olvidó contraseña?</string>
+    <string name="make_account">Hacer cuenta</string>
+    <string name="show_password">Mostrar contraseña</string>
+    <string name="password_again_verify">Contraseña (verificación)</string>
+    <string name="back">De vuelta</string>
+    <string name="title_activity_make_profile">HacerCuenta</string>
+    <string name="Choose_Clothing_type">Elegir tipo</string>
+    <string name="none_available_all">No hay ropa</string>
+    <string name="none_available">No hay ropa de este tipo</string>
+    <string name="three_layer_temp">Temperatura máxima para tres capas</string>
+    <string name="one_layer_temp">Temperatura mínima para una capa</string>
+    <string name="flashTypes">Flash para cámara</string>
+    <string name="you_do_not_have_any_saved_outfits">No tienes trajes salvados</string>
+    <string name="delete_password">Borrar contraseña</string>
+    <string name="confirm">CONFIRMAR</string>
+    <string name="add_change_password">Añadir/cambiar contraseña</string>
+    <string name="modifying_a_user_profile">⁄⁄¡Cambiar un perfil!</string>
+    <string name="themeChanger">Tema</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="save_outfit">Guardar traje</string>
+    <string name="generate_outfit">Generar traje</string>
+    <string name="random_outfit">Traje aleatorio</string>
+    <string name="make_profile">Hacer perfil</string>
+    <string name="sign_out">Fichar al salir</string>
+    <string name="display_name">FitGen🇪🇸</string>
+    <string name="view_wardrobe">Ver armario</string>
+    <string name="view_saved">Ver trajes salvados</string>
+    <string name="add_to_wardrobe">Añadir al armario</string>
+    <string name="create_profile">Crear perfil</string>
+    <string name="make_profile_header">Creando un perfil usuario</string>
+    <string name="enable_pass">Activar contraseña</string>
+    <string name="insert_email_to_reset">Insertar correo electrónico</string>
+    <string name="reset">Reajustar</string>
+    <string name="making_account_for_fitgen">Haciendo Cuenta de FitGen</string>
+    <string name="take_photo">Tomar Foto</string>
+    <string name="redo">Rehacer</string>
+    <string name="add_another">Agregar otro</string>
+    <string name="is_this_water_resistant">¿Es resistente al agua?</string>
+    <string name="no">No</string>
+    <string name="type">Tipo</string>
+    <string name="id">Ello</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Borrar</string>
+    <string name="default_username">Nombre de Usuario</string>
+    <string name="name">Nombre</string>
+    <string name="choose_language">Elegir idioma</string>
+    <string name="toggle_language">Alternar idioma</string>
+    <string name="yes">Sí</string>
+</resources>

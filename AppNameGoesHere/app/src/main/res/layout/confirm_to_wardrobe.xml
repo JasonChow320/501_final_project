@@ -91,20 +91,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Is this water-resistant?" />
+                    android:text="@string/is_this_water_resistant" />
 
                 <RadioButton
                     android:id="@+id/waterproof_no"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No"
+                    android:text="@string/no"
                     android:checked="true"/>
 
                 <RadioButton
                     android:id="@+id/waterproof_yes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Yes" />
+                    android:text="@string/yes" />
             </RadioGroup>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
@@ -113,7 +113,7 @@
         android:id="@+id/ConfirmAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirm"
+        android:text="@string/confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

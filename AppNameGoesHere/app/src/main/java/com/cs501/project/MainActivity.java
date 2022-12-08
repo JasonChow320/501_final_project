@@ -7,6 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,6 +20,8 @@ import com.cs501.project.Model.User_settings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Locale;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Locale locale = new Locale(FireBaseManager.getInstance().getUser().getUserSettings().getLanguage());
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        config.setLocale(locale);
+        getBaseContext().getResources().updateConfiguration(config,
+                getBaseContext().getResources().getDisplayMetrics());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -36,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         Button toAdd = (Button) findViewById(R.id.button4);
         Button settings = (Button) findViewById(R.id.main_setting_button);
         Button back = (Button) findViewById(R.id.main_back_button);
+        Button toggle_language = (Button) findViewById(R.id.toggle_language);
         // if we want to use User's data here
 
         settings.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +96,24 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        toggle_language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fb_manager = FireBaseManager.getInstance();
+                String current = fb_manager.getUser().getUserSettings().getLanguage();
+                String opposite = (current.equals("en")) ? "es" : "en";
+                fb_manager.updateLanguage(opposite);
+                Locale locale = new Locale(opposite);
+                Locale.setDefault(locale);
+                Configuration config = new Configuration();
+                config.locale = locale;
+                config.setLocale(locale);
+                getBaseContext().getResources().updateConfiguration(config,
+                        getBaseContext().getResources().getDisplayMetrics());
+                recreate();
+            }
+        });
     }
 
     // reload the user credential everytime
@@ -110,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
 
             // this is bad :( user's not logged in but we're in the main application
-            Toast.makeText(MainActivity.this, "Unable to retrieve user data. Please try again",
+            Toast.makeText(MainActivity.this, getResources().getString(R.string.fail_user_data),
                     Toast.LENGTH_SHORT).show();
             finish();
         }

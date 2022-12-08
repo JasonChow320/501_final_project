@@ -96,14 +96,14 @@ public class SignUp extends AppCompatActivity {
 
         // Check inputs
         if(email == null || password == null){
-            Toast.makeText(SignUp.this, "Unable to parse text fields. Please try again",
+            Toast.makeText(SignUp.this, getResources().getString(R.string.parse_text_fields),
                     Toast.LENGTH_SHORT).show();
             this.resetFields();
             return;
         }
 
         if(password.length() <= 5){
-            Toast.makeText(SignUp.this, "Password must be at least 6 characters long. Please try again",
+            Toast.makeText(SignUp.this, getResources().getString(R.string.pass_length),
                     Toast.LENGTH_SHORT).show();
             this.password_text.setText("");
             this.password_verify_text.setText("");
@@ -111,7 +111,7 @@ public class SignUp extends AppCompatActivity {
         }
 
         if(!password.equals(password_verify)){
-            Toast.makeText(SignUp.this, "Passwords does not match. Please try again",
+            Toast.makeText(SignUp.this, getResources().getString(R.string.pass_dont_match),
                     Toast.LENGTH_SHORT).show();
             this.password_text.setText("");
             this.password_verify_text.setText("");
@@ -119,7 +119,7 @@ public class SignUp extends AppCompatActivity {
         }
 
         if(email.length() <= 0){
-            Toast.makeText(SignUp.this, "Please enter a valid email. Please try again",
+            Toast.makeText(SignUp.this, getResources().getString(R.string.valid_email),
                     Toast.LENGTH_SHORT).show();
             this.email_text.setText("");
             return;
@@ -135,7 +135,7 @@ public class SignUp extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "createUserWithEmail:success");
-                            Toast.makeText(SignUp.this, "Sign Up Successful!",
+                            Toast.makeText(SignUp.this, getResources().getString(R.string.sign_up_success),
                                     Toast.LENGTH_SHORT).show();
                             resetFields();
 
@@ -145,9 +145,7 @@ public class SignUp extends AppCompatActivity {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             progressBar_signup.setVisibility(View.GONE);
-                            Toast.makeText(SignUp.this, "Authentication failed. Please make sure the"
-                                            + " email is not used in another account and correctly formatted, the password needs to be"
-                                            + " at least 6 characters long",
+                            Toast.makeText(SignUp.this, getResources().getString(R.string.auth_failed),
                                     Toast.LENGTH_LONG).show();
                             resetFields();
                         }

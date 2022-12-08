@@ -58,7 +58,7 @@ public class ResetPassword extends AppCompatActivity {
 
         // check inputs
         if(email == null || email.length() <= 0){
-            Toast.makeText(ResetPassword.this, "Unable to parse email. Please try again",
+            Toast.makeText(ResetPassword.this, getResources().getString(R.string.unable_to_parse_email),
                     Toast.LENGTH_SHORT).show();
             this.email_text.setText("");
             return;
@@ -72,7 +72,7 @@ public class ResetPassword extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             email_text.setText("");
-                            Toast.makeText(ResetPassword.this, "Email sent.",
+                            Toast.makeText(ResetPassword.this, getResources().getString(R.string.email_sent),
                                     Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "Email sent.");
                         }

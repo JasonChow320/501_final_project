@@ -131,7 +131,7 @@ public class GenerateOutfit extends AppCompatActivity {
                 if(new_outfit!=null) {
                     displayOutfit(new_outfit);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Unable to create monochrome outfit. Please add more items to the wardrobe.",
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.fail_monochrome),
                             Toast.LENGTH_SHORT).show();
                 }
             }
@@ -155,13 +155,13 @@ public class GenerateOutfit extends AppCompatActivity {
                     // ask for outfit name
                     AlertDialog.Builder pass_builder = new AlertDialog.Builder(GenerateOutfit.this);
                     pass_builder.setCancelable(true);
-                    pass_builder.setTitle("Outfit name");
-                    pass_builder.setMessage("Would you like to name your outfit? By default it'll be named Outfit");
+                    pass_builder.setTitle(getResources().getString(R.string.outfit_name));
+                    pass_builder.setMessage(getResources().getString(R.string.name_outfit_question));
                     final EditText input = new EditText(GenerateOutfit.this);
 
                     input.setInputType(InputType.TYPE_CLASS_TEXT);
                     pass_builder.setView(input);
-                    pass_builder.setPositiveButton("Confirm",
+                    pass_builder.setPositiveButton(getResources().getString(R.string.confirm),
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -170,12 +170,12 @@ public class GenerateOutfit extends AppCompatActivity {
                                         currentFit.setName(input.getText().toString());
                                     } else {
                                         currentFit.setName("Outfit");
-                                        Toast.makeText(getApplicationContext(), "Outfit saved. But no name was given",
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.fail_no_name),
                                                 Toast.LENGTH_SHORT).show();
                                     }
 
                                     fb_manager.addOutfit(currentFit);
-                                    Toast.makeText(getApplicationContext(), "Outfit saved.",
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.outfit_saved),
                                             Toast.LENGTH_SHORT).show();
                                 }
                             });
@@ -185,7 +185,7 @@ public class GenerateOutfit extends AppCompatActivity {
 
                             currentFit.setName("Outfit");
                             fb_manager.addOutfit(currentFit);
-                            Toast.makeText(getApplicationContext(), "Outfit saved.",
+                            Toast.makeText(getApplicationContext(), getResources().getString(R.string.outfit_saved),
                                     Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -280,12 +280,11 @@ public class GenerateOutfit extends AppCompatActivity {
     }
 
     public void populateWeatherLayout(Weather weather){ //generates layout of current weather description
-        weatherTile.setText("Current Weather");
-        weatherTile.setText("Current Weather");
-        description.setText("Description: " + weather.getWeatherDes());
-        temp.setText("Temperature: " + String.valueOf(weather.getCurrentTemp()) + " F");
-        clouds.setText("Cloud cover: "+String.valueOf(weather.getClouds()) + "%");
-        wind.setText("Wind speed: " + String.valueOf(weather.getWindSpeed()) +" MPH");
+        weatherTile.setText(getResources().getString(R.string.current_weather));
+        description.setText(getResources().getString(R.string.description) + weather.getWeatherDes());
+        temp.setText(getResources().getString(R.string.tempLabel) + String.valueOf(weather.getCurrentTemp()) + " F");
+        clouds.setText(getResources().getString(R.string.cloud_label)+String.valueOf(weather.getClouds()) + "%");
+        wind.setText(getResources().getString(R.string.windLabel) + String.valueOf(weather.getWindSpeed()) +" MPH");
     }
 
     public Outfit random_outfit(){
@@ -366,7 +365,7 @@ public class GenerateOutfit extends AppCompatActivity {
                         Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
                         img.setImageBitmap(b);
                     } catch (Exception e){
-                        Toast.makeText(getApplicationContext(), "Unable to parse image for the clothing. Please try again",
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.fail_image_data),
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
