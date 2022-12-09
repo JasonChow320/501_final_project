@@ -193,6 +193,7 @@
     <string name="dialog_delete_cache">Confirm to delete cache</string>
     <string name="dialog_delete_cache_msg">Do you want to delete cache? It\'ll make displaying the images slower</string>
     <string name="delete_cache">Delete Cache</string>
+    <string name="enable_cache">Enable Cache</string>
     borrar caché
 
 </resources>

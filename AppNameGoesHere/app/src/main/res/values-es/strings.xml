@@ -192,4 +192,5 @@
     <string name="dialog_delete_cache">Confirmar para eliminar caché</string>
     <string name="dialog_delete_cache_msg">Quieres borrar el caché? Hará que la visualización de las imágenes sea más lenta</string>
     <string name="delete_cache">borrar caché</string>
+    <string name="enable_cache">Habilitar caché</string>
 </resources>

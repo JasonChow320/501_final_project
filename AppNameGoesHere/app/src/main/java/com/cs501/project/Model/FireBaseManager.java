@@ -102,6 +102,13 @@ public class FireBaseManager {
         this.image_path = path;
     }
 
+    public void setEnableCache(int value){
+
+        User user = this.getUser();
+        user.getUserSettings().setEnableCache(value);
+        this.update();
+    }
+
     private void saveCache(){
 
         for(User user : this.user.getUsers()){

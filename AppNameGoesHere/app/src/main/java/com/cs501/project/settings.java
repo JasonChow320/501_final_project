@@ -50,7 +50,7 @@ public class settings extends AppCompatActivity {
     ArrayAdapter adapter1, adapter2, adapter3 ,adapter4;
     ConstraintLayout con;
     User_settings uSettings;
-    Switch themeSwitcher;
+    Switch themeSwitcher, cacheSwitcher;
 
     private FireBaseManager fb_manager;
     private final static String TAG = "SettingActivity";
@@ -84,6 +84,7 @@ public class settings extends AppCompatActivity {
         currOneTemp = uSettings.getOneLayerTemp();
         currTheme = uSettings.getTheme();
         themeSwitcher = (Switch) findViewById(R.id.switch1);
+        cacheSwitcher = (Switch) findViewById(R.id.cache_switch);
 
         System.out.println(CurrFlashMode  + " " + currOneTemp + " " + currThreeTemp + " " + currTheme);
 
@@ -132,7 +133,6 @@ public class settings extends AppCompatActivity {
                 User user = dataSnapshot.getValue(User.class);
 
                 User_settings setting = user.getUserSettings();
-
             }
 
             @Override
@@ -220,6 +220,12 @@ public class settings extends AppCompatActivity {
         if(uSettings.getTheme() == 1) themeSwitcher.setChecked(true);
         else themeSwitcher.setChecked(false);
 
+        if(uSettings.getEnableCache() == 1) {
+            cacheSwitcher.setChecked(true);
+        } else {
+            cacheSwitcher.setChecked(false);
+        }
+
         oneLayerTempSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -295,6 +301,17 @@ public class settings extends AppCompatActivity {
                     con.setBackgroundColor(Color.parseColor(backgroundColor));
                 }
 
+            }
+        });
+
+        cacheSwitcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(b){
+                    fb_manager.setEnableCache(1);
+                } else {
+                    fb_manager.setEnableCache(0);
+                }
             }
         });
 
