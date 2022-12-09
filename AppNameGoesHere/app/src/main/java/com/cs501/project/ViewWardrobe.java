@@ -321,14 +321,19 @@ class MyCustomAdapter extends BaseAdapter {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        ArrayList<String> outfitsForDeletion = new ArrayList<>();
                         ArrayList<Outfit> outfits = fb_manager.getUser().getWardrobe().getOutfits();
                         for(Outfit outfit: outfits){
                             ArrayList<String> clothes = outfit.getOutfit();
                             for(String clothingID: clothes){
                                 if(clothingID.equals(uID)){
-                                    fb_manager.deleteOutFit(outfit.getOutfitUniqueId());
+                                    outfitsForDeletion.add(outfit.getOutfitUniqueId());
                                 }
                             }
+                        }
+
+                        for(String uid: outfitsForDeletion){
+                            fb_manager.deleteOutFit(uid);
                         }
 
                         FireBaseManager.getInstance().deleteItem(uID);
