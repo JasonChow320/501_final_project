@@ -181,4 +181,7 @@
     <string name="name_outfit_question">Would you like to name your outfit? By default it\'ll be named Outfit</string>
     <string name="fail_no_name">Outfit saved. But no name was given</string>
     <string name="outfit_saved">Outfit saved.</string>
+    <string name="confirmClothingDeletion">"Confirm to delete clothing"</string>
+    <string name="ClothingDeletionMessage">If you delete this piece of clothing all outfits with it will also be deleted</string>
+
 </resources>

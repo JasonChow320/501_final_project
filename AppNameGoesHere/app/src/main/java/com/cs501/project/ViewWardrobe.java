@@ -3,10 +3,12 @@ package com.cs501.project;
 import static android.content.Context.MODE_PRIVATE;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -30,6 +32,7 @@ import android.widget.Toast;
 
 import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.FireBaseManager;
+import com.cs501.project.Model.Outfit;
 import com.cs501.project.Model.Profile;
 import com.cs501.project.Model.User_settings;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -81,6 +84,9 @@ public class ViewWardrobe extends AppCompatActivity {
         // Initialize our firebase manager
         fb_manager = FireBaseManager.getInstance();
 
+        String deletionMessage = getResources().getString(R.string.ClothingDeletionMessage);
+        String confirm = getResources().getString(R.string.confirm);
+        String confirmMsg = getResources().getString(R.string.confirmClothingDeletion);
         // Have our listview auto update when database changes
         myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -94,7 +100,7 @@ public class ViewWardrobe extends AppCompatActivity {
                 // update list
                 lvClothes = (ListView)findViewById(R.id.lvClothes);
 
-                lvAdapter = new MyCustomAdapter(ViewWardrobe.this, fb_manager.getClothes());  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
+                lvAdapter = new MyCustomAdapter(ViewWardrobe.this, fb_manager.getClothes(), deletionMessage, confirm, confirmMsg);  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
                 lvClothes.setAdapter(lvAdapter);
             }
 
@@ -105,7 +111,6 @@ public class ViewWardrobe extends AppCompatActivity {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
         //Initialize spinner
         clothingChoices = (Spinner) findViewById(R.id.spinner2);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(this, R.array.viewWardrobeSpinner ,android.R.layout.simple_spinner_item);
@@ -124,7 +129,7 @@ public class ViewWardrobe extends AppCompatActivity {
                     noneThere.setVisibility(View.VISIBLE);
                     lvClothes.setAdapter(null);
                 } else {
-                    lvAdapter = new MyCustomAdapter(ViewWardrobe.this, getClothes(i));  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
+                    lvAdapter = new MyCustomAdapter(ViewWardrobe.this, getClothes(i), deletionMessage, confirm, confirmMsg);  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
                     lvClothes.setAdapter(lvAdapter);
                     noneThere.setVisibility(View.GONE);
 
@@ -134,7 +139,7 @@ public class ViewWardrobe extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                lvAdapter = new MyCustomAdapter(ViewWardrobe.this, getClothes(0));  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
+                lvAdapter = new MyCustomAdapter(ViewWardrobe.this, getClothes(0) , deletionMessage, confirm, confirmMsg);  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
                 lvClothes.setAdapter(lvAdapter);
             }
         });
@@ -180,8 +185,12 @@ class MyCustomAdapter extends BaseAdapter {
     SharedPreferences sharedPreferences;
     Context context;
     MyCustomAdapter adapter;
+    String deletionMsg;
+    String confirm;
+    String confirmMsg;
+    FireBaseManager fb_manager;
 
-    public MyCustomAdapter(Context aContext, ArrayList<Clothes> clothes) {
+    public MyCustomAdapter(Context aContext, ArrayList<Clothes> clothes, String deletionMsg, String confirm, String confirmMsg ) {
         //initializing our data in the constructor.
         context = aContext;
 
@@ -190,7 +199,11 @@ class MyCustomAdapter extends BaseAdapter {
         } else{
             this.clothes = clothes;
         }
+        this.fb_manager = FireBaseManager.getInstance();
         this.adapter=this;
+        this.deletionMsg = deletionMsg;
+        this.confirm = confirm;
+        this.confirmMsg = confirmMsg;
         sharedPreferences = context.getSharedPreferences("MySharedPref", MODE_PRIVATE);
     }
 
@@ -278,9 +291,7 @@ class MyCustomAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
                 //clothes.remove(position);
-                FireBaseManager.getInstance().deleteItem(clothes_view.getUniqueId());
-                Toast.makeText(context, context.getString(R.string.del_item) + position + ".",
-                        Toast.LENGTH_SHORT).show();
+                onDeleteActions(clothes_view.getUniqueId(), position);
                 //adapter.notifyDataSetChanged();
             }
         });
@@ -297,4 +308,40 @@ class MyCustomAdapter extends BaseAdapter {
 
         return row;
     }
+
+    public void onDeleteActions(String uID, int position){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setCancelable(true);
+        builder.setTitle(confirmMsg);
+        builder.setMessage(deletionMsg);
+        builder.setPositiveButton(confirm,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ArrayList<Outfit> outfits = fb_manager.getUser().getWardrobe().getOutfits();
+                        for(Outfit outfit: outfits){
+                            ArrayList<String> clothes = outfit.getOutfit();
+                            for(String clothingID: clothes){
+                                if(clothingID.equals(uID)){
+                                    fb_manager.deleteOutFit(outfit.getOutfitUniqueId());
+                                }
+                            }
+                        }
+
+                        FireBaseManager.getInstance().deleteItem(uID);
+                        Toast.makeText(context, context.getString(R.string.del_item) + position + ".",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog confirm_dialog = builder.create();
+        confirm_dialog.show();
+    }
+
 }
