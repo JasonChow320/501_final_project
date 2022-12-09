@@ -24,6 +24,7 @@ import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.Clothes_Factory;
 import com.cs501.project.Model.Color;
 import com.cs501.project.Model.FireBaseManager;
+import com.cs501.project.Model.T_shirt;
 import com.cs501.project.Model.User_settings;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -260,7 +261,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         String[] types = Clothes.getTypes(Clothes.Type.class);
         for (int i = 0; i < types.length; i++) {
             RadioButton current = new RadioButton(this);
-            current.setText(types[i]);
+            current.setText(getDisplayName(Clothes.Type.valueOf(types[i])));
             clothingTypes.addView(current, i+1);
             if(edit && types[i].equals(oldClothes.getType().toString())) {
                 clothingTypes.check(clothingTypes.getChildAt(i+1).getId());
@@ -294,9 +295,9 @@ public class ConfirmToWardrobe extends AppCompatActivity {
 
                 if(finalEdit) { //IF EDIT
 
-                    finalOldClothes1.setType(Clothes.Type.valueOf(radio_button.getText().toString()));
+                    finalOldClothes1.setType(Clothes.Type.valueOf(getType(radio_button.getText().toString())));
 
-                    if (waterproofButton.getText().equals("Yes")) { //Update water resistance with new val
+                    if (waterproofButton.getText().equals(getResources().getString(R.string.yes))) { //Update water resistance with new val
                         finalOldClothes1.setWaterResistant(true);
                     } else {
                         finalOldClothes1.setWaterResistant(false);
@@ -308,7 +309,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                 } else { //IF ADDING NEW CLOTHES ITEM
                     //1. Add submission to database TODO
 
-                    Clothes new_clothes = getClothes(String.valueOf(radio_button.getText()));
+                    Clothes new_clothes = getClothes(getType(String.valueOf((radio_button.getText()))));
 
                     storage = FirebaseStorage.getInstance();
                     storageRef = storage.getReference();
@@ -472,5 +473,46 @@ public class ConfirmToWardrobe extends AppCompatActivity {
             compression /= 2;
         }
         Log.e(TAG, "Size of image: " + size);
+    }
+
+    public String getDisplayName(Clothes.Type t) {
+        switch(t) {
+            case T_SHIRT:
+                return getResources().getStringArray(R.array.viewWardrobeSpinner)[1];
+            case LONG_SLEEVE:
+                return getResources().getStringArray(R.array.viewWardrobeSpinner)[2];
+            case SHORTS:
+                return getResources().getStringArray(R.array.viewWardrobeSpinner)[3];
+            case PANTS:
+                return getResources().getStringArray(R.array.viewWardrobeSpinner)[4];
+            case SHOES:
+                return getResources().getStringArray(R.array.viewWardrobeSpinner)[5];
+            case SWEATER:
+                return getResources().getStringArray(R.array.viewWardrobeSpinner)[6];
+            case LIGHT_JACKET:
+                return getResources().getStringArray(R.array.viewWardrobeSpinner)[7];
+            case HEAVY_JACKET:
+                return getResources().getStringArray(R.array.viewWardrobeSpinner)[8];
+        }
+        return "error";
+    }
+
+    public String getType(String display) {
+        if(display.equals(getResources().getStringArray(R.array.viewWardrobeSpinner)[1]))
+            return Clothes.Type.T_SHIRT.name();
+        else if (display.equals(getResources().getStringArray(R.array.viewWardrobeSpinner)[2]))
+            return Clothes.Type.LONG_SLEEVE.name();
+        else if (display.equals(getResources().getStringArray(R.array.viewWardrobeSpinner)[3]))
+            return Clothes.Type.SHORTS.name();
+        else if (display.equals(getResources().getStringArray(R.array.viewWardrobeSpinner)[4]))
+            return Clothes.Type.PANTS.name();
+        else if (display.equals(getResources().getStringArray(R.array.viewWardrobeSpinner)[5]))
+            return Clothes.Type.SHOES.name();
+        else if (display.equals(getResources().getStringArray(R.array.viewWardrobeSpinner)[6]))
+            return Clothes.Type.SWEATER.name();
+        else if (display.equals(getResources().getStringArray(R.array.viewWardrobeSpinner)[7]))
+            return Clothes.Type.LIGHT_JACKET.name();
+        else
+            return Clothes.Type.HEAVY_JACKET.name();
     }
 }

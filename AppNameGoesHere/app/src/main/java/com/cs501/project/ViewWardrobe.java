@@ -162,9 +162,11 @@ public class ViewWardrobe extends AppCompatActivity {
                 return fb_manager.getUser().getWardrobe().getPants();
             case 5: //Shoes
                 return fb_manager.getUser().getWardrobe().getShoes();
-            case 6: //LightJackets
+            case 6: //Sweaters
+                return fb_manager.getUser().getWardrobe().getSweater();
+            case 7: //LightJackets
                 return fb_manager.getUser().getWardrobe().getLightJackets();
-            case 7: //Heavy Jackets
+            case 8: //Heavy Jackets
                 return fb_manager.getUser().getWardrobe().getHeavyJackets();
             default:
                 return fb_manager.getClothes();
@@ -238,7 +240,7 @@ class MyCustomAdapter extends BaseAdapter {
 
         // everything we add to view should be in the try catch
         try {
-            clothes_type.setText(clothes_view.getType().name());
+            clothes_type.setText(getDisplayName(clothes_view.getType()));
             clothes_id.setText(clothes_view.getUniqueId());
         } catch (Exception e){
             Toast.makeText(context, context.getString(R.string.fail_data_start) + position + context.getString(R.string.clothing_period),
@@ -296,5 +298,27 @@ class MyCustomAdapter extends BaseAdapter {
         });
 
         return row;
+    }
+
+    public String getDisplayName(Clothes.Type t) {
+        switch(t) {
+            case T_SHIRT:
+                return context.getResources().getStringArray(R.array.viewWardrobeSpinner)[1];
+            case LONG_SLEEVE:
+                return context.getResources().getStringArray(R.array.viewWardrobeSpinner)[2];
+            case SHORTS:
+                return context.getResources().getStringArray(R.array.viewWardrobeSpinner)[3];
+            case PANTS:
+                return context.getResources().getStringArray(R.array.viewWardrobeSpinner)[4];
+            case SHOES:
+                return context.getResources().getStringArray(R.array.viewWardrobeSpinner)[5];
+            case SWEATER:
+                return context.getResources().getStringArray(R.array.viewWardrobeSpinner)[6];
+            case LIGHT_JACKET:
+                return context.getResources().getStringArray(R.array.viewWardrobeSpinner)[7];
+            case HEAVY_JACKET:
+                return context.getResources().getStringArray(R.array.viewWardrobeSpinner)[8];
+        }
+        return "error";
     }
 }

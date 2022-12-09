@@ -67,15 +67,15 @@
     </string-array>
 
     <string-array name="viewWardrobeSpinner">
-        <item name="all">all</item>
-        <item name="t_shirt">T_shirt</item>
-        <item name="shirt">Long Sleeve</item>
-        <item name="shorts">Shorts</item>
-        <item name="pants">Pants</item>
-        <item name="shoes">Shoes</item>
-        <item name="sweater">Sweater</item>
-        <item name="light_jacket">Light Jacket</item>
-        <item name="heavy_jacket">Heavy Jacket</item>
+        <item name="all">Todo</item>
+        <item name="t_shirt">Camiseta</item>
+        <item name="shirt">Manga larga</item>
+        <item name="shorts">Short</item>
+        <item name="pants">Pantalones</item>
+        <item name="shoes">Zapatos</item>
+        <item name="sweater">Suéter</item>
+        <item name="light_jacket">Chaqueta ligera</item>
+        <item name="heavy_jacket">Chaqueta pesada</item>
     </string-array>
 
     <string-array name="themesValues">
