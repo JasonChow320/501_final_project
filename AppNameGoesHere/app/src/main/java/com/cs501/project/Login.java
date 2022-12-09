@@ -244,21 +244,21 @@ class LoginCustomAdapter extends BaseAdapter {
                 if (user.getPasswordProtected()){
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setCancelable(true);
-                    builder.setTitle("Password");
-                    builder.setMessage("This account is password protected, enter password:");
+                    builder.setTitle(context.getString(R.string.password));
+                    builder.setMessage(context.getString(R.string.pass_protected));
                     final EditText input = new EditText(context);
                     // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                     input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     builder.setView(input);
 
-                    builder.setPositiveButton("Confirm",
+                    builder.setPositiveButton(context.getString(R.string.confirm),
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
                                     // check password
                                     if(!user.getPassword().equals(user.getUserId() + Hash.sha256(input.getText().toString()))){
-                                        Toast.makeText(context, "Wrong password",
+                                        Toast.makeText(context, context.getString(R.string.wrong_pass),
                                                 Toast.LENGTH_SHORT).show();
                                         return;
                                     }
@@ -297,9 +297,9 @@ class LoginCustomAdapter extends BaseAdapter {
                 // define confirm delete dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
-                builder.setTitle("Confirm");
-                builder.setMessage("Do you really want to delete this profile?");
-                builder.setPositiveButton("Confirm",
+                builder.setTitle(context.getString(R.string.confirm));
+                builder.setMessage(context.getString(R.string.confirm_delete_pass_q));
+                builder.setPositiveButton(context.getString(R.string.confirm),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -320,21 +320,21 @@ class LoginCustomAdapter extends BaseAdapter {
                     // ask for password
                     AlertDialog.Builder pass_builder = new AlertDialog.Builder(context);
                     pass_builder.setCancelable(true);
-                    pass_builder.setTitle("Password");
-                    pass_builder.setMessage("This account is password protected, enter password:");
+                    pass_builder.setTitle(context.getString(R.string.password));
+                    pass_builder.setMessage(context.getString(R.string.pass_protected));
                     final EditText input = new EditText(context);
                     // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                     input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     pass_builder.setView(input);
 
-                    pass_builder.setPositiveButton("Confirm",
+                    pass_builder.setPositiveButton(context.getString(R.string.confirm),
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
                                     // check password
                                     if(!user.getPassword().equals(user.getUserId() + Hash.sha256(input.getText().toString()))){
-                                        Toast.makeText(context, "Wrong password",
+                                        Toast.makeText(context, context.getString(R.string.wrong_pass),
                                                 Toast.LENGTH_SHORT).show();
                                         return;
                                     } else{
@@ -374,21 +374,21 @@ class LoginCustomAdapter extends BaseAdapter {
                     able_to_edit = false;
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setCancelable(true);
-                    builder.setTitle("Password");
-                    builder.setMessage("This account is password protected, enter password:");
+                    builder.setTitle(context.getString(R.string.password));
+                    builder.setMessage(context.getString(R.string.pass_protected));
                     final EditText input = new EditText(context);
                     // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                     input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     builder.setView(input);
 
-                    builder.setPositiveButton("Confirm",
+                    builder.setPositiveButton(context.getString(R.string.confirm),
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
                                     // check password
                                     if(!user.getPassword().equals(user.getUserId() + Hash.sha256(input.getText().toString()))){
-                                        Toast.makeText(context, "Wrong password",
+                                        Toast.makeText(context, context.getString(R.string.wrong_pass),
                                                 Toast.LENGTH_SHORT).show();
                                         return;
                                     } else{
@@ -423,7 +423,7 @@ class LoginCustomAdapter extends BaseAdapter {
         try {
             username.setText(user.getUsername());
         } catch (Exception e){
-            Toast.makeText(context, "Unable to parse data for the " + position + " user. Please try again",
+            Toast.makeText(context, context.getString(R.string.fail_data_start) + position + " user.",
                     Toast.LENGTH_SHORT).show();
         }
 

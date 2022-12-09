@@ -109,7 +109,7 @@ public class GenerateOutfit extends AppCompatActivity {
             boolean coraseLoc = result.get("android.permission.ACCESS_COARSE_LOCATION");
             System.out.println(fineLoc + " " + coraseLoc);
             if (!fineLoc || !coraseLoc) {
-                Toast toast = Toast.makeText(GenerateOutfit.this, "App does not have location permissions from device", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(GenerateOutfit.this, getResources().getString(R.string.loc_permissions), Toast.LENGTH_LONG);
                 toast.show();
             } else {
                 fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
