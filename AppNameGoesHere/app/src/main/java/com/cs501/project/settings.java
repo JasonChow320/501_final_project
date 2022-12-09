@@ -100,7 +100,14 @@ public class settings extends AppCompatActivity {
         adapter3 = ArrayAdapter.createFromResource(this, R.array.flashModes ,android.R.layout.simple_spinner_item);
         flashModeSpinner.setAdapter(adapter3);
         System.out.println(adapter3.getPosition(CurrFlashMode));
-        flashModeSpinner.setSelection(adapter3.getPosition(CurrFlashMode));
+
+        int index = adapter3.getPosition(getResources().getStringArray(R.array.flashModes)[0]);
+        if(CurrFlashMode.equals("Off"))
+            index = adapter3.getPosition(getResources().getStringArray(R.array.flashModes)[1]);
+        else if(CurrFlashMode.equals("Auto"))
+            index = adapter3.getPosition(getResources().getStringArray(R.array.flashModes)[2]);
+
+        flashModeSpinner.setSelection(index);
 
 //        themeSpinner = (Spinner) findViewById(R.id.spinner6);
 //        adapter4 = ArrayAdapter.createFromResource(this, R.array.themesNames, android.R.layout.simple_spinner_item);
@@ -146,7 +153,13 @@ public class settings extends AppCompatActivity {
         con.setBackgroundColor(Color.parseColor(backgroundColor));
         oneLayerTempSpinner.setSelection(adapter1.getPosition(String.valueOf(currOneTemp)));
         threeLayerTempSpinner.setSelection(adapter2.getPosition(String.valueOf(currThreeTemp)));
-        flashModeSpinner.setSelection(adapter3.getPosition(CurrFlashMode));
+        int index = adapter3.getPosition(getResources().getStringArray(R.array.flashModes)[0]);
+        if(CurrFlashMode.equals("Off"))
+            index = adapter3.getPosition(getResources().getStringArray(R.array.flashModes)[1]);
+        else if(CurrFlashMode.equals("Auto"))
+            index = adapter3.getPosition(getResources().getStringArray(R.array.flashModes)[2]);
+
+        flashModeSpinner.setSelection(index);
         User_settings uSettings = fb_manager.getUser().getUserSettings();
         if(uSettings.getTheme() == 1) themeSwitcher.setChecked(true);
         else themeSwitcher.setChecked(false);
@@ -183,6 +196,12 @@ public class settings extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String temp = flashModeList[i];
+                if(temp.equals("Encendido"))
+                    temp = "On";
+                else if (temp.equals("Apagado"))
+                    temp = "Off";
+                else if (temp.equals("Automático"))
+                    temp = "Auto";
                 fb_manager.updateFlashMode(temp);
             }
 
