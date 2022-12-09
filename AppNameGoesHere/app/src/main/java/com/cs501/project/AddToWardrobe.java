@@ -60,7 +60,6 @@ public class AddToWardrobe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_to_wardrobe);
 
-
         ActivityResultLauncher<String> requestPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
             if(result == false) {
                 Toast toast = Toast.makeText(AddToWardrobe.this, getResources().getString(R.string.photo_permission), Toast.LENGTH_LONG);

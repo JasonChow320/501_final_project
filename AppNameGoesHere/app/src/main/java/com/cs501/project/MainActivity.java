@@ -117,13 +117,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                Log.d(TAG, "Got data from database");
-                Profile account = dataSnapshot.getValue(Profile.class);
-                if(account != null){
-                    Log.d(TAG, "Value is: " + account.toString());
-                }
+                // Only for languages
                 if(first_boot) {
                     first_boot = false;
                 } else {
