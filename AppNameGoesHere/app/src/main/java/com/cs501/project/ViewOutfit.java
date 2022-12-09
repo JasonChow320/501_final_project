@@ -188,7 +188,7 @@ class ViewOutfitAdapter extends BaseAdapter {
         TextView outfit_name = (TextView) row.findViewById(R.id.outfit_new_text);
         outfit_name.setText(outfit_view.getName());
         LinearLayout singularOutfit = (LinearLayout) row.findViewById(R.id.outfitClothes);
-
+        singularOutfit.removeAllViews();
         ArrayList<String> clothes_in_outfit = outfit_view.getOutfit();
 
         int clothingHeight = height/10;

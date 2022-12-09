@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -158,7 +159,7 @@ public class GenerateOutfit extends AppCompatActivity {
                     pass_builder.setTitle(getResources().getString(R.string.outfit_name));
                     pass_builder.setMessage(getResources().getString(R.string.name_outfit_question));
                     final EditText input = new EditText(GenerateOutfit.this);
-
+                    input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(13) });
                     input.setInputType(InputType.TYPE_CLASS_TEXT);
                     pass_builder.setView(input);
                     pass_builder.setPositiveButton(getResources().getString(R.string.confirm),
@@ -168,6 +169,8 @@ public class GenerateOutfit extends AppCompatActivity {
 
                                     if(input.getText().toString() != null && input.getText().toString().length() > 0){
                                         currentFit.setName(input.getText().toString());
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.outfit_saved),
+                                                Toast.LENGTH_SHORT).show();
                                     } else {
                                         currentFit.setName("Outfit");
                                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.fail_no_name),
@@ -175,8 +178,6 @@ public class GenerateOutfit extends AppCompatActivity {
                                     }
 
                                     fb_manager.addOutfit(currentFit);
-                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.outfit_saved),
-                                            Toast.LENGTH_SHORT).show();
                                 }
                             });
                     pass_builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
