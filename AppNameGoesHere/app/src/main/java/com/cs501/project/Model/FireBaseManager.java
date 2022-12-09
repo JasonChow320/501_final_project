@@ -88,7 +88,7 @@ public class FireBaseManager {
                 Log.d(TAG, "Got data from database");
                 Profile account = dataSnapshot.getValue(Profile.class);
                 if(account != null){
-                    Log.d(TAG, "Value is: " + account.toString());
+                    Log.d(TAG, "Value is not null");
                 }
                 user = account;
                 saveCache();
