@@ -4,13 +4,14 @@
 - [x] Make sure all activities are portrait-only
 - [x] Dark mode on ViewSavedOutfits
 - [x] Fix RadioGroup lineup in ConfirmToWardrobe
+- [x] Spanish version of FitGen? Or some other languages
+- [x] Delete saved outfits containing item when item is removed
+- [ ] "Cache" images on main activity(?) so they are loaded faster (except on GenerateOutfit)
 - [ ] Finalize monochrome outfit algorithm
 - [ ] Finish ViewSavedOutfits
-- [ ] Delete saved outfits containing item when item is removed
 - [ ] Make sure all strings, colors are in appropriate xml files
 - [ ] Finalize all layouts
 - [ ] Add comments to unclear code
-- [ ] Spanish version of FitGen? Or some other languages
 
 #### Other
 - [ ] QA & Crash testing
