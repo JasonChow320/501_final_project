@@ -111,11 +111,13 @@ public class FireBaseManager {
                     // enable cache, download all images
                     File dir = new File(this.image_path, c.getImageURL());
 
-                    if(dir.exists()){
-                        System.out.println("The file_path: " + this.image_path + "/" + c.getImageURL());
+                    if(dir.getAbsoluteFile().exists()){
+
+                        System.out.println("Found file_path: " + this.image_path + "/" + c.getImageURL());
                     } else {
-                        System.out.println("The file_path: " + this.image_path + "/" + c.getImageURL());
                         System.out.println("Does not exist");
+
+                        // get from firebase storage
                     }
                 }
             }
@@ -134,16 +136,15 @@ public class FireBaseManager {
         {
             System.out.println("Files FileName:" + files[i].getName());
 
-            /*
-            if(files[i].getName().contains(".png")){
-                File file_to_delete = new File(files[i].getName());
+            if(files[i].getName().contains(".png") || files[i].getName().contains(".jpg")){
+                File file_to_delete = new File(this.image_path, files[i].getName());
 
                 if (file_to_delete.delete()) {
                     System.out.println("Deleted the file: " + file_to_delete.getName());
                 } else {
                     System.out.println("Failed to delete the file.");
                 }
-            }*/
+            }
         }
     }
 

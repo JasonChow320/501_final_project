@@ -399,7 +399,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
     //https://stackoverflow.com/questions/63410194/how-to-save-multiple-bitmaps-fastly-in-android-studio
     public void saveBitmap(Bitmap output, String fileName){
         output = TrimImage(output);
-        System.out.println("Saved to " + fileName);
+        System.out.println("ConfirmToWard: Saved to " + fileName);
         File image = new File(fileName);
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(image);
