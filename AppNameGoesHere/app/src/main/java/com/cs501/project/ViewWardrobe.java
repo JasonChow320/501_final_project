@@ -281,11 +281,10 @@ class MyCustomAdapter extends BaseAdapter {
 
         if(cache) {
 
-            Clothes clothes = this.clothes.get(position);
-            System.out.println("Trying to decode: " + fb_manager.getImagePath() + "/" + clothes.getImageURL());
-            if (clothes == null) {
-                Log.d("ViewWardRobeAdapter", "ViewWardrobe: Tried to get clothes at an invalid position");
-            } else {
+            if(position >= 0 && position < this.clothes.size()){
+                Clothes clothes = this.clothes.get(position);
+                System.out.println("Trying to decode: " + fb_manager.getImagePath() + "/" + clothes.getImageURL());
+
                 Bitmap b = BitmapFactory.decodeFile(fb_manager.getImagePath() + "/" + clothes.getImageURL());
                 if (b == null) {
                     System.out.println("Can't decode image");

@@ -213,17 +213,13 @@ class ViewOutfitAdapter extends BaseAdapter {
                     if(cache) {
 
                         System.out.println("Trying to decode: " + fb_manager.getImagePath() + "/" + temp.getImageURL());
-                        if (temp == null) {
-                            Log.d("ViewOutfitAdapter", "ViewOutfit: Tried to get clothes at an invalid position");
+                        Bitmap b = BitmapFactory.decodeFile(fb_manager.getImagePath() + "/" + temp.getImageURL());
+                        if (b == null) {
+                            System.out.println("Can't decode image");
                         } else {
-                            Bitmap b = BitmapFactory.decodeFile(fb_manager.getImagePath() + "/" + temp.getImageURL());
-                            if (b == null) {
-                                System.out.println("Can't decode image");
-                            } else {
-                                img.setImageBitmap(b);
-                                System.out.println("Displaying image from cache");
-                                displayImg = true;
-                            }
+                            img.setImageBitmap(b);
+                            System.out.println("Displaying image from cache");
+                            displayImg = true;
                         }
                     }
 

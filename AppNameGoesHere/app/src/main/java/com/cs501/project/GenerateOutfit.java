@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ import com.cs501.project.Model.FireBaseManager;
 import com.cs501.project.Model.Hash;
 import com.cs501.project.Model.Outfit;
 import com.cs501.project.Model.RandomString;
+import com.cs501.project.Model.User;
 import com.cs501.project.Model.Wardrobe;
 
 import com.cs501.project.Model.Color;
@@ -353,24 +355,56 @@ public class GenerateOutfit extends AppCompatActivity {
         outfitLayout.setBackground(ContextCompat.getDrawable(this, R.drawable.outfit_view_border));
         ArrayList<String> ids = outfit.getOutfit();
         int number = ids.size();
+
+        Wardrobe wardrobe = fb_manager.getUser().getWardrobe();
+
         for(String id: ids) {
             ImageView img = new ImageView(this);
             img.setLayoutParams(new LinearLayout.LayoutParams(width/2, (height/(number+1))));
 
-            StorageReference pathReference = FirebaseStorage.getInstance().getReference();
-            pathReference.child(fb_manager.getUser().getWardrobe().getClothesByUid(id).getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
-                @Override
-                public void onComplete(@NonNull Task<byte[]> task) {
-                    try{
-                        byte[] bytes = task.getResult();
-                        Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                        img.setImageBitmap(b);
-                    } catch (Exception e){
-                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.fail_image_data),
-                                Toast.LENGTH_SHORT).show();
-                    }
+            Clothes clothes = wardrobe.getClothesByUid(id);
+
+            // get image
+            User user = fb_manager.getUser();
+            boolean displayImg = false, cache = (user.getUserSettings().getEnableCache() == 1);
+
+            if(cache) {
+
+                System.out.println("Trying to decode: " + fb_manager.getImagePath() + "/" + clothes.getImageURL());
+
+                Bitmap b = BitmapFactory.decodeFile(fb_manager.getImagePath() + "/" + clothes.getImageURL());
+                if (b == null) {
+                    System.out.println("Can't decode image");
+                } else {
+                    img.setImageBitmap(b);
+                    System.out.println("Displaying image from cache");
+                    displayImg = true;
                 }
-            });
+            }
+
+            if(!displayImg) {
+
+                // retrieve image from database
+                StorageReference pathReference = FirebaseStorage.getInstance().getReference();
+                pathReference.child(clothes.getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+                    @Override
+                    public void onComplete(@NonNull Task<byte[]> task) {
+                        try {
+                            byte[] bytes = task.getResult();
+                            Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                            img.setImageBitmap(b);
+
+                            if (cache) {
+                                fb_manager.saveBitmap(b, fb_manager.getImagePath() + "/" + clothes.getImageURL());
+                                System.out.println("Adding to cache for cache enabled user");
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(GenerateOutfit.this, getResources().getString(R.string.unable_retrieve_clothes), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
             outfitLayout.addView(img);
         }
     }
