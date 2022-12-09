@@ -2,7 +2,7 @@ package com.cs501.project.Model;
 
 public class User_settings {
 
-    int oneLayerTemp, threeLayerTemp, theme;
+    int oneLayerTemp, threeLayerTemp, theme, enableCache;
     String flashMode, language;
 
     public User_settings(){
@@ -13,6 +13,7 @@ public class User_settings {
         this.flashMode = "On";
         this.theme = 0;
         this.language = "en";
+        this.enableCache = 1;
     }
 
     public void setOneLayerTemp(int temp){
@@ -24,6 +25,13 @@ public class User_settings {
     public void setFlashMode(String temp) {this.flashMode = temp;}
     public void setTheme(int temp) {this.theme = temp;}
     public void setLanguage(String lang) {this.language = lang;}
+    public void setCache(int enable){
+        if(enable > 0){
+            this.enableCache = 1;
+        } else{
+            this.enableCache = 0;
+        }
+    }
 
 
     public int getOneLayerTemp(){
@@ -35,4 +43,7 @@ public class User_settings {
     public String getFlashMode() { return this.flashMode;}
     public int getTheme() { return this.theme;}
     public String getLanguage() {return this.language; }
+    public int getEnableCache() {
+        return this.enableCache;
+    }
 }

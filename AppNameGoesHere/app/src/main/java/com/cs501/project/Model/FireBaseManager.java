@@ -16,6 +16,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
 import java.util.ArrayList;
 
 /*
@@ -40,6 +41,8 @@ public class FireBaseManager {
     private DatabaseReference myRef;
     private FirebaseUser currentUser;
 
+    private String image_path;
+
     // private constructor only for getInstance
     private FireBaseManager() {
 
@@ -50,6 +53,8 @@ public class FireBaseManager {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("accounts");
         currentUser = mAuth.getCurrentUser();
+
+        image_path = new String();
 
         user_idx = 0;
 
@@ -68,6 +73,7 @@ public class FireBaseManager {
                     Log.d(TAG, "Value is: " + account.toString());
                 }
                 user = account;
+                saveCache();
             }
 
             @Override
@@ -86,6 +92,59 @@ public class FireBaseManager {
             manager_instance = new FireBaseManager();
         }
         return manager_instance;
+    }
+
+    public void setImagePath(String path){
+
+        if(path == null){
+            return;
+        }
+        this.image_path = path;
+    }
+
+    private void saveCache(){
+
+        for(User user : this.user.getUsers()){
+            if(user.getUserSettings().getEnableCache() == 1){
+                for(Clothes c : user.getWardrobe().getClothes()){
+
+                    // enable cache, download all images
+                    File dir = new File(this.image_path, c.getImageURL());
+
+                    if(dir.exists()){
+                        System.out.println("The file_path: " + this.image_path + "/" + c.getImageURL());
+                    } else {
+                        System.out.println("The file_path: " + this.image_path + "/" + c.getImageURL());
+                        System.out.println("Does not exist");
+                    }
+                }
+            }
+        }
+    }
+
+    public void deleteCache(){
+        File directory = new File(this.image_path);
+        File[] files = directory.listFiles();
+
+        if(files == null){
+            return;
+        }
+        System.out.println("File Size: "+ files.length);
+        for (int i = 0; i < files.length; i++)
+        {
+            System.out.println("Files FileName:" + files[i].getName());
+
+            /*
+            if(files[i].getName().contains(".png")){
+                File file_to_delete = new File(files[i].getName());
+
+                if (file_to_delete.delete()) {
+                    System.out.println("Deleted the file: " + file_to_delete.getName());
+                } else {
+                    System.out.println("Failed to delete the file.");
+                }
+            }*/
+        }
     }
 
     public Profile getProfile(){
