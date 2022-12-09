@@ -17,6 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -40,17 +41,17 @@ import java.util.Locale;
 public class settings extends AppCompatActivity {
 
     TextView oneLayerTemp;
-    TextView twoLayerTemp;
     TextView threeLayerTemp;
     TextView flashMode;
     int currOneTemp, currThreeTemp, currTheme;
     String CurrFlashMode;
-    Spinner oneLayerTempSpinner, threeLayerTempSpinner, flashModeSpinner, themeSpinner;
+    Spinner oneLayerTempSpinner, threeLayerTempSpinner, flashModeSpinner;
     String[] flashModeList, oneLayerTempList, threeLayerTempList;
-    ArrayAdapter adapter1, adapter2, adapter3 ,adapter4;
+    ArrayAdapter adapter1, adapter2, adapter3;
     ConstraintLayout con;
     User_settings uSettings;
     Switch themeSwitcher, cacheSwitcher;
+    ImageView themeIcon;
 
     private FireBaseManager fb_manager;
     private final static String TAG = "SettingActivity";
@@ -118,9 +119,7 @@ public class settings extends AppCompatActivity {
 
         flashModeSpinner.setSelection(index);
 
-//        themeSpinner = (Spinner) findViewById(R.id.spinner6);
-//        adapter4 = ArrayAdapter.createFromResource(this, R.array.themesNames, android.R.layout.simple_spinner_item);
-//        themeSpinner.setAdapter(adapter4);
+        themeIcon = (ImageView) findViewById(R.id.themeIcon);
 
         // Settings auto updates when database changes
         myRef.child(currentUser.getUid()).child("users").child(String.valueOf(fb_manager.getUserIdx())).addValueEventListener(new ValueEventListener() {
@@ -217,8 +216,14 @@ public class settings extends AppCompatActivity {
 
         flashModeSpinner.setSelection(index);
         User_settings uSettings = fb_manager.getUser().getUserSettings();
-        if(uSettings.getTheme() == 1) themeSwitcher.setChecked(true);
-        else themeSwitcher.setChecked(false);
+        if(uSettings.getTheme() == 1) {
+            themeSwitcher.setChecked(true);
+            themeIcon.setImageDrawable(getResources().getDrawable(R.drawable.moon_6686));
+        }
+        else {
+            themeSwitcher.setChecked(false);
+            themeIcon.setImageDrawable(getResources().getDrawable(R.drawable.sun_8761));
+        }
 
         if(uSettings.getEnableCache() == 1) {
             cacheSwitcher.setChecked(true);
@@ -271,21 +276,6 @@ public class settings extends AppCompatActivity {
             }
         });
 
-//        themeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//            @Override
-//            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                fb_manager.updateTheme(i);
-//                String backgroundColor = getResources().getStringArray(R.array.themesValues)[i];
-//                System.out.println(backgroundColor);
-//                con.setBackgroundColor(Color.parseColor(backgroundColor));
-//            }
-//
-//            @Override
-//            public void onNothingSelected(AdapterView<?> adapterView) {
-//
-//            }
-//        });
-
         themeSwitcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -294,11 +284,14 @@ public class settings extends AppCompatActivity {
                     String backgroundColor = getResources().getStringArray(R.array.themesValues)[1];
                     System.out.println(backgroundColor);
                     con.setBackgroundColor(Color.parseColor(backgroundColor));
+                    themeIcon.setImageDrawable(getResources().getDrawable(R.drawable.moon_6686));
                 } else {
                     fb_manager.updateTheme(0);
                     String backgroundColor = getResources().getStringArray(R.array.themesValues)[0];
                     System.out.println(backgroundColor);
                     con.setBackgroundColor(Color.parseColor(backgroundColor));
+                    themeIcon.setImageDrawable(getResources().getDrawable(R.drawable.sun_8761));
+
                 }
 
             }
@@ -314,6 +307,5 @@ public class settings extends AppCompatActivity {
                 }
             }
         });
-
     }
 }
