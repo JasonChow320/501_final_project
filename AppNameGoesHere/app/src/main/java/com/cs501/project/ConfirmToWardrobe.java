@@ -95,6 +95,8 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         ArrayList<String> fileNames = getIntent().getStringArrayListExtra("fileNames");
         String itemId = getIntent().getStringExtra("itemId");
 
+        Toast toast = Toast.makeText(ConfirmToWardrobe.this, getResources().getString(R.string.check_colors_match_irl), Toast.LENGTH_LONG);
+
         if(fileNames != null) { // IF PHOTOS ARE BEING SUBMITTED FROM ADDTOWARDROBE
             edit = false;
             System.out.println(fileNames.size() + " submitted");
@@ -104,6 +106,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
             if(color != null){
                 mainCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex1()));
                 accCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex2()));
+                toast.show();
             }
         } else { //IF PHOTO IS BEING SUBMITTED FOR EDIT
             edit = true;
@@ -263,7 +266,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                     Request request = new Request.Builder()
                             .url("https://api.remove.bg/v1.0/removebg")
                             .method("POST", body)
-                            .addHeader("X-Api-Key", "wF6Vq9LxUUhmKRUACJPCTULb")
+                            .addHeader("X-Api-Key", "ebXfw4S7z7XAYY3ckRqALLse")
                             .build();
                     try {
                         Response response = client.newCall(request).execute();

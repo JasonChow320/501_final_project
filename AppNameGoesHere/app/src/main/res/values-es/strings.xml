@@ -194,4 +194,5 @@
     <string name="delete_cache">borrar caché</string>
     <string name="enable_cache">Habilitar caché</string>
     <string name="unable_retrieve_clothes">No se puede conseguir ropa</string>
+    <string name="check_colors_match_irl"> Intente deshabilitar / habilitar el flash en la configuración si los colores no son precisos</string>
 </resources>

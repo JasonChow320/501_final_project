@@ -195,5 +195,5 @@
     <string name="delete_cache">Delete Cache</string>
     <string name="enable_cache">Enable Cache</string>
     <string name="unable_retrieve_clothes">Unable to get clothes</string>
-
+    <string name="check_colors_match_irl"> Try disabling/enabling flash in settings if the colors are not accurate</string>
 </resources>
