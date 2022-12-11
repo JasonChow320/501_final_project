@@ -1,10 +1,6 @@
 package com.cs501.project.Model;
 
 import java.util.Arrays;
-import java.util.stream.Stream;
-
-import java.nio.charset.Charset;
-import java.util.Random;
 
 /*
     Clothes contains information about a piece of clothing, all clothes extends this class

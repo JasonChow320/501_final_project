@@ -1,6 +1,5 @@
 package com.cs501.project.Model;
 
-import com.cs501.project.GenerateOutfit;
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;

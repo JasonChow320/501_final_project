@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,14 +23,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.FireBaseManager;
 import com.cs501.project.Model.Outfit;
-import com.cs501.project.Model.Profile;
 import com.cs501.project.Model.User;
 import com.cs501.project.Model.User_settings;
 import com.cs501.project.Model.Wardrobe;

@@ -1,5 +1,20 @@
 package com.cs501.project;
 
+import android.Manifest;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Matrix;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Surface;
+import android.view.View;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -18,23 +33,6 @@ import androidx.lifecycle.LifecycleOwner;
 import com.cs501.project.Model.FireBaseManager;
 import com.cs501.project.Model.User_settings;
 import com.google.common.util.concurrent.ListenableFuture;
-
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
-import android.view.Surface;
-import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;

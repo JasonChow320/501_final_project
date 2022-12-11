@@ -3,11 +3,9 @@ package com.cs501.project;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.preference.PreferenceManager;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -18,14 +16,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cs501.project.Model.FireBaseManager;
-import com.cs501.project.Model.Profile;
 import com.cs501.project.Model.User;
 import com.cs501.project.Model.User_settings;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,6 +35,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Locale;
 
 public class settings extends AppCompatActivity {
+    /**
+     *
+     */
 
     TextView oneLayerTemp;
     TextView threeLayerTemp;

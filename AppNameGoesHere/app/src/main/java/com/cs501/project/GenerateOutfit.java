@@ -1,5 +1,23 @@
 package com.cs501.project;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -9,26 +27,6 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.location.Location;
-import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.InputType;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -36,20 +34,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.cs501.project.Model.Clothes;
-
+import com.cs501.project.Model.Color;
 import com.cs501.project.Model.FireBaseManager;
-import com.cs501.project.Model.Hash;
 import com.cs501.project.Model.Outfit;
 import com.cs501.project.Model.RandomString;
 import com.cs501.project.Model.User;
-import com.cs501.project.Model.Wardrobe;
-
-import com.cs501.project.Model.Color;
-import com.cs501.project.Model.FireBaseManager;
-import com.cs501.project.Model.Shirt;
-import com.cs501.project.Model.Shoes;
 import com.cs501.project.Model.User_settings;
-
+import com.cs501.project.Model.Wardrobe;
 import com.cs501.project.Model.Weather;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -63,7 +54,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
 import java.util.Collections;
 import java.util.Random;
 
