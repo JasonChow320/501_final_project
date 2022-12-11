@@ -189,4 +189,6 @@
     <string name="edit_profile_success">¡Edite correctamente un perfil de usuario!</string>
     <string name="confirmClothingDeletion">Confirmar para eliminar ropa</string>
     <string name="ClothingDeletionMessage">Si eliminas esta prenda, todos los conjuntos con ella también se eliminarán.</string>
+    <string name="check_colors_match_irl"> Intente deshabilitar / habilitar el flash en la configuración si los colores no son precisos</string>
+
 </resources>

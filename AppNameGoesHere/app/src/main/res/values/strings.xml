@@ -190,4 +190,5 @@
     <string name="wrong_pass">Wrong password</string>
     <string name="fail_edit_profile">Unable to edit an user profile, password does not match!</string>
     <string name="edit_profile_success">Successfully edit an user profile!</string>
+    <string name="check_colors_match_irl"> Try disabling/enabling flash in settings if the colors are not accurate</string>
 </resources>
