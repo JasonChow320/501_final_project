@@ -1,5 +1,8 @@
 package com.cs501.project.Model;
 
+/*
+    User class holds information about a specific user's profile
+ */
 public class User {
     private String userId, username, password;
     private Wardrobe wardrobe;

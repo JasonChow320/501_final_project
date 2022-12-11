@@ -21,7 +21,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <TextView
@@ -52,6 +52,13 @@
                 android:layout_height="70dp"
                 android:gravity="center"
                 android:text="@string/flashTypes" />
+
+            <TextView
+                android:id="@+id/cache_view"
+                android:layout_width="wrap_content"
+                android:layout_height="70dp"
+                android:gravity="center|left"
+                android:text="@string/enable_cache" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -102,7 +109,10 @@
 <!--                android:id="@+id/spinner6"-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="70dp" />-->
-
+            <Switch
+                android:id="@+id/cache_switch"
+                android:layout_width="match_parent"
+                android:layout_height="70dp" />
             <Switch
                 android:id="@+id/switch1"
                 android:layout_width="match_parent"
@@ -122,6 +132,28 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/delete_cache"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_cache"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.90" />
+
+    <Button
+        android:id="@+id/toggle_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/toggle_language"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />

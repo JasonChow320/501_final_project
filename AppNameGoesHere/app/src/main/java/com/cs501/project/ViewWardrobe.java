@@ -34,6 +34,7 @@ import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.FireBaseManager;
 import com.cs501.project.Model.Outfit;
 import com.cs501.project.Model.Profile;
+import com.cs501.project.Model.User;
 import com.cs501.project.Model.User_settings;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -48,6 +49,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -272,20 +276,49 @@ class MyCustomAdapter extends BaseAdapter {
         }
 
         // get image
-        StorageReference pathReference = FirebaseStorage.getInstance().getReference();
-        pathReference.child(clothes_view.getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
-            @Override
-            public void onComplete(@NonNull Task<byte[]> task) {
-                try{
-                    byte[] bytes = task.getResult();
-                    Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        User user = fb_manager.getUser();
+        boolean displayImg = false, cache = (user.getUserSettings().getEnableCache() == 1);
+
+        if(cache) {
+
+            if(position >= 0 && position < this.clothes.size()){
+                Clothes clothes = this.clothes.get(position);
+                System.out.println("Trying to decode: " + fb_manager.getImagePath() + "/" + clothes.getImageURL());
+
+                Bitmap b = BitmapFactory.decodeFile(fb_manager.getImagePath() + "/" + clothes.getImageURL());
+                if (b == null) {
+                    System.out.println("Can't decode image");
+                } else {
                     image.setImageBitmap(b);
-                } catch (Exception e){
-                    Toast.makeText(context, context.getString(R.string.fail_image_data) + position + context.getString(R.string.clothing_period),
-                            Toast.LENGTH_SHORT).show();
+                    System.out.println("Displaying image from cache");
+                    displayImg = true;
                 }
             }
-        });
+        }
+
+        if(!displayImg){
+
+            // retrieve image from database
+            StorageReference pathReference = FirebaseStorage.getInstance().getReference();
+            pathReference.child(clothes_view.getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+                @Override
+                public void onComplete(@NonNull Task<byte[]> task) {
+                    try{
+                        byte[] bytes = task.getResult();
+                        Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                        image.setImageBitmap(b);
+
+                        if(cache){
+                            fb_manager.saveBitmap(b, fb_manager.getImagePath() + "/" + clothes_view.getImageURL());
+                            System.out.println("Adding to cache for cache enabled user");
+                        }
+                    } catch (Exception e){
+                        Toast.makeText(context, context.getString(R.string.fail_image_data) + position + context.getString(R.string.clothing_period),
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
 
         SharedPreferences sh = context.getSharedPreferences("MySharedPref", MODE_PRIVATE);
 

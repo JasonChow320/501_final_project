@@ -205,20 +205,47 @@ class ViewOutfitAdapter extends BaseAdapter {
             Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    StorageReference pathReference = FirebaseStorage.getInstance().getReference();
-                    pathReference.child(temp.getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
-                        @Override
-                        public void onComplete(@NonNull Task<byte[]> task) {
-                            try{
-                                byte[] bytes = task.getResult();
-                                Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                img.setImageBitmap(b);
-                            } catch (Exception e){
-                                Toast.makeText(context, context.getString(R.string.cant_parse_image),
-                                        Toast.LENGTH_SHORT).show();
-                            }
+
+                    // get image
+                    User user = fb_manager.getUser();
+                    boolean displayImg = false, cache = (user.getUserSettings().getEnableCache() == 1);
+
+                    if(cache) {
+
+                        System.out.println("Trying to decode: " + fb_manager.getImagePath() + "/" + temp.getImageURL());
+                        Bitmap b = BitmapFactory.decodeFile(fb_manager.getImagePath() + "/" + temp.getImageURL());
+                        if (b == null) {
+                            System.out.println("Can't decode image");
+                        } else {
+                            img.setImageBitmap(b);
+                            System.out.println("Displaying image from cache");
+                            displayImg = true;
                         }
-                    });
+                    }
+
+                    if(!displayImg) {
+
+                        // retrieve image from database
+                        StorageReference pathReference = FirebaseStorage.getInstance().getReference();
+                        pathReference.child(temp.getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+                            @Override
+                            public void onComplete(@NonNull Task<byte[]> task) {
+                                try {
+                                    byte[] bytes = task.getResult();
+                                    Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                    img.setImageBitmap(b);
+
+                                    if (cache) {
+                                        fb_manager.saveBitmap(b, fb_manager.getImagePath() + "/" + temp.getImageURL());
+                                        System.out.println("Adding to cache for cache enabled user");
+                                    }
+                                } catch (Exception e) {
+                                    Toast.makeText(context, context.getString(R.string.cant_parse_image),
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
                 }
             });
             thread.start();

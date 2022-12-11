@@ -1,5 +1,8 @@
 package com.cs501.project.Model;
 
+/*
+    Weather class holds information about the current weather
+ */
 public class Weather {
 
     private double currentTemp;

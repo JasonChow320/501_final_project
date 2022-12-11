@@ -6,6 +6,9 @@ import java.util.stream.Stream;
 import java.nio.charset.Charset;
 import java.util.Random;
 
+/*
+    Clothes contains information about a piece of clothing, all clothes extends this class
+ */
 public class Clothes {
 
     public enum Type {

@@ -1,11 +1,18 @@
 package com.cs501.project.Model;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.cs501.project.ConfirmToWardrobe;
+import com.cs501.project.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -16,7 +23,19 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /*
     The FireBaseManager class controls the data flow between the Realtime database
@@ -40,6 +59,8 @@ public class FireBaseManager {
     private DatabaseReference myRef;
     private FirebaseUser currentUser;
 
+    private String image_path;
+
     // private constructor only for getInstance
     private FireBaseManager() {
 
@@ -50,6 +71,8 @@ public class FireBaseManager {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("accounts");
         currentUser = mAuth.getCurrentUser();
+
+        image_path = new String();
 
         user_idx = 0;
 
@@ -65,9 +88,10 @@ public class FireBaseManager {
                 Log.d(TAG, "Got data from database");
                 Profile account = dataSnapshot.getValue(Profile.class);
                 if(account != null){
-                    Log.d(TAG, "Value is: " + account.toString());
+                    Log.d(TAG, "Value is not null");
                 }
                 user = account;
+                saveCache();
             }
 
             @Override
@@ -86,6 +110,116 @@ public class FireBaseManager {
             manager_instance = new FireBaseManager();
         }
         return manager_instance;
+    }
+
+    public void setImagePath(String path){
+
+        if(path == null){
+            return;
+        }
+        this.image_path = path;
+    }
+
+    public void setEnableCache(int value){
+
+        User user = this.getUser();
+        user.getUserSettings().setEnableCache(value);
+        if(value > 0){
+            this.saveCache();
+        } else {
+            this.deleteCache();
+        }
+        this.update();
+    }
+
+    public void saveCache(){
+
+        for(User user : this.user.getUsers()){
+            if(user.getUserSettings().getEnableCache() == 1){
+                for(Clothes c : user.getWardrobe().getClothes()){
+
+                    // enable cache, download all images
+                    File dir = new File(this.image_path, c.getImageURL());
+
+                    if(dir.getAbsoluteFile().exists()){
+
+                        System.out.println("Found file_path: " + this.image_path + "/" + c.getImageURL());
+                    } else {
+
+                        // cache image
+                        Thread thread = new Thread(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                StorageReference pathReference = FirebaseStorage.getInstance().getReference();
+                                pathReference.child(c.getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<byte[]> task) {
+                                        try{
+                                            byte[] bytes = task.getResult();
+                                            Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                            saveBitmap(b, image_path + "/" + c.getImageURL());
+                                        } catch (Exception e){
+                                            System.out.println("Unable to find image on FireBase storage");
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                        thread.start();
+                        try {
+                            thread.join();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //https://stackoverflow.com/questions/63410194/how-to-save-multiple-bitmaps-fastly-in-android-studio
+    public void saveBitmap(Bitmap output, String fileName){
+
+        File image = new File(fileName);
+        try {
+
+            FileOutputStream fileOutputStream = new FileOutputStream(image);
+            output.compress(Bitmap.CompressFormat.PNG, 80, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+            System.out.println("FireBase: Cached image to " + fileName);
+        } catch (IOException e) {
+            System.out.println("ERROR CACHING IMAGE: " + e);
+        }
+    }
+
+    public void deleteCache(){
+        File directory = new File(this.image_path);
+        File[] files = directory.listFiles();
+
+        if(files == null){
+            return;
+        }
+        System.out.println("File Size: "+ files.length);
+        for (int i = 0; i < files.length; i++)
+        {
+            System.out.println("Files FileName:" + files[i].getName());
+
+            if(files[i].getName().contains(".png") || files[i].getName().contains(".jpg")){
+                File file_to_delete = new File(this.image_path, files[i].getName());
+
+                if (file_to_delete.delete()) {
+                    System.out.println("Deleted the file: " + file_to_delete.getName());
+                } else {
+                    System.out.println("Failed to delete the file.");
+                }
+            }
+        }
+    }
+
+    public String getImagePath(){
+        return this.image_path;
     }
 
     public Profile getProfile(){

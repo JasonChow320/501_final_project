@@ -5,6 +5,9 @@ import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
 
+/*
+    Outfit class stores a user's outfit as an array of the clothes unique ids
+ */
 public class Outfit implements Comparable<Outfit> {
 
     private ArrayList<String> clothes_uniqueIds;

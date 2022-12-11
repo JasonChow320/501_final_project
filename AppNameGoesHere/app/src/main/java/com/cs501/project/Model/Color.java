@@ -2,6 +2,9 @@ package com.cs501.project.Model;
 import java.lang.Math;
 import java.util.ArrayList;
 
+/*
+    Color class defines a color for our clothing, the members is also used in our generating outfit algorithm
+ */
 public class Color {
 
     float red;
