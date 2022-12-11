@@ -55,6 +55,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -413,7 +414,7 @@ public class GenerateOutfit extends AppCompatActivity {
 
         int layers = determineOutfitLayers(oneLayerTemp, threeLayerTemp);
 
-        if(weather.getWeatherType().contains("Rain") || weather.getWeatherType().contains("rain") || weather.getWeatherType().contains("snow") || weather.getWeatherType().contains("Snow") ){
+        if(weather.getWeatherType().toLowerCase(Locale.ROOT).contains("rain") || weather.getWeatherType().toLowerCase(Locale.ROOT).contains("snow") ){
             if (layers == 1){
                 layers = 2;
                 topLayerWtrProof = true;

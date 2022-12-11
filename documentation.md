@@ -6,39 +6,84 @@ All class and their methods will be documentated here
 
 ## Back-end (model)
 
-### Clothes.class (abstract)
+### public class Clothes 
 
-Abstract class that is the parent of all clothing class.
+--- 
 
-#### public enum
+public enum Type:
 
-Type - defines what clothing it is:  
- * t_shirt  
- * long_shirt  
- * shorts  
- * pants  
- * shoes  
- * jacket  
+* T_SHIRT
+* LONG_SLEEVE
+* SHORTS
+* PANTS
+* SHOES
+* SWEATER
+* LIGHT_JACKET
+* HEAVY_JACKET
 
-Size - defines the size of the clothing
- * small
- * medium
- * large
- * extra_large
+--- 
 
-#### Members
+##### Members
 
-Type Type  
-Color Color  
-Size size
+Type type  
+Color color  
+boolean waterResistant  
 
-#### Methods
+private String uniqueId, imageURL  
 
-public Clothes()  
-public Type getType()  
-public getSize(){
-public getColr(){
-public setType(Type type)
-public setSize(Size size)
-public setColor(Color color)
+Integer layer  
+
+---
+
+##### Methods 
+
+public Clothes(Type type, Color color, String imageURL, boolean waterResistant, Integer layer)
+
+public Type getType()
+
+public boolean isWaterResistant()
+
+public Color getColor()
+
+public String getUniqueId()
+
+public String getImageURL()
+    
+public Integer getLayer() 
+
+public void setType(Type type)
+
+public void setWaterResistant(Boolean isResistant)
+
+public void setColor(Color color)
+
+public void setUniqueId(String id)
+
+public void setImageURL(String image)
+    
+public void setLayer(Integer layer) 
+
+public String toString()
+
+public static String[] getTypes(Class<? extends Type> e) 
+
+### public class Clothes_Factory 
+
+##### Public Methods
+
+public T_shirt get_tshirt()
+
+public Shirt get_long_sleeve()
+
+publec Shoes get_shoes()
+
+public Pants get_pants()
+
+public Shorts get_shorts()
+
+public LightJacket get_light_jacket()
+
+public HeavyJacket get_heavyjacket()
+
+public Sweater get_sweater()
 
