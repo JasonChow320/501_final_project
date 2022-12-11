@@ -6,7 +6,7 @@ All class and their methods will be documentated here
 
 ## Back-end (model)
 
-public class Clothes 
+### public class Clothes 
 
 --- 
 
@@ -23,17 +23,19 @@ public enum Type:
 
 --- 
 
-members
+##### Members
 
-Type type
-Color color
-boolean waterResistant
+Type type  
+Color color  
+boolean waterResistant  
 
-private String uniqueId, imageURL
+private String uniqueId, imageURL  
 
-Integer layer
+Integer layer  
 
 ---
+
+##### Methods 
 
 public Clothes(Type type, Color color, String imageURL, boolean waterResistant, Integer layer)
 
