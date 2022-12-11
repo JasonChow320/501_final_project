@@ -21,9 +21,7 @@ public enum Type:
 * LIGHT_JACKET
 * HEAVY_JACKET
 
---- 
-
-##### Members
+#### Members
 
 Type type  
 Color color  
@@ -33,9 +31,7 @@ private String uniqueId, imageURL
 
 Integer layer  
 
----
-
-##### Methods 
+#### Methods 
 
 public Clothes(Type type, Color color, String imageURL, boolean waterResistant, Integer layer)
 
@@ -67,9 +63,11 @@ public String toString()
 
 public static String[] getTypes(Class<? extends Type> e) 
 
+---
+
 ### public class Clothes_Factory 
 
-##### Public Methods
+#### Public Methods
 
 public T_shirt get_tshirt()
 
