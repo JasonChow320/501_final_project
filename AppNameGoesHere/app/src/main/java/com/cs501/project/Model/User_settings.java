@@ -1,5 +1,8 @@
 package com.cs501.project.Model;
 
+/*
+    User_settings holds information about a user's custom settings
+ */
 public class User_settings {
 
     int oneLayerTemp, threeLayerTemp, theme, enableCache;

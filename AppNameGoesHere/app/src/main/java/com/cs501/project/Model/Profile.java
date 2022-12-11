@@ -4,6 +4,9 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+/*
+    Profile class holds information about an account, including the FireBase Auth unique id and user profiles for that account
+ */
 public class Profile {
     private ArrayList<User> users;
     private String accountEmail;
