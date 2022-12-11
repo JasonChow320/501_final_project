@@ -67,3 +67,23 @@ public String toString()
 
 public static String[] getTypes(Class<? extends Type> e) 
 
+### public class Clothes_Factory 
+
+##### Public Methods
+
+public T_shirt get_tshirt()
+
+public Shirt get_long_sleeve()
+
+publec Shoes get_shoes()
+
+public Pants get_pants()
+
+public Shorts get_shorts()
+
+public LightJacket get_light_jacket()
+
+public HeavyJacket get_heavyjacket()
+
+public Sweater get_sweater()
+
