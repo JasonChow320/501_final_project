@@ -1,4 +1,6 @@
-package com.cs501.project.Model;/*
+package com.cs501.project.Model;
+
+/*
  * This class creates Clothes for the backend
  * 
  * Follows the Factory design pattern

@@ -95,10 +95,6 @@ public class Login extends AppCompatActivity {
         this.sign_up = (Button) findViewById(R.id.button_signup);
         this.sign_out_button = (Button) findViewById(R.id.login_sign_out_button);
 
-        // Get account's users
-        //fb_manager = FireBaseManager.getInstance();
-        mAuth = FirebaseAuth.getInstance();
-
         // retrieve account database
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("accounts");
@@ -106,8 +102,10 @@ public class Login extends AppCompatActivity {
 
         Log.d(TAG, "Signed in as user: " + currentUser.getUid());
 
-        // Initialize our firebase manager
+        // Initialize our firebase manager and file path for image cache
         fb_manager = FireBaseManager.getInstance();
+        String filepath = getApplicationContext().getFilesDir().toString();
+        fb_manager.setImagePath(filepath);
 
         // Listview auto updates when database changes
         myRef.child(currentUser.getUid()).addValueEventListener(new ValueEventListener() {

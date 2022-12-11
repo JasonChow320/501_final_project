@@ -44,6 +44,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.EnumSet;
 
 import okhttp3.MediaType;
@@ -64,128 +65,6 @@ public class ConfirmToWardrobe extends AppCompatActivity {
 
     // Max size of the image
     public final static int MAX_IMAGE_SIZE = 1000000;
-
-    private void rmBackground(String fileName) {
-        //IMAGE STUFF
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    OkHttpClient client = new OkHttpClient().newBuilder()
-                            .build();
-                    String filepath = Environment.getExternalStorageDirectory().toString() + "/images/test.png";
-                    System.out.println(filepath);
-                    MediaType mediaType = MediaType.parse("text/plain");
-                    RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                            .addFormDataPart("image_file",fileName,
-                                    RequestBody.create(MediaType.parse("image/png"),
-                                            new File(fileName)))
-                            .addFormDataPart("size","auto")
-                            .build();
-                    Request request = new Request.Builder()
-                            .url("https://api.remove.bg/v1.0/removebg")
-                            .method("POST", body)
-                            .addHeader("X-Api-Key", "ebXfw4S7z7XAYY3ckRqALLse")
-                            .build();
-                    try {
-                        Response response = client.newCall(request).execute();
-
-                        byte[] b = response.body().bytes();
-                        Bitmap b1 = BitmapFactory.decodeByteArray(b, 0, b.length);
-                        saveBitmap(b1, fileName);
-                        System.out.println("RESPONSE SUCCESS");
-                        imageReady = true;
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        System.out.println("ERROR MAKING REQUEST " + e);
-                    }
-                }catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println("ERROR REMOVING BACKGROUND " + e);
-                }
-            }
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        ArrayList<String> fileNames = getIntent().getStringArrayListExtra("fileNames");
-        Bitmap b = BitmapFactory.decodeFile(fileNames.get(0));
-        ImageView editItemImage = (ImageView) findViewById(R.id.editItemImage);
-        editItemImage.setImageBitmap(b);
-    }
-
-    private Color extractColor (String filename){
-        final Color[] c = new Color[1];
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    OkHttpClient client = new OkHttpClient().newBuilder()
-                            .build();
-                    MediaType mediaType = MediaType.parse("text/plain");
-                    RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
-                            .addFormDataPart("media",filename,
-                                    RequestBody.create(MediaType.parse("application/octet-stream"),
-                                            new File(filename)))
-                            .build();
-                    Request request = new Request.Builder()
-                            .url("https://api.sightengine.com/1.0/check.json?models=properties&api_user=596819012&api_secret=dy3YJZP5WJ3qtoYWqaXs")
-                            .method("POST", body)
-                            .build();
-                    float r, g, b, r2, g2, b2;
-                    String hex1, hex2;
-
-                    try {
-                        Response response = client.newCall(request).execute();
-                        JSONObject obj = new JSONObject(response.body().string());
-
-                        hex1 = (obj.getJSONObject("colors").getJSONObject("dominant").getString("hex"));
-                        r = Float.parseFloat(obj.getJSONObject("colors").getJSONObject("dominant").getString("r"));
-                        g = Float.parseFloat(obj.getJSONObject("colors").getJSONObject("dominant").getString("g"));
-                        b = Float.parseFloat(obj.getJSONObject("colors").getJSONObject("dominant").getString("b"));
-
-                        JSONObject accentObj;
-
-                        try {
-                            accentObj = obj.getJSONObject("colors").getJSONArray("accent").getJSONObject(0);
-                        } catch (Exception e) {
-                            accentObj = obj.getJSONObject("colors").getJSONArray("other").getJSONObject(0);
-                        }
-
-                        hex2 = (accentObj.getString("hex"));
-                        r2 = Float.parseFloat(accentObj.getString("r"));
-                        g2 = Float.parseFloat(accentObj.getString("g"));
-                        b2 = Float.parseFloat(accentObj.getString("b"));
-
-                        c[0] = new Color(r, g, b, r2, g2, b2, hex1, hex2);
-
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                        System.out.println("ERROR MAKING REQUEST " + e);
-                    }
-
-                }catch (Exception e) {
-                    e.printStackTrace();
-                    System.out.println("ERROR EXTRACTING COLOR " + e);
-                }
-            }
-        });
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        return c[0];
-
-    }
 
     private final String TAG = "ConfirmToWardrobe";
 
@@ -217,7 +96,6 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         String itemId = getIntent().getStringExtra("itemId");
 
         Toast toast = Toast.makeText(ConfirmToWardrobe.this, getResources().getString(R.string.check_colors_match_irl), Toast.LENGTH_LONG);
-
 
         if(fileNames != null) { // IF PHOTOS ARE BEING SUBMITTED FROM ADDTOWARDROBE
             edit = false;
@@ -367,6 +245,126 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         con.setBackgroundColor(android.graphics.Color.parseColor(backgroundColor));
     }
 
+    private void rmBackground(String fileName) {
+        //IMAGE STUFF
+        Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .build();
+                    String filepath = Environment.getExternalStorageDirectory().toString() + "/images/test.png";
+                    System.out.println(filepath);
+                    MediaType mediaType = MediaType.parse("text/plain");
+                    RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                            .addFormDataPart("image_file",fileName,
+                                    RequestBody.create(MediaType.parse("image/png"),
+                                            new File(fileName)))
+                            .addFormDataPart("size","auto")
+                            .build();
+                    Request request = new Request.Builder()
+                            .url("https://api.remove.bg/v1.0/removebg")
+                            .method("POST", body)
+                            .addHeader("X-Api-Key", "ebXfw4S7z7XAYY3ckRqALLse")
+                            .build();
+                    try {
+                        Response response = client.newCall(request).execute();
+
+                        byte[] b = response.body().bytes();
+                        Bitmap b1 = BitmapFactory.decodeByteArray(b, 0, b.length);
+                        saveBitmap(b1, fileName);
+                        System.out.println("RESPONSE SUCCESS");
+                        imageReady = true;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        System.out.println("ERROR MAKING REQUEST " + e);
+                    }
+                }catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("ERROR REMOVING BACKGROUND " + e);
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<String> fileNames = getIntent().getStringArrayListExtra("fileNames");
+        Bitmap b = BitmapFactory.decodeFile(fileNames.get(0));
+        ImageView editItemImage = (ImageView) findViewById(R.id.editItemImage);
+        editItemImage.setImageBitmap(b);
+    }
+
+    private Color extractColor (String filename){
+        final Color[] c = new Color[1];
+        Thread thread = new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    OkHttpClient client = new OkHttpClient().newBuilder()
+                            .build();
+                    MediaType mediaType = MediaType.parse("text/plain");
+                    RequestBody body = new MultipartBody.Builder().setType(MultipartBody.FORM)
+                            .addFormDataPart("media",filename,
+                                    RequestBody.create(MediaType.parse("application/octet-stream"),
+                                            new File(filename)))
+                            .build();
+                    Request request = new Request.Builder()
+                            .url("https://api.sightengine.com/1.0/check.json?models=properties&api_user=596819012&api_secret=dy3YJZP5WJ3qtoYWqaXs")
+                            .method("POST", body)
+                            .build();
+                    float r, g, b, r2, g2, b2;
+                    String hex1, hex2;
+
+                    try {
+                        Response response = client.newCall(request).execute();
+                        JSONObject obj = new JSONObject(response.body().string());
+
+                        hex1 = (obj.getJSONObject("colors").getJSONObject("dominant").getString("hex"));
+                        r = Float.parseFloat(obj.getJSONObject("colors").getJSONObject("dominant").getString("r"));
+                        g = Float.parseFloat(obj.getJSONObject("colors").getJSONObject("dominant").getString("g"));
+                        b = Float.parseFloat(obj.getJSONObject("colors").getJSONObject("dominant").getString("b"));
+
+                        JSONObject accentObj;
+
+                        try {
+                            accentObj = obj.getJSONObject("colors").getJSONArray("accent").getJSONObject(0);
+                        } catch (Exception e) {
+                            accentObj = obj.getJSONObject("colors").getJSONArray("other").getJSONObject(0);
+                        }
+
+                        hex2 = (accentObj.getString("hex"));
+                        r2 = Float.parseFloat(accentObj.getString("r"));
+                        g2 = Float.parseFloat(accentObj.getString("g"));
+                        b2 = Float.parseFloat(accentObj.getString("b"));
+
+                        c[0] = new Color(r, g, b, r2, g2, b2, hex1, hex2);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        System.out.println("ERROR MAKING REQUEST " + e);
+                    }
+
+                }catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("ERROR EXTRACTING COLOR " + e);
+                }
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return c[0];
+    }
 
     private Clothes getClothes(String type){
         try{
@@ -403,7 +401,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
     //https://stackoverflow.com/questions/63410194/how-to-save-multiple-bitmaps-fastly-in-android-studio
     public void saveBitmap(Bitmap output, String fileName){
         output = TrimImage(output);
-        System.out.println("Saved to " + fileName);
+        System.out.println("ConfirmToWard: Saved to " + fileName);
         File image = new File(fileName);
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(image);

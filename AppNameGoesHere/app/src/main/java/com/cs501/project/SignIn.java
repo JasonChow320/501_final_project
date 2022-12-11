@@ -109,7 +109,7 @@ public class SignIn extends AppCompatActivity {
                             // call FireBaseManager to sync up
                             FireBaseManager.getInstance();
 
-                            // calls login
+                            // call login
                             Intent i = new Intent(SignIn.this, Login.class);
                             startActivity(i);
                         } else {

@@ -16,9 +16,15 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.cs501.project.Model.FireBaseManager;
+import com.cs501.project.Model.Profile;
 import com.cs501.project.Model.User_settings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Locale;
 
@@ -27,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     private final static String TAG = "MainActivity";
     private FireBaseManager fb_manager;
+    private boolean first_boot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         getBaseContext().getResources().updateConfiguration(config,
                 getBaseContext().getResources().getDisplayMetrics());
 
+        this.first_boot = true;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -47,8 +56,6 @@ public class MainActivity extends AppCompatActivity {
         Button toAdd = (Button) findViewById(R.id.button4);
         Button settings = (Button) findViewById(R.id.main_setting_button);
         Button back = (Button) findViewById(R.id.main_back_button);
-        Button toggle_language = (Button) findViewById(R.id.toggle_language);
-        // if we want to use User's data here
 
         settings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,21 +104,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        toggle_language.setOnClickListener(new View.OnClickListener() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        // retrieve account database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("accounts");
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        // Update if language changes
+        FireBaseManager fb_manager = FireBaseManager.getInstance();
+        myRef.child(currentUser.getUid()).child("users").child(String.valueOf(fb_manager.getUserIdx())).child("userSettings").addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                fb_manager = FireBaseManager.getInstance();
-                String current = fb_manager.getUser().getUserSettings().getLanguage();
-                String opposite = (current.equals("en")) ? "es" : "en";
-                fb_manager.updateLanguage(opposite);
-                Locale locale = new Locale(opposite);
-                Locale.setDefault(locale);
-                Configuration config = new Configuration();
-                config.locale = locale;
-                config.setLocale(locale);
-                getBaseContext().getResources().updateConfiguration(config,
-                        getBaseContext().getResources().getDisplayMetrics());
-                recreate();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                // Only for languages
+                if(first_boot) {
+                    first_boot = false;
+                } else {
+                    recreate();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
     }

@@ -60,7 +60,6 @@ public class AddToWardrobe extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_to_wardrobe);
 
-
         ActivityResultLauncher<String> requestPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestPermission(), result -> {
             if(result == false) {
                 Toast toast = Toast.makeText(AddToWardrobe.this, getResources().getString(R.string.photo_permission), Toast.LENGTH_LONG);
@@ -205,10 +204,11 @@ public class AddToWardrobe extends AppCompatActivity {
         String filepath = getApplicationContext().getFilesDir().toString();
         //String filepath = Environment.getExternalStorageDirectory().toString() + "/images";
         File dir = new File(filepath);
+        System.out.println("The file_path: " + filepath);
         if(!dir.exists()){
             dir.mkdir();
         }
-        String fileName = System.currentTimeMillis() + ".jpg";
+        String fileName = System.currentTimeMillis() + ".png";
         System.out.println("Saved to " + filepath + "/" + fileName);
         fileNames.add(filepath + "/" + fileName);
         File image = new File(dir, fileName);
