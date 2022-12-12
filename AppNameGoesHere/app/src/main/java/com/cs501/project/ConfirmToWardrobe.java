@@ -81,13 +81,15 @@ public class ConfirmToWardrobe extends AppCompatActivity {
         waterproofSetting = (RadioGroup) findViewById(R.id.waterproof_group);
         mainCol = (View) findViewById(R.id.colorMain);
         accCol = (View) findViewById(R.id.colorAcc);
+        TextView flashTip = (TextView) findViewById(R.id.flash_tip);
 
         ArrayList<String> fileNames = getIntent().getStringArrayListExtra("fileNames");
         String itemId = getIntent().getStringExtra("itemId");
 
-        Toast toast = Toast.makeText(ConfirmToWardrobe.this, getResources().getString(R.string.check_colors_match_irl), Toast.LENGTH_LONG);
+        //Toast toast = Toast.makeText(ConfirmToWardrobe.this, getResources().getString(R.string.check_colors_match_irl), Toast.LENGTH_LONG);
 
         if(fileNames != null) { // IF PHOTOS ARE BEING SUBMITTED FROM ADDTOWARDROBE
+            flashTip.setVisibility(View.VISIBLE);
             edit = false;
             System.out.println(fileNames.size() + " submitted");
             rmBackground(fileNames.get(0));
@@ -96,9 +98,10 @@ public class ConfirmToWardrobe extends AppCompatActivity {
             if(color != null){
                 mainCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex1()));
                 accCol.setBackgroundColor(android.graphics.Color.parseColor(color.getHex2()));
-                toast.show();
+                //toast.show();
             }
         } else { //IF PHOTO IS BEING SUBMITTED FOR EDIT
+            flashTip.setVisibility(View.GONE);
             edit = true;
             oldClothes = fb_manager.getUser().getWardrobe().getClothesByUid(itemId);
             System.out.println(itemId + " submitted for EDIT");
