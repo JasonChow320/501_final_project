@@ -648,7 +648,7 @@ public class GenerateOutfit extends AppCompatActivity {
             }
 
             return layers;
-        } catch (Error error) {
+        } catch (Exception error) {
             return 2;
         }
     }
