@@ -478,3 +478,94 @@ public String getLanguage()
 
 public int getEnableCache() 
 
+
+---
+
+### public class Wardrobe
+
+#### Members
+
+ArrayList<Clothes> clothes
+
+ArrayList<Outfit> outfits
+
+private final static String TAG = "Wardrobe"
+
+#### Methods
+
+public ArrayList<Outfit> getOutfits()
+
+public void addOutfits(ArrayList<Outfit> outfits)
+
+public Outfit getOutfitByUid(String uid)
+
+public boolean deleteOutfitByUid(String uid)
+
+public boolean insertClothes(Clothes clothing)
+
+public boolean deleteItem(String uid) 
+
+public Clothes getClothesByUid(String uid)
+
+public boolean addOutfitToWardRobe(Outfit outfit)
+
+public ArrayList<Clothes> getClothes()
+
+public ArrayList<Clothes> getTShirts()
+
+public ArrayList<Clothes> getLongSleeve()
+
+public ArrayList<Clothes> getShoes()
+
+public ArrayList<Clothes> getPants()
+
+public ArrayList<Clothes> getShorts()
+
+public ArrayList<Clothes> getLightJackets()
+
+public ArrayList<Clothes> getHeavyJackets()
+
+public ArrayList<Clothes> getSweater()
+
+private ArrayList<Clothes> getType(Clothes.Type type)
+
+---
+
+### public class Weather 
+
+#### Members
+
+private double currentTemp
+
+private String weatherType
+
+private String weatherDes
+
+private double windSpeed
+
+private double windGust
+
+private double clouds
+
+private double humidity
+
+#### Methods
+
+public Weather(double currentTemp, String weatherType, String weatherDes, double windSpeed, double windGust, double clouds, double humidity)
+
+public double getCurrentTemp() 
+
+public String getWeatherType() 
+
+public String getWeatherDes() 
+
+public double getWindSpeed() 
+
+public double getWindGust() 
+
+public double getClouds() 
+
+public double getHumidity() 
+
+
+
