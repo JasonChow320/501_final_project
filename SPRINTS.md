@@ -10,7 +10,7 @@
 - [x] Make sure all strings, colors are in appropriate xml files
 - [x] Loading for cache
 - [x] Change to 'monochrome outfit' button
-- [ ] **Michael** Random outfit depends on weather
+- [x] **Michael** Random outfit depends on weather
 - [ ] Add comments to activities
 - [ ] Finalize monochrome outfit algorithm
 - [ ] Add limits to text fields
