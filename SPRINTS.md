@@ -6,12 +6,15 @@
 - [x] Fix RadioGroup lineup in ConfirmToWardrobe
 - [x] Spanish version of FitGen? Or some other languages
 - [x] Delete saved outfits containing item when item is removed
-- [ ] "Cache" images on main activity(?) so they are loaded faster (except on GenerateOutfit)
+- [x] "Cache" images on main activity(?) so they are loaded faster (except on GenerateOutfit)
+- [x] Make sure all strings, colors are in appropriate xml files
+
+- [ ] Loading for cache
+- [ ] Random outfit depends on weather
+- [ ] Add comments to activities
 - [ ] Finalize monochrome outfit algorithm
-- [ ] Finish ViewSavedOutfits
-- [ ] Make sure all strings, colors are in appropriate xml files
-- [ ] Finalize all layouts
-- [ ] Add comments to unclear code
+- [ ] Change to 'monochrome outfit' button
+- [ ] Add limits to text fields
 
 #### Other
 - [ ] QA & Crash testing
