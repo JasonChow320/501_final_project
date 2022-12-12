@@ -4,6 +4,237 @@ All class and their methods will be documentated here
 
 ## Front-end (View)
 
+### public class AddToWardrobe extends AppCompatActivity 
+
+#### Methods
+
+protected void onCreate(Bundle savedInstanceState) 
+
+public void onStart() 
+
+void photoTaken(ImageProxy ip) 
+
+public void saveBitmap(Bitmap output)
+
+void redoPhoto(boolean another) 
+
+void bindPreview(@NonNull ProcessCameraProvider cameraProvider, androidx.camera.view.PreviewView previewView) 
+
+private Bitmap getBitmap(ImageProxy image) 
+
+---
+
+### public class ConfirmToWardrobe extends AppCompatActivity 
+
+#### Methods
+
+protected void onCreate(Bundle savedInstanceState) 
+
+public void onStart() 
+
+private void rmBackground(String fileName) 
+
+private Color extractColor (String filename)
+
+private Clothes getClothes(String type)
+    
+public void saveBitmap(Bitmap output, String fileName)
+
+public static Bitmap TrimImage(Bitmap bmp) 
+
+private void compress(Bitmap image, FileOutputStream output_stream)
+
+public String getDisplayName(Clothes.Type t) 
+
+public String getType(String display) 
+
+---
+
+### public class EditProfile extends AppCompatActivity 
+
+#### Methods
+
+protected void onCreate(Bundle savedInstanceState) 
+
+public void onStart() 
+
+private void resetFields()
+
+private void edit_account(String username)
+
+private boolean verifyPassword()
+
+---
+
+### public class GenerateOutfit extends AppCompatActivity 
+
+#### Methods
+
+protected void onCreate(Bundle savedInstanceState) 
+
+public void onStart() 
+
+public void getWeather(String lat, String lon) 
+
+public void getLocation() 
+
+public void populateWeatherLayout(Weather weather)
+
+public Outfit random_outfit()
+
+public void displayOutfit(Outfit outfit) 
+
+public Outfit generateOutfitMonochrome ()
+
+public ArrayList<Clothes.Type>validItemsForLayer (int layer)
+
+public int determineOutfitLayers(int oneLyrTmp, int threeLyrTmp) 
+
+public boolean colorMatch (@NonNull Color baseCol, @NonNull Color c2)
+
+public boolean checkIfBlackWhite (Color c2)
+
+public double colorDistance(Color e1, Color e2)
+
+---
+
+### public class Login extends AppCompatActivity
+
+#### Methods
+
+protected void onCreate(Bundle savedInstanceState) 
+
+public void onStart() 
+
+---
+
+### public class LoginCustomAdapter extends BaseAdapter
+
+#### Methods
+
+public LoginCustomAdapter(Context aContext, ArrayList<User> users) 
+
+public int getCount() 
+
+public Object getItem(int position) 
+
+public long getItemId(int position) 
+
+public View getView(int position, View convertView, ViewGroup parent) 
+
+---
+
+### public class MainActivity extends AppCompatActivity 
+
+#### Methods
+
+protected void onCreate(Bundle savedInstanceState) 
+
+public void onStart() 
+
+---
+
+### public class MakeProfile extends AppCompatActivity 
+
+protected void onCreate(Bundle savedInstanceState) 
+
+private void resetFields()
+
+private void make_account(String username)
+
+private boolean verifyPassword()
+
+---
+
+### public class ResetPassword extends AppCompatActivity 
+
+protected void onCreate(Bundle savedInstanceState) 
+
+private void resetEmail(String email)
+
+---
+
+### public class settings extends AppCompatActivity 
+
+#### Methods
+
+protected void onCreate(Bundle savedInstanceState) 
+
+public void onStart() 
+---
+
+### public class SignIn extends AppCompatActivity 
+
+protected void onCreate(Bundle savedInstanceState) 
+
+private void sign_in(String email, String password)
+
+public void onStart() 
+
+private void resetFields()
+
+---
+
+### public class SignUp extends AppCompatActivity 
+
+protected void onCreate(Bundle savedInstanceState) 
+
+private void signup(String email, String password, String password_verify)
+
+private void resetFields()
+
+private void addAccount(FirebaseUser user) 
+
+---
+
+### public class ViewOutfit extends AppCompatActivity
+
+protected void onCreate(Bundle savedInstanceState) 
+
+public void onStart() 
+
+---
+
+### class ViewOutfitAdapter extends BaseAdapter 
+
+public ViewOutfitAdapter(Context aContext, ArrayList<Outfit> outfits, int height, int width,  Wardrobe wardrobeNeeded, FireBaseManager fb_manager) 
+
+public int getCount() 
+
+public Object getItem(int position) 
+
+public long getItemId(int position) 
+
+public View getView(int position, View convertView, ViewGroup parent) 
+
+---
+
+### public class ViewWardrobe extends AppCompatActivity
+
+protected void onCreate(Bundle savedInstanceState) 
+
+public void onStart() 
+
+public ArrayList<Clothes> getClothes(Integer type)
+
+---
+
+### class MyCustomAdapter extends BaseAdapter 
+
+public MyCustomAdapter(Context aContext, ArrayList<Clothes> clothes, String deletionMsg, String confirm, String confirmMsg ) 
+
+public int getCount() 
+
+public Object getItem(int position) 
+
+public long getItemId(int position) 
+
+public View getView(int position, View convertView, ViewGroup parent) 
+
+public void onDeleteActions(String uID, int position)
+
+public String getDisplayName(Clothes.Type t) 
+
 ## Back-end (model)
 
 ### public class Clothes 
