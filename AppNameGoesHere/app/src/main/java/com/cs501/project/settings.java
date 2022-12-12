@@ -35,9 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Locale;
 
 public class settings extends AppCompatActivity {
-    /**
-     *
-     */
+
 
     TextView oneLayerTemp;
     TextView threeLayerTemp;
@@ -58,6 +56,9 @@ public class settings extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        /**
+         * Initializes all views and sets up fire base manager
+         */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -202,6 +203,10 @@ public class settings extends AppCompatActivity {
 
     @Override
     public void onStart() {
+        /**
+         * Sets all spinners up to the users settings values
+         * Initializes listeners
+         */
         super.onStart();
 
         con = findViewById(R.id.background);

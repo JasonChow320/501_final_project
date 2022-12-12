@@ -44,6 +44,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ViewOutfit extends AppCompatActivity {
@@ -99,7 +100,10 @@ public class ViewOutfit extends AppCompatActivity {
                 if(user != null) {
                     lvOutfits = (ListView) findViewById(R.id.lvOutfits);
                     Wardrobe wardrobeNeeded = fb_manager.getWardrobe();
-                    lvAdapter = new ViewOutfitAdapter(ViewOutfit.this, user.getWardrobe().getOutfits(), height, width, wardrobeNeeded, fb_manager);  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
+                    ArrayList<Outfit> outfits = user.getWardrobe().getOutfits();
+                    if(outfits.size() == 0) noneThereOutfit.setVisibility(View.VISIBLE);
+                    else noneThereOutfit.setVisibility(View.GONE);
+                    lvAdapter = new ViewOutfitAdapter(ViewOutfit.this, outfits, height, width, wardrobeNeeded, fb_manager);  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
                     lvOutfits.setAdapter(lvAdapter);
                 }
             }
@@ -191,7 +195,7 @@ class ViewOutfitAdapter extends BaseAdapter {
         ArrayList<String> clothes_in_outfit = outfit_view.getOutfit();
 
         int clothingHeight = height/10;
-        int clothingWidth = 170*clothes_in_outfit.size() >= width ? width/clothes_in_outfit.size() : 170;
+        int clothingWidth = 250*clothes_in_outfit.size() >= width ? width/clothes_in_outfit.size() : 250;
 
         System.out.println(clothingHeight + " " + clothingWidth);
 
