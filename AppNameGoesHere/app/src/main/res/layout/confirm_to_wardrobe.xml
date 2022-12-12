@@ -64,6 +64,17 @@
             android:orientation="horizontal">
 
 
+            <TextView
+                android:id="@+id/flash_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flash_tip"
+                app:layout_constraintBottom_toTopOf="@id/clothingTypes"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <RadioGroup
                 android:id="@+id/clothingTypes"
                 android:layout_width="0dp"
@@ -73,7 +84,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/waterproof_group"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/flash_tip">
 
             </RadioGroup>
 
@@ -86,7 +97,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/clothingTypes"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/flash_tip">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -97,8 +108,8 @@
                     android:id="@+id/waterproof_no"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/no"
-                    android:checked="true"/>
+                    android:checked="true"
+                    android:text="@string/no" />
 
                 <RadioButton
                     android:id="@+id/waterproof_yes"

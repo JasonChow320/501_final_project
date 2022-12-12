@@ -118,6 +118,8 @@
     <string name="save_outfit">Guardar traje</string>
     <string name="generate_outfit">Generar traje</string>
     <string name="random_outfit">Traje aleatorio</string>
+    <string name="monochrome_outfit">Traje monocromo</string>
+    <string name="flash_tip">ⓘIntente cambiar la configuración del flash si los colores son inexactos</string>
     <string name="make_profile">Hacer perfil</string>
     <string name="sign_out">Fichar al salir</string>
     <string name="display_name">FitGen🇪🇸</string>
