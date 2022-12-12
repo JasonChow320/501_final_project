@@ -86,7 +86,7 @@ public class AddToWardrobe extends AppCompatActivity {
 
         androidx.camera.view.PreviewView pre = (androidx.camera.view.PreviewView) findViewById(R.id.previewView);
 
-        //from documentation
+        //from documentation: Bind camera to preview view so user can see their camera view
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderFuture.addListener(() -> {
             try {
@@ -105,6 +105,7 @@ public class AddToWardrobe extends AppCompatActivity {
                 if(camReady) {
                     takePhoto.setEnabled(false);
 
+                    //check and apply flash settings
                     User_settings uSettings = fb_manager.getUser().getUserSettings();
                     String flashMode = uSettings.getFlashMode();
                     System.out.println(flashMode);
@@ -152,10 +153,9 @@ public class AddToWardrobe extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //send to new activity with image information (or stack of images) in intent
-
                 confirm.setEnabled(false);
                 try {
-//                    ConfirmToWardrobe.images = images;
+                    //send filenames as intent to ConfirmToWardrobe
                     Intent i = new Intent(AddToWardrobe.this, ConfirmToWardrobe.class);
                     i.putStringArrayListExtra("fileNames", fileNames);
                     finish();
@@ -180,6 +180,7 @@ public class AddToWardrobe extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                //change visible buttons after photo is taken
                 redo.setVisibility(View.VISIBLE);
                 confirm.setVisibility(View.VISIBLE);
                 addAnother.setVisibility(View.VISIBLE);
@@ -189,7 +190,7 @@ public class AddToWardrobe extends AppCompatActivity {
                 imageView.setImageBitmap(getBitmap(ip));
                 imageView.setVisibility(View.VISIBLE);
 
-//                images.add(((BitmapDrawable) imageView.getDrawable()).getBitmap());
+                //get bitmap from imageproxy object and then save it, add it to fileNames
                 saveBitmap(getBitmap(ip));
 
                 ip.close();
@@ -200,7 +201,6 @@ public class AddToWardrobe extends AppCompatActivity {
     //https://stackoverflow.com/questions/63410194/how-to-save-multiple-bitmaps-fastly-in-android-studio
     public void saveBitmap(Bitmap output){
         String filepath = getApplicationContext().getFilesDir().toString();
-        //String filepath = Environment.getExternalStorageDirectory().toString() + "/images";
         File dir = new File(filepath);
         System.out.println("The file_path: " + filepath);
         if(!dir.exists()){
@@ -248,24 +248,16 @@ public class AddToWardrobe extends AppCompatActivity {
         Preview preview = new Preview.Builder()
                 .setTargetRotation(Surface.ROTATION_0)
                 .build();
-
         CameraSelector cameraSelector = new CameraSelector.Builder()
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
                 .build();
-
         imageCapture =
                 new ImageCapture.Builder()
                         .setTargetRotation(Surface.ROTATION_0)
                         .build();
-
         preview.setSurfaceProvider(previewView.getSurfaceProvider());
-
         Camera camera = cameraProvider.bindToLifecycle((LifecycleOwner)this, cameraSelector, imageCapture, preview);
-
         camReady = true;
-//        if ( camera.getCameraInfo().hasFlashUnit() ) {
-//            camera.getCameraControl().enableTorch(true); // or false
-//        }
     }
 
     //https://stackoverflow.com/questions/56772967/converting-imageproxy-to-bitmap
