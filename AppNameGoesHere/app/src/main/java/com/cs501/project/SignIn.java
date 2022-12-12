@@ -140,6 +140,12 @@ public class SignIn extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        FireBaseManager.removeInstance();
+    }
+
     private void resetFields(){
         this.email.setText("");
         this.password.setText("");
