@@ -8,12 +8,11 @@
 - [x] Delete saved outfits containing item when item is removed
 - [x] "Cache" images on main activity(?) so they are loaded faster (except on GenerateOutfit)
 - [x] Make sure all strings, colors are in appropriate xml files
-
-- [ ] Loading for cache
-- [ ] Random outfit depends on weather
+- [x] Loading for cache
+- [x] Change to 'monochrome outfit' button
+- [ ] **Michael** Random outfit depends on weather
 - [ ] Add comments to activities
 - [ ] Finalize monochrome outfit algorithm
-- [ ] Change to 'monochrome outfit' button
 - [ ] Add limits to text fields
 
 #### Other
