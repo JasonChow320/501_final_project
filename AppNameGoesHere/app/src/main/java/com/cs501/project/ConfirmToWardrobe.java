@@ -195,7 +195,7 @@ public class ConfirmToWardrobe extends AppCompatActivity {
                     picRef.putFile(Uri.fromFile(new File(fileNames.get(0))));
                     System.out.println("IMAGE ADDED TO DB");
 
-                    if (waterproofButton.getText().equals("Yes")) {
+                    if (waterproofButton.getText().equals(getResources().getString(R.string.yes))) {
                         new_clothes.setWaterResistant(true);
                     } else {
                         new_clothes.setWaterResistant(false);
