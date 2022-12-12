@@ -1,9 +1,5 @@
 package com.cs501.project;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
@@ -20,6 +16,10 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.cs501.project.Model.FireBaseManager;
 import com.cs501.project.Model.User;
@@ -130,7 +130,9 @@ public class settings extends AppCompatActivity {
                 Log.d(TAG, "Got data from database");
                 User user = dataSnapshot.getValue(User.class);
 
-                User_settings setting = user.getUserSettings();
+                if(user != null) {
+                    User_settings setting = user.getUserSettings();
+                }
             }
 
             @Override

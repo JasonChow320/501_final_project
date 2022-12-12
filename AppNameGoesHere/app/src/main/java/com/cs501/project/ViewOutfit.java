@@ -2,10 +2,6 @@ package com.cs501.project;
 
 import static android.content.Context.MODE_PRIVATE;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -25,6 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.cs501.project.Model.Clothes;
 import com.cs501.project.Model.FireBaseManager;
@@ -96,10 +96,12 @@ public class ViewOutfit extends AppCompatActivity {
                 User user = dataSnapshot.getValue(User.class);
 
                 // update list
-                lvOutfits = (ListView)findViewById(R.id.lvOutfits);
-                Wardrobe wardrobeNeeded = fb_manager.getWardrobe();
-                lvAdapter = new ViewOutfitAdapter(ViewOutfit.this, user.getWardrobe().getOutfits(), height, width, wardrobeNeeded, fb_manager);  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
-                lvOutfits.setAdapter(lvAdapter);
+                if(user != null) {
+                    lvOutfits = (ListView) findViewById(R.id.lvOutfits);
+                    Wardrobe wardrobeNeeded = fb_manager.getWardrobe();
+                    lvAdapter = new ViewOutfitAdapter(ViewOutfit.this, user.getWardrobe().getOutfits(), height, width, wardrobeNeeded, fb_manager);  //instead of passing the boring default string adapter, let's pass our own, see class MyCustomAdapter below!
+                    lvOutfits.setAdapter(lvAdapter);
+                }
             }
 
             @Override

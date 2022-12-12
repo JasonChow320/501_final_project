@@ -106,9 +106,11 @@ public class Login extends AppCompatActivity {
                 Profile profile = dataSnapshot.getValue(Profile.class);
 
                 // update list
-                lvUsers = (ListView)findViewById(R.id.profile_list);
-                lvAdapter = new LoginCustomAdapter(Login.this, profile.getUsers());
-                lvUsers.setAdapter(lvAdapter);
+                if(profile != null) {
+                    lvUsers = (ListView) findViewById(R.id.profile_list);
+                    lvAdapter = new LoginCustomAdapter(Login.this, profile.getUsers());
+                    lvUsers.setAdapter(lvAdapter);
+                }
             }
 
             @Override
