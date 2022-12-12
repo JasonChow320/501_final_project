@@ -4,6 +4,7 @@ package com.cs501.project.Model;
     User class holds information about a specific user's profile
  */
 public class User {
+
     private String userId, username, password;
     private Wardrobe wardrobe;
     private boolean passwordProtected;
@@ -24,6 +25,7 @@ public class User {
     }
 
     public User(String userId, String username, Wardrobe wardrobe, boolean password_protected, String password){
+
         if(userId == null){
             this.userId = new String();
         } else {
@@ -81,6 +83,7 @@ public class User {
         return this.user_settings;
     }
     public void setUserSettings(User_settings settings){
+
         if(settings != null){
             this.user_settings = settings;
         }

@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 /* https://www.baeldung.com/sha-256-hashing-java */
 public class Hash {
     public static String sha256(String s) {
+
         try {
             // Create SHA256 Hash
             MessageDigest digest = java.security.MessageDigest.getInstance("SHA256");

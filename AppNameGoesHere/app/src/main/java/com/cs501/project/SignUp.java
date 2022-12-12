@@ -41,6 +41,7 @@ public class SignUp extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
@@ -153,12 +154,13 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void resetFields(){
+
         this.email_text.setText("");
         this.password_text.setText("");
         this.password_verify_text.setText("");
     }
 
-    // add account to our database for storage
+    // add new account to our realtime database
     private void addAccount(FirebaseUser user) {
 
         Log.d(TAG, "Calling addAccount");
@@ -168,7 +170,6 @@ public class SignUp extends AppCompatActivity {
             return;
         }
 
-        // get database
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference("accounts");
 
@@ -176,15 +177,9 @@ public class SignUp extends AppCompatActivity {
         profile.setAccountEmail(user.getEmail());
         profile.setUserId(user.getUid());
 
-        // TODO allow users to create User class themselves
         User new_user = new User();
         new_user.setUserId(RandomString.getAlphaNumericString(16));
         profile.addUser(new_user);
-
-        /* It's fine if we don't have any clothes to start - I think...
-        Clothes_Factory factory = new Clothes_Factory();
-        Wardrobe wardrobe = new_user.getWardrobe();
-        wardrobe.insertClothes(factory.get_tshirt()); */
 
         myRef.child(profile.getUserId()).setValue(profile);
 

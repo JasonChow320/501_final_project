@@ -168,6 +168,8 @@
     <string name="compress_fail">[+] ¡Error! No se puede comprimir la imagen. Inténtalo de nuevo.</string>
     <string name="confirm_delete_pass">Confirmar para eliminar contraseña</string>
     <string name="confirm_delete_pass_q">¿Realmente desea eliminar su contraseña?</string>
+    <string name="confirm_delete_profile">Confirmar para eliminar perfil</string>
+    <string name="confirm_delete_profile_q">¿Realmente quieres eliminar tu perfil?</string>
     <string name="password_del">Contraseña eliminada</string>
     <string name="no_pass">No tienes una configuración de contraseña</string>
     <string name="del_item">"Elemento eliminado "</string>

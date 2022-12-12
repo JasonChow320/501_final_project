@@ -7,8 +7,8 @@ package com.cs501.project.Model;
 public class RandomString {
 
     // function to generate a random string of length n
-    public static String getAlphaNumericString(int n)
-    {
+    public static String getAlphaNumericString(int n) {
+
         // chose a Character random from this String
         String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 + "0123456789"
@@ -31,16 +31,5 @@ public class RandomString {
         }
 
         return sb.toString();
-    }
-
-    public static void main(String[] args)
-    {
-
-        // Get the size n
-        int n = 20;
-
-        // Get and display the alphanumeric string
-        System.out.println(RandomString
-                .getAlphaNumericString(n));
     }
 }
