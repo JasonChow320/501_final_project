@@ -169,6 +169,8 @@
     <string name="compress_fail">[+] Error! Unable to compress image. Please try again</string>
     <string name="confirm_delete_pass">Confirm to delete password</string>
     <string name="confirm_delete_pass_q">Do you really want to delete your password?</string>
+    <string name="confirm_delete_profile">Confirm to delete profile</string>
+    <string name="confirm_delete_profile_q">Do you really want to delete your profile?</string>
     <string name="password_del">Password deleted</string>
     <string name="no_pass">You don\'t have a password setup</string>
     <string name="del_item">Deleted item\ </string>

@@ -2,7 +2,6 @@ package com.cs501.project.Model;
 
 public class LightJacket extends Clothes{
 
-
     public LightJacket() {
         super(Type.LIGHT_JACKET);
         this.layer = 2;

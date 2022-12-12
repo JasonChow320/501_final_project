@@ -29,6 +29,7 @@ public class User_settings {
     public void setTheme(int temp) {this.theme = temp;}
     public void setLanguage(String lang) {this.language = lang;}
     public void setEnableCache(int enable){
+
         if(enable > 0){
             this.enableCache = 1;
         } else{
