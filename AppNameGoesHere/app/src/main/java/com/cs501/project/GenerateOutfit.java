@@ -402,20 +402,20 @@ public class GenerateOutfit extends AppCompatActivity {
 
     public Outfit generateOutfitMonochrome (){
 
-        User_settings uSettings = fb_manager.getUser().getUserSettings();
-        ArrayList<Clothes> wardrobeOrig = fb_manager.getClothes();
+        User_settings uSettings = fb_manager.getUser().getUserSettings(); //get user settings from firebase instance
+        ArrayList<Clothes> wardrobeOrig = fb_manager.getClothes(); // get user's wardrobe
 
-        ArrayList<Clothes> wardrobe = new ArrayList<>(wardrobeOrig);
+        ArrayList<Clothes> wardrobe = new ArrayList<>(wardrobeOrig); //make a copy of the wardrobe to be shuffled and used to outfit Generation
         Collections.shuffle(wardrobe);
 
-        int oneLayerTemp = uSettings.getOneLayerTemp();
+        int oneLayerTemp = uSettings.getOneLayerTemp();  // extract the users temperature perferences from the settings
         int threeLayerTemp = uSettings.getThreeLayerTemp();
         boolean topLayerWtrProof =false;
 
-        int layers = determineOutfitLayers(oneLayerTemp, threeLayerTemp);
+        int layers = determineOutfitLayers(oneLayerTemp, threeLayerTemp); //use helper func to calculate number of layers needed for outfit
 
         if(weather.getWeatherType().toLowerCase(Locale.ROOT).contains("rain") || weather.getWeatherType().toLowerCase(Locale.ROOT).contains("snow") ){
-            if (layers == 1){
+            if (layers == 1){       // depending on the weather, modify the layers and ensure top layer is waterproof
                 layers = 2;
                 topLayerWtrProof = true;
             }
@@ -424,24 +424,22 @@ public class GenerateOutfit extends AppCompatActivity {
             }
         }
 
-        ArrayList<Clothes> top = new ArrayList<Clothes>();
-        ArrayList<Clothes.Type> noDup = new ArrayList<Clothes.Type>();
+        ArrayList<Clothes> top = new ArrayList<Clothes>(); //this array stores items for the top part of outfit
+        ArrayList<Clothes.Type> noDup = new ArrayList<Clothes.Type>(); // this array ensures no two types of items are added to the outfit (example: a person cannot wear to t-shirts)
         Clothes bottom = null;
         Clothes shoes = null;
-        Color baseCol =null;
+        Color baseCol =null; //this is the color that will be compared to all items being considered for addition to the outfit
 
         for (int i = layers-1; i >= 0; i--){
             if (i == layers -1){ // select the first top item
                 if (topLayerWtrProof == true){ // find a water resistant item
-                    // no need to check duplicates, this is the first item being added
-                    // REMEMBER: only add types that fit into top
 
-                    for (int j = 0; j < wardrobe.size(); j++){
-                        if (validItemsForLayer(i+1).contains(wardrobe.get(j).getType()) && wardrobe.get(j).isWaterResistant() == true ){ //if the current item is valid for this layer AND is waterproof
+                    for (int j = 0; j < wardrobe.size(); j++){ //choose an item for the highest layer of the top slot
+                        if (validItemsForLayer(i+1).contains(wardrobe.get(j).getType()) && wardrobe.get(j).isWaterResistant() == true ){ //the item must: have a valid type for the current layer, and be water resistant
                             top.add(wardrobe.get(j)); // add item to top
                             noDup.add(wardrobe.get(j).getType());; //add item to no duplicates list
 
-                            if (checkIfBlackWhite(wardrobe.get(j).getColor()) == false){
+                            if (checkIfBlackWhite(wardrobe.get(j).getColor()) == false){ //if the item is on the black/white spectrum, it cannot be used as a base color
                                 baseCol = wardrobe.get(j).getColor();
                             }
 
@@ -449,15 +447,13 @@ public class GenerateOutfit extends AppCompatActivity {
                         }
                     }
                 }
-                else{ // find a non water resistant item
-                    // no need to check duplicates, this is the first item being added
-                    // REMEMBER: only add types that fit into top
-                    for (int j = 0; j < wardrobe.size(); j++){
-                        if (validItemsForLayer(i+1).contains(wardrobe.get(j).getType()) ){ //if the current item is valid for this layer
+                else{ // item does not neet to be water resistant
+                    for (int j = 0; j < wardrobe.size(); j++){  //choose an item for the highest layer of the top slot
+                        if (validItemsForLayer(i+1).contains(wardrobe.get(j).getType()) ){ //the item must: have a valid type for the current layer
                             top.add(wardrobe.get(j)); // add item to top
                             noDup.add(wardrobe.get(j).getType());; //add item to no duplicates list
 
-                            if (checkIfBlackWhite(wardrobe.get(j).getColor()) == false){
+                            if (checkIfBlackWhite(wardrobe.get(j).getColor()) == false){ //if the item is on the black/white spectrum, it cannot be used as a base color
                                 baseCol = wardrobe.get(j).getColor();
                             }
 
@@ -467,12 +463,12 @@ public class GenerateOutfit extends AppCompatActivity {
                 }
 
                 // top layer chosen, now we choose bottom:
-                // only add items that are valid for the BOTTOM slot  (pants or shorts)
+                // only add items that are valid for the BOTTOM slot (pants or shorts)
                 // REMEMBER: only add types that fit into bottom
-                if (layers == 1 ){
+                if (layers == 1 ){ // weather must be too hot for multiple layers, pants or shorts are valid
                     for (Clothes item: wardrobe){
-                        if ( (item.getType() == Clothes.Type.PANTS || item.getType() == Clothes.Type.SHORTS)){ //if the layer is 1, use shorts or pants
-                            if (baseCol != null &&  colorMatch(baseCol, item.getColor()) ){ // weve already selected a base color, we just neet to see if the item matches
+                        if ( (item.getType() == Clothes.Type.PANTS || item.getType() == Clothes.Type.SHORTS)){
+                            if (baseCol != null &&  colorMatch(baseCol, item.getColor()) ){ // weve already selected a base color, we just need to see if the item matches that color
                                 bottom = item;
                                 break;
                             }
@@ -492,7 +488,7 @@ public class GenerateOutfit extends AppCompatActivity {
                 }
                 else{
                     for (Clothes item: wardrobe){
-                        if ( item.getType() == Clothes.Type.PANTS ){ //if the layer is 1, use shorts or pants
+                        if ( item.getType() == Clothes.Type.PANTS ){ //if the layer is not 1, use  pants
                             if (baseCol != null &&  colorMatch(baseCol, item.getColor()) ){ // weve already selected a base color, we just neet to see if the item matches
                                 bottom = item;
                                 break;
@@ -533,7 +529,7 @@ public class GenerateOutfit extends AppCompatActivity {
                             top.add(wardrobe.get(j));
                             break;
                         }
-                        else if (baseCol != null && colorMatch(baseCol, wardrobe.get(j).getColor())){ //we already have a colorful item, we just neet to see if this item matches
+                        else if (baseCol != null && colorMatch(baseCol, wardrobe.get(j).getColor())){ //we already have a colorful item, we just need to see if this item matches
                             top.add(wardrobe.get(j));
                             break;
                         }
@@ -551,16 +547,16 @@ public class GenerateOutfit extends AppCompatActivity {
             if ( wardrobe.get(j).getType() == Clothes.Type.SHOES ){ // if the current item's type is shoes :
 
 
-                if (baseCol == null && checkIfBlackWhite(wardrobe.get(j).getColor()) == false){
+                if (baseCol == null && checkIfBlackWhite(wardrobe.get(j).getColor()) == false){ //all items in outfit are currently back or white, this item has color, set it as baseCol
                     baseCol = wardrobe.get(j).getColor();
                     shoes = wardrobe.get(j);
                     break;
                 }
-                else if (baseCol == null && checkIfBlackWhite(wardrobe.get(j).getColor()) ){
+                else if (baseCol == null && checkIfBlackWhite(wardrobe.get(j).getColor()) ){ //all items in outfit are currently back or white, this item does not have color, do not set it as baseCol
                     shoes = wardrobe.get(j);
                     break;
                 }
-                else if (baseCol != null && colorMatch(baseCol, wardrobe.get(j).getColor()) || checkIfBlackWhite(wardrobe.get(j).getColor())){
+                else if (baseCol != null && colorMatch(baseCol, wardrobe.get(j).getColor()) || checkIfBlackWhite(wardrobe.get(j).getColor())){ //we already have a colorful item, we just need to see if this item matches
                     shoes = wardrobe.get(j);
                     break;
                 }
@@ -568,15 +564,15 @@ public class GenerateOutfit extends AppCompatActivity {
         }
 
         if(top.size()!= layers || bottom==null || shoes == null) {
-            return null; //outfit was not created successfully
+            return null; //outfit was not created successfully due to lack of available items in wardrobe
         }
 
-        Outfit outfit = new Outfit();
+        Outfit outfit = new Outfit(); //prepare outfit object and assign it a unique ID
         String uniqueId = RandomString.getAlphaNumericString(16);
         outfit.setOutfitUniqueId(uniqueId);
         outfit.setName(uniqueId);
 
-        for (Clothes item: top){
+        for (Clothes item: top){ //for the databse, gather all item unique IDs
             outfit.addClothesToOutfit(item.getUniqueId());
         }
 
@@ -586,7 +582,7 @@ public class GenerateOutfit extends AppCompatActivity {
         return outfit;
     }
 
-    public ArrayList<Clothes.Type>validItemsForLayer (int layer){
+    public ArrayList<Clothes.Type>validItemsForLayer (int layer){ //this helper function returns which item types are valid depending on the current layer
         ArrayList<Clothes.Type> arr = new ArrayList<>() ;
 
 
@@ -594,7 +590,7 @@ public class GenerateOutfit extends AppCompatActivity {
             arr.add(Clothes.Type.T_SHIRT);
             arr.add(Clothes.Type.LONG_SLEEVE);
         }
-        else if (layer ==2){
+        else if (layer ==2){ //if the weather is freezing, ensure that only a heavy jacket can be worn as a top layer, outfit will likely already have 3 layers due to user determined temperature limits
             if (weather.getCurrentTemp() < 32){
                 arr.add(Clothes.Type.SWEATER);
                 arr.add(Clothes.Type.HEAVY_JACKET);
@@ -620,7 +616,7 @@ public class GenerateOutfit extends AppCompatActivity {
     }
 
 
-    public int determineOutfitLayers(int oneLyrTmp, int threeLyrTmp) {
+    public int determineOutfitLayers(int oneLyrTmp, int threeLyrTmp) { //determine the number of layers needed depending on the weather conditions and the user specific limits
         try{
             int layers = 0;
             if (weather.getCurrentTemp() > oneLyrTmp){
@@ -645,23 +641,22 @@ public class GenerateOutfit extends AppCompatActivity {
             return false;
         }
 
-        float hueDiff = Math.abs(baseCol.getHsl1().get(0) - c2.getHsl1().get(0));
+        float hueDiff = Math.abs(baseCol.getHsl1().get(0) - c2.getHsl1().get(0)); //if the colors are the same color hue, they may be different shades of the same color
 
-        if (colorDistance(baseCol, c2) < 400 && hueDiff < 12){ //if the colors are similar (within monochrome shaded range) AND if they share the same hue (if they are diff shades of the same color)
+        if (colorDistance(baseCol, c2) < 400 && hueDiff < 12){ //if the colors are similar (within monochrome shaded range) AND if they share the same hue, then they match
             return true;
         }
         //if the color is not black or white or any shade of gray, then it is not monochrome
-
         return checkIfBlackWhite(c2);
 
     }
 
     public boolean checkIfBlackWhite (Color c2){
 
-        if ((c2.getHsl1().get(2) > 87 && c2.getHsl1().get(1) < 9 ) || (c2.getHsl1().get(2) < 7) || (c2.getHsl1().get(2) < 23 && c2.getHsl1().get(1) <= 35 && (c2.getHsl1().get(0) > 200 && c2.getHsl1().get(0) < 235 ))  ){  //if the item is black (luminance < 7) or white (lum > 90 AND sat < 15)
-            return true;
+        if ((c2.getHsl1().get(2) > 87 && c2.getHsl1().get(1) < 9 ) || (c2.getHsl1().get(2) < 7) || (c2.getHsl1().get(2) < 23 && c2.getHsl1().get(1) <= 35 && (c2.getHsl1().get(0) > 200 && c2.getHsl1().get(0) < 235 ))  ){
+            return true; // if the color is a shade of white OR it its luminesence is too dark to show colors (black) OR its a dark shade of blue (which appears as black)
         }
-        else if ( c2.getHsl1().get(1) < 8 ){ // if the item is a shade of grey (hues between 30 and 250 tend to show color so we must exclude them)
+        else if ( c2.getHsl1().get(1) < 6 ){ //if the color does not have enough saturation to show any color (if it is a shade of gray)
             return true;
         }
         return false;
@@ -670,6 +665,7 @@ public class GenerateOutfit extends AppCompatActivity {
 
     // usefull for detemining if two colors are similar, works for colors of similar shades, even across different hues
     // (if you want to compare different shades of the same color, convert RGB to HSL, and look for colors of similar hue)
+    // modified from: https://stackoverflow.com/questions/9018016/how-to-compare-two-colors-for-similarity-difference
     public double colorDistance(Color e1, Color e2)
     {
         long rmean = ( (long)e1.getRed() + (long)e2.getRed() ) / 2;
