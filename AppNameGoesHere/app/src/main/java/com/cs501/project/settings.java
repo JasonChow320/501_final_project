@@ -1,6 +1,7 @@
 package com.cs501.project;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -50,6 +52,8 @@ public class settings extends AppCompatActivity {
     Switch themeSwitcher, cacheSwitcher;
     ImageView themeIcon;
 
+    ProgressBar progressBar_settings;
+
     private FireBaseManager fb_manager;
     private final static String TAG = "SettingActivity";
 
@@ -86,6 +90,9 @@ public class settings extends AppCompatActivity {
         currTheme = uSettings.getTheme();
         themeSwitcher = (Switch) findViewById(R.id.switch1);
         cacheSwitcher = (Switch) findViewById(R.id.cache_switch);
+
+        progressBar_settings = (ProgressBar) findViewById(R.id.progressBar_settings);
+        progressBar_settings.setVisibility(View.GONE);
 
         System.out.println(CurrFlashMode  + " " + currOneTemp + " " + currThreeTemp + " " + currTheme);
 
@@ -307,9 +314,13 @@ public class settings extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if(b){
+                    progressBar_settings.setVisibility(View.VISIBLE);
                     fb_manager.setEnableCache(1);
+                    progressBar_settings.setVisibility(View.GONE);
                 } else {
+                    progressBar_settings.setVisibility(View.VISIBLE);
                     fb_manager.setEnableCache(0);
+                    progressBar_settings.setVisibility(View.GONE);
                 }
             }
         });

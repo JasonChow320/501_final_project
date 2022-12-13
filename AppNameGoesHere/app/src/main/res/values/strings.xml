@@ -116,6 +116,8 @@
     <string name="save_outfit">Save Outfit</string>
     <string name="generate_outfit">Generate Outfit</string>
     <string name="random_outfit">Random Outfit</string>
+    <string name="monochrome_outfit">FitGen© Outfit</string>
+    <string name="flash_tip">ⓘTry changing flash settings if colors are inaccurate</string>
     <string name="make_profile">Make Profile</string>
     <string name="sign_out">Sign Out</string>
     <string name="display_name">FitGen©</string>
@@ -147,10 +149,10 @@
     <string name="toggle_language">Toggle Language</string>
     <string name="choose_the_type">Choose the type:</string>
     <string name="current_weather">Current Weather</string>
-    <string name="description">Description: </string>
-    <string name="tempLabel">Temperature: </string>
-    <string name="cloud_label">Cloud cover: </string>
-    <string name="windLabel">Wind speed: </string>
+    <string name="description">"Description: "</string>
+    <string name="tempLabel">"Temperature: "</string>
+    <string name="cloud_label">"Cloud cover: "</string>
+    <string name="windLabel">"Wind speed: "</string>
     <string name="loc_permissions">App does not have location permissions from device</string>
     <string name="unable_to_parse_email">Unable to parse email. Please try again</string>
     <string name="unable_parse_text">Unable to parse text fields. Please try again</string>
@@ -167,6 +169,8 @@
     <string name="compress_fail">[+] Error! Unable to compress image. Please try again</string>
     <string name="confirm_delete_pass">Confirm to delete password</string>
     <string name="confirm_delete_pass_q">Do you really want to delete your password?</string>
+    <string name="confirm_delete_profile">Confirm to delete profile</string>
+    <string name="confirm_delete_profile_q">Do you really want to delete your profile?</string>
     <string name="password_del">Password deleted</string>
     <string name="no_pass">You don\'t have a password setup</string>
     <string name="del_item">Deleted item\ </string>

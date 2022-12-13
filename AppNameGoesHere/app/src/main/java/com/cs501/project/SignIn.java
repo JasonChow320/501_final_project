@@ -33,6 +33,7 @@ public class SignIn extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
@@ -138,6 +139,12 @@ public class SignIn extends AppCompatActivity {
             Intent i = new Intent(SignIn.this, Login.class);
             startActivity(i);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        FireBaseManager.removeInstance();
     }
 
     private void resetFields(){

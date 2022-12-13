@@ -152,7 +152,7 @@ public class GenerateOutfit extends AppCompatActivity {
                     pass_builder.setTitle(getResources().getString(R.string.outfit_name));
                     pass_builder.setMessage(getResources().getString(R.string.name_outfit_question));
                     final EditText input = new EditText(GenerateOutfit.this);
-                    input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(13) });
+                    input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(10) });
                     input.setInputType(InputType.TYPE_CLASS_TEXT);
                     pass_builder.setView(input);
                     pass_builder.setPositiveButton(getResources().getString(R.string.confirm),
@@ -289,14 +289,27 @@ public class GenerateOutfit extends AppCompatActivity {
         // generate random outfit
         Wardrobe wardrobe = fb_manager.getUser().getWardrobe();
 
+        User_settings uSettings = fb_manager.getUser().getUserSettings(); //get user settings from firebase instance
+
+        int oneLayerTemp = uSettings.getOneLayerTemp();  // extract the users temperature perferences from the settings
+        int threeLayerTemp = uSettings.getThreeLayerTemp();
+
+        int layers = determineOutfitLayers(oneLayerTemp, threeLayerTemp); //use helper func to calculate number of layers needed for outfit
+
         // get clothes
-        ArrayList<Clothes> top = wardrobe.getLightJackets();
-        top.addAll(wardrobe.getHeavyJackets());
-        top.addAll(wardrobe.getSweater());
-        ArrayList<Clothes> mid = wardrobe.getLongSleeve();
-        mid.addAll(wardrobe.getTShirts());
+        ArrayList<Clothes> top = null;
+        if(layers > 1) {
+            top = wardrobe.getLightJackets();
+            top.addAll(wardrobe.getSweater());
+        } //only add jacket layer if layers > 1
+
+        ArrayList<Clothes> mid = wardrobe.getTShirts();
+        mid.addAll(wardrobe.getLongSleeve()); //use all shirts
+
         ArrayList<Clothes> bottom = wardrobe.getShorts();
-        bottom.addAll(wardrobe.getPants());
+        if(layers > 1) {
+            bottom = wardrobe.getPants(); //only add pants if layers > 1
+        }
         ArrayList<Clothes> shoes = wardrobe.getShoes();
 
         int top_arr_size = top.size(), mid_arr_size = mid.size(), bottom_arr_size = bottom.size(), shoe_arr_size=shoes.size();
@@ -310,6 +323,11 @@ public class GenerateOutfit extends AppCompatActivity {
         if(top_arr_size > 0){
             // Generate random integers in range 0 to 999
             int rand_int1 = rand.nextInt(1000);
+            int rand_int11 = rand.nextInt(1000);
+            if(layers == 3) { //add coat if layers == 3
+                new_outfit.addClothesToOutfit(wardrobe.getHeavyJackets().get(rand_int11 % wardrobe.getHeavyJackets().size()).getUniqueId());
+            }
+            //otherwise just add hoodie/light jacket
             new_outfit.addClothesToOutfit(top.get(rand_int1 % top_arr_size).getUniqueId());
         }
         if(mid_arr_size > 0){
@@ -630,7 +648,7 @@ public class GenerateOutfit extends AppCompatActivity {
             }
 
             return layers;
-        } catch (Error error) {
+        } catch (Exception error) {
             return 2;
         }
     }

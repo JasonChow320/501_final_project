@@ -1,5 +1,6 @@
 package com.cs501.project.Model;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -80,7 +81,6 @@ public class FireBaseManager {
                     Log.d(TAG, "Value is not null");
                 }
                 user = account;
-                saveCache();
             }
 
             @Override
@@ -99,6 +99,12 @@ public class FireBaseManager {
             manager_instance = new FireBaseManager();
         }
         return manager_instance;
+    }
+
+    // static remove instance method
+    public static void removeInstance(){
+        manager_instance = null;
+        Log.d(TAG, "Removing FireBaseManager instance");
     }
 
     public void setImagePath(String path){
@@ -123,44 +129,32 @@ public class FireBaseManager {
 
     public void saveCache(){
 
-        for(User user : this.user.getUsers()){
+        // cache image
+        for(User user : user.getUsers()){
             if(user.getUserSettings().getEnableCache() == 1){
                 for(Clothes c : user.getWardrobe().getClothes()){
 
                     // enable cache, download all images
-                    File dir = new File(this.image_path, c.getImageURL());
+                    File dir = new File(image_path, c.getImageURL());
 
                     if(dir.getAbsoluteFile().exists()){
 
-                        System.out.println("Found file_path: " + this.image_path + "/" + c.getImageURL());
+                        System.out.println("Found file_path: " + image_path + "/" + c.getImageURL());
                     } else {
 
-                        // cache image
-                        Thread thread = new Thread(new Runnable() {
-
+                        StorageReference pathReference = FirebaseStorage.getInstance().getReference();
+                        pathReference.child(c.getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
                             @Override
-                            public void run() {
-                                StorageReference pathReference = FirebaseStorage.getInstance().getReference();
-                                pathReference.child(c.getImageURL()).getBytes(ConfirmToWardrobe.MAX_IMAGE_SIZE).addOnCompleteListener(new OnCompleteListener<byte[]>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<byte[]> task) {
-                                        try{
-                                            byte[] bytes = task.getResult();
-                                            Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                                            saveBitmap(b, image_path + "/" + c.getImageURL());
-                                        } catch (Exception e){
-                                            System.out.println("Unable to find image on FireBase storage");
-                                        }
-                                    }
-                                });
+                            public void onComplete(@NonNull Task<byte[]> task) {
+                                try{
+                                    byte[] bytes = task.getResult();
+                                    Bitmap b = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                    saveBitmap(b, image_path + "/" + c.getImageURL());
+                                } catch (Exception e){
+                                    System.out.println("Unable to find image on FireBase storage");
+                                }
                             }
                         });
-                        thread.start();
-                        try {
-                            thread.join();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                     }
                 }
             }

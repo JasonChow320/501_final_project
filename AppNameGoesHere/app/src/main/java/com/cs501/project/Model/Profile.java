@@ -8,6 +8,7 @@ import java.util.ArrayList;
     Profile class holds information about an account, including the FireBase Auth unique id and user profiles for that account
  */
 public class Profile {
+
     private ArrayList<User> users;
     private String accountEmail;
     private String userId;
@@ -19,6 +20,7 @@ public class Profile {
     }
 
     public Profile(String accountEmail, String userId){
+
         this.accountEmail = accountEmail;
         this.userId = userId;
         this.users = new ArrayList<User>();
@@ -37,6 +39,7 @@ public class Profile {
     }
 
     public void setUsers(ArrayList<User> users){
+
         if(users == null){
             return;
         }
@@ -45,6 +48,7 @@ public class Profile {
     }
 
     public void setAccountEmail(String email){
+
         if(email == null){
             return;
         }
@@ -54,6 +58,7 @@ public class Profile {
     }
 
     public void setUserId(String id){
+
         if(id == null){
             return;
         }
@@ -63,6 +68,7 @@ public class Profile {
     }
 
     public void addUser(User user){
+
         if(user == null){
             return;
         }

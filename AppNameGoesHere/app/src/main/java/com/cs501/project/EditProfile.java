@@ -22,6 +22,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+/*
+ * This activity allows user to edit and modify a user's profile.
+ *
+ * If the user profile is password protected, this activity assumes SignIn activity requested and verified the password
+ */
 public class EditProfile extends AppCompatActivity {
 
     // Views for the Activity
@@ -42,6 +47,7 @@ public class EditProfile extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
@@ -98,10 +104,12 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(checkbox_pw_enable.isChecked()){
+
                     password_text.setEnabled(true);
                     password_text.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     password_verify_text.setEnabled(true);
                     password_verify_text.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
                     if(checkbox.isChecked()){
                         password_text.setTransformationMethod(null);
                         password_verify_text.setTransformationMethod(null);
@@ -110,6 +118,7 @@ public class EditProfile extends AppCompatActivity {
                         password_verify_text.setTransformationMethod(new PasswordTransformationMethod());
                     }
                 }else{
+
                     password_text.setEnabled(false);
                     password_text.setInputType(InputType.TYPE_NULL);
                     password_verify_text.setEnabled(false);
@@ -163,7 +172,9 @@ public class EditProfile extends AppCompatActivity {
         });
     }
 
+    // use the user's background theme color
     public void onStart() {
+
         super.onStart();
         User_settings uSettings = fb_manager.getUser().getUserSettings();
         ConstraintLayout con = findViewById(R.id.background);
@@ -179,7 +190,7 @@ public class EditProfile extends AppCompatActivity {
         this.password_verify_text.setText("");
     }
 
-    // private method to make account
+    // private method to edit a profile's information
     private void edit_account(String username){
 
         if(username == null || username.length() <= 0){
@@ -215,12 +226,9 @@ public class EditProfile extends AppCompatActivity {
     }
 
     private boolean verifyPassword(){
+
         String password = password_text.getText().toString(), password_verify = password_verify_text.getText().toString();
 
-        if(password_text.length() <= 0 || !password.equals(password_verify)){
-            return false;
-        }
-
-        return true;
+        return password_text.length() > 0 && password.equals(password_verify);
     }
 }

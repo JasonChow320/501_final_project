@@ -41,6 +41,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Locale;
 
+/*
+ * The Login Activity is called by SignIn activity, the current firebase user needs to be defined (this should be handled by SignIn activity)
+ *
+ * The activity displays the user profiles as well as option to create/delete/edit a user profile. The user can also log out of its current
+ * account and login as another account. A user profile can be password protected (no way to recover a lost password currently)
+ */
 public class Login extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -88,6 +94,9 @@ public class Login extends AppCompatActivity {
         DatabaseReference myRef = database.getReference("accounts");
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
+        if(currentUser == null){
+            finish();
+        }
         Log.d(TAG, "Signed in as user: " + currentUser.getUid());
 
         // Initialize our firebase manager and file path for image cache
@@ -121,11 +130,10 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        // TODO create user profiles for each user
         this.sign_up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO add create user feature
+
                 Intent i = new Intent(Login.this, MakeProfile.class);
                 startActivity(i);
             }
@@ -134,6 +142,7 @@ public class Login extends AppCompatActivity {
         sign_out_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 mAuth.signOut();
                 finish();
             }
@@ -142,10 +151,12 @@ public class Login extends AppCompatActivity {
 
     @Override
     public void onStart() {
+
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser == null){
+
             // Error! We can only get here if a user logins!!
             Log.d(TAG, "Don't have a FireBase User, go back to SignIn");
             finish();
@@ -169,6 +180,7 @@ class LoginCustomAdapter extends BaseAdapter {
     Context context;
 
     public LoginCustomAdapter(Context aContext, ArrayList<User> users) {
+
         //initializing our data in the constructor.
         context = aContext;
 
@@ -285,8 +297,8 @@ class LoginCustomAdapter extends BaseAdapter {
                 // define confirm delete dialog
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
-                builder.setTitle(context.getString(R.string.confirm));
-                builder.setMessage(context.getString(R.string.confirm_delete_pass_q));
+                builder.setTitle(context.getString(R.string.confirm_delete_profile));
+                builder.setMessage(context.getString(R.string.confirm_delete_profile_q));
                 builder.setPositiveButton(context.getString(R.string.confirm),
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -324,9 +336,7 @@ class LoginCustomAdapter extends BaseAdapter {
                                     if(!user.getPassword().equals(user.getUserId() + Hash.sha256(input.getText().toString()))){
                                         Toast.makeText(context, context.getString(R.string.wrong_pass),
                                                 Toast.LENGTH_SHORT).show();
-                                        return;
                                     } else{
-
                                         confirm_dialog.show();
                                     }
                                 }
@@ -349,8 +359,6 @@ class LoginCustomAdapter extends BaseAdapter {
             @Override
             public void onClick(View view) {
 
-                boolean able_to_edit = true;
-
                 // get realtime database
                 FireBaseManager fb_manager = FireBaseManager.getInstance();
                 fb_manager.setUserIdx(position);
@@ -359,7 +367,6 @@ class LoginCustomAdapter extends BaseAdapter {
 
                 if(user.getPasswordProtected()){
 
-                    able_to_edit = false;
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setCancelable(true);
                     builder.setTitle(context.getString(R.string.password));
@@ -378,7 +385,6 @@ class LoginCustomAdapter extends BaseAdapter {
                                     if(!user.getPassword().equals(user.getUserId() + Hash.sha256(input.getText().toString()))){
                                         Toast.makeText(context, context.getString(R.string.wrong_pass),
                                                 Toast.LENGTH_SHORT).show();
-                                        return;
                                     } else{
 
                                         FireBaseManager fb_manager = FireBaseManager.getInstance();
