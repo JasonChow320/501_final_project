@@ -12,7 +12,6 @@
         android:id="@+id/editItemImage"
         android:layout_width="match_parent"
         android:layout_height="300dp"
-        android:src="@drawable/common_google_signin_btn_icon_dark"
         app:layout_constraintBottom_toTopOf="@id/colorPrev"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
