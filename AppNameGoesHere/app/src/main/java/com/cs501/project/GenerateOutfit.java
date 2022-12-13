@@ -152,7 +152,7 @@ public class GenerateOutfit extends AppCompatActivity {
                     pass_builder.setTitle(getResources().getString(R.string.outfit_name));
                     pass_builder.setMessage(getResources().getString(R.string.name_outfit_question));
                     final EditText input = new EditText(GenerateOutfit.this);
-                    input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(13) });
+                    input.setFilters(new InputFilter[] { new InputFilter.LengthFilter(10) });
                     input.setInputType(InputType.TYPE_CLASS_TEXT);
                     pass_builder.setView(input);
                     pass_builder.setPositiveButton(getResources().getString(R.string.confirm),
