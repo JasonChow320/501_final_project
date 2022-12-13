@@ -149,10 +149,10 @@
     <string name="toggle_language">Toggle Language</string>
     <string name="choose_the_type">Choose the type:</string>
     <string name="current_weather">Current Weather</string>
-    <string name="description">Description: </string>
-    <string name="tempLabel">Temperature: </string>
-    <string name="cloud_label">Cloud cover: </string>
-    <string name="windLabel">Wind speed: </string>
+    <string name="description">"Description: "</string>
+    <string name="tempLabel">"Temperature: "</string>
+    <string name="cloud_label">"Cloud cover: "</string>
+    <string name="windLabel">"Wind speed: "</string>
     <string name="loc_permissions">App does not have location permissions from device</string>
     <string name="unable_to_parse_email">Unable to parse email. Please try again</string>
     <string name="unable_parse_text">Unable to parse text fields. Please try again</string>
