@@ -11,14 +11,13 @@
 - [x] Loading for cache
 - [x] Change to 'monochrome outfit' button
 - [x] **Michael** Random outfit depends on weather
+- [x] Finalize monochrome outfit algorithm
 - [ ] Add comments to activities
-- [ ] Finalize monochrome outfit algorithm
 - [ ] Add limits to text fields
 
 #### Other
 - [ ] QA & Crash testing
 - [ ] Add documentation, instructions, etc.
-- [ ] Break down technical arcitecture and add code snippets in final presentation
 
 ## Sprint 5
 - [x] Add profiles functionality
