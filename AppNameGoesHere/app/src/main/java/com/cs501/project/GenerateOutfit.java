@@ -681,7 +681,7 @@ public class GenerateOutfit extends AppCompatActivity {
     public boolean checkIfBlackWhite (Color c2){
 
         if ((c2.getHsl1().get(2) > 87 && c2.getHsl1().get(1) < 9 ) || (c2.getHsl1().get(2) < 7) ||
-                (c2.getHsl1().get(2) < 23 && c2.getHsl1().get(1) <= 35 && (c2.getHsl1().get(0) > 200 && c2.getHsl1().get(0) < 235 ))){
+                (c2.getHsl1().get(2) < 23 && c2.getHsl1().get(1) <= 20 && (c2.getHsl1().get(0) > 200 && c2.getHsl1().get(0) < 235 ))){
             return true; // if the color is a shade of white OR it its luminesence is too dark to show colors (black) OR its a dark shade of blue (which appears as black)
         }
         else if ( c2.getHsl1().get(1) < 6 ){ //if the color does not have enough saturation to show any color (if it is a shade of gray)
