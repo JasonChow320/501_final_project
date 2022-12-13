@@ -468,7 +468,7 @@ public class GenerateOutfit extends AppCompatActivity {
                         }
                     }
                 }
-                else{ // item does not neet to be water resistant
+                else{ // item does not need to be water resistant
                     for (int j = 0; j < wardrobe.size(); j++){  //choose an item for the highest layer of the top slot
                         if (validItemsForLayer(i+1).contains(wardrobe.get(j).getType()) ){ //the item must: have a valid type for the current layer
                             top.add(wardrobe.get(j)); // add item to top
@@ -680,7 +680,8 @@ public class GenerateOutfit extends AppCompatActivity {
 
     public boolean checkIfBlackWhite (Color c2){
 
-        if ((c2.getHsl1().get(2) > 87 && c2.getHsl1().get(1) < 9 ) || (c2.getHsl1().get(2) < 7) || (c2.getHsl1().get(2) < 23 && c2.getHsl1().get(1) <= 35 && (c2.getHsl1().get(0) > 200 && c2.getHsl1().get(0) < 235 ))  ){
+        if ((c2.getHsl1().get(2) > 87 && c2.getHsl1().get(1) < 9 ) || (c2.getHsl1().get(2) < 7) ||
+                (c2.getHsl1().get(2) < 23 && c2.getHsl1().get(1) <= 35 && (c2.getHsl1().get(0) > 200 && c2.getHsl1().get(0) < 235 ))){
             return true; // if the color is a shade of white OR it its luminesence is too dark to show colors (black) OR its a dark shade of blue (which appears as black)
         }
         else if ( c2.getHsl1().get(1) < 6 ){ //if the color does not have enough saturation to show any color (if it is a shade of gray)
