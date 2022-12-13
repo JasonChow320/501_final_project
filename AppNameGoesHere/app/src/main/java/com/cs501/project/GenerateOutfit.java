@@ -432,14 +432,17 @@ public class GenerateOutfit extends AppCompatActivity {
 
         int layers = determineOutfitLayers(oneLayerTemp, threeLayerTemp); //use helper func to calculate number of layers needed for outfit
 
-        if(weather.getWeatherType().toLowerCase(Locale.ROOT).contains("rain") || weather.getWeatherType().toLowerCase(Locale.ROOT).contains("snow") ){
-            if (layers == 1){       // depending on the weather, modify the layers and ensure top layer is waterproof
-                layers = 2;
-                topLayerWtrProof = true;
+        try {
+            if (weather.getWeatherType().toLowerCase(Locale.ROOT).contains("rain") || weather.getWeatherType().toLowerCase(Locale.ROOT).contains("snow")) {
+                if (layers == 1) {       // depending on the weather, modify the layers and ensure top layer is waterproof
+                    layers = 2;
+                    topLayerWtrProof = true;
+                } else {
+                    topLayerWtrProof = true;
+                }
             }
-            else{
-                topLayerWtrProof = true;
-            }
+        } catch (Exception e) {
+            System.out.println("Error getting weather data");
         }
 
         ArrayList<Clothes> top = new ArrayList<Clothes>(); //this array stores items for the top part of outfit
@@ -603,13 +606,19 @@ public class GenerateOutfit extends AppCompatActivity {
     public ArrayList<Clothes.Type>validItemsForLayer (int layer){ //this helper function returns which item types are valid depending on the current layer
         ArrayList<Clothes.Type> arr = new ArrayList<>() ;
 
+        double temp = 50.0;
+        try {
+            temp = weather.getCurrentTemp();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
         if(layer == 1){
             arr.add(Clothes.Type.T_SHIRT);
             arr.add(Clothes.Type.LONG_SLEEVE);
         }
         else if (layer ==2){ //if the weather is freezing, ensure that only a heavy jacket can be worn as a top layer, outfit will likely already have 3 layers due to user determined temperature limits
-            if (weather.getCurrentTemp() < 32){
+            if (temp < 32){
                 arr.add(Clothes.Type.SWEATER);
                 arr.add(Clothes.Type.HEAVY_JACKET);
             }
@@ -620,7 +629,7 @@ public class GenerateOutfit extends AppCompatActivity {
             }
         }
         else{
-            if (weather.getCurrentTemp() < 32){
+            if (temp < 32){
               
                 arr.add(Clothes.Type.HEAVY_JACKET);
             }
