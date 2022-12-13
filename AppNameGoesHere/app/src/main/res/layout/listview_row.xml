@@ -96,15 +96,15 @@
 
         <ImageView
             android:id="@+id/waterproofIndicator"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.73"
+            app:layout_constraintHorizontal_bias="0.67"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.17"
+            app:layout_constraintVertical_bias="0.42000002"
             app:srcCompat="@drawable/waterproof_indicator" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
